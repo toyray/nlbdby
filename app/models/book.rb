@@ -5,4 +5,7 @@ class Book < ActiveRecord::Base
                         :pages,
                         :height,
                         :call_no
+
+  attr_accessor :library_statuses,
+                :valid_book
 end
