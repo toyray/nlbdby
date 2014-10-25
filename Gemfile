@@ -34,6 +34,7 @@ gem 'spring',        group: :development
 # gem 'debugger', group: [:development, :test]
 
 gem 'haml-rails'
+gem 'nokogiri'
 
 group :development, :test do
   gem 'rspec-rails', '~> 3.0.0'
@@ -43,4 +44,6 @@ end
 group :test do
   gem 'shoulda-matchers', require: false
   gem 'database_cleaner'
+  gem 'vcr'
+  gem 'webmock'
 end
