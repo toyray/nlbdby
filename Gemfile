@@ -37,4 +37,10 @@ gem 'haml-rails'
 
 group :development, :test do
   gem 'rspec-rails', '~> 3.0.0'
+  gem 'factory_girl_rails'  
+end
+
+group :test do
+  gem 'shoulda-matchers', require: false
+  gem 'database_cleaner'
 end
