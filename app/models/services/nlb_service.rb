@@ -20,8 +20,8 @@ class NLBService
     book.author = details[1].css('td')[1].content
 
     physical_info = details[5].css('td')[1].content
-    book.pages = /(\d+) (p\.|pages)/.match(physical_info).captures.first
-    book.height = /(\d+) cm\./.match(physical_info).captures.first
+    book.pages = physical_info[/(\d+) (p\.|pages)/] || 0
+    book.height = physical_info[/(\d+)\s*cm\./] || 0
 
     book
   end
@@ -44,8 +44,8 @@ class NLBService
 
       if book.call_no.nil?
         call_info = library_info[3].content
-        book.call_no = /(\d+\.\d+ [A-Z]{3})/.match(call_info).captures.first
-        book.section = /\[([A-Z]+)\]/.match(call_info).captures.first
+        book.call_no = call_info[/(\d+\.\d+ [A-Z]{3})/]
+        book.section = call_info[/\[([A-Z]+)\]/, 1]
       end
     end 
     book

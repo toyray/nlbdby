@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe NLBService, :type => :model do
-  describe '#import_book', :vcr => { :cassette_name => "test_book" } do
-    context "book with section" do 
+  describe '#import_book', :vcr => { :cassette_name => 'test_book' } do
+    context 'book with section' do 
       let(:brn) { 13746636 }
 
       subject(:book) { NLBService.new.import_book(brn) }
@@ -17,19 +17,38 @@ RSpec.describe NLBService, :type => :model do
       it { expect(book.section).to eq('COM') }
     end
 
-    context "book with no author" do
+    context 'book with no author' do
+      let(:brn) { 13684071 }
       pending
     end
 
-    context "book with no pages" do
+    context 'book with no pages' do
+      let(:brn) { 14253930 }
       pending
     end
 
-    context "book with no height" do
+    context 'book with no section' do
+      let(:brn) { 13839470 }
       pending
-    end    
+    end
 
-    context "book with no section" do
+    context 'fiction book' do
+      let(:brn) { 200422270 }
+      pending
+    end
+
+    context 'book with no libraries' do
+      let(:brn) { 12980235 }
+      pending
+    end
+
+    context 'book with no valid libraries to borrow from' do
+      let(:brn) { 9535970 }
+      pending
+    end
+
+    context 'book not found' do
+      let(:brn) { 1 }
       pending
     end
   end
