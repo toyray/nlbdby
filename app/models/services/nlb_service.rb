@@ -6,6 +6,8 @@ class NLBService
 
     book = Book.new
     book.brn = brn.to_i
+    
+    return nil if doc.title == 'No item found'
 
     extract_book_details(book, doc.css('table[summary="New Arrival Titles"] tr'))
     extract_library_details(book, doc.css('table#ItemsTable tr'))
