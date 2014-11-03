@@ -23,7 +23,7 @@ http_interactions:
       Content-Type:
       - text/html; charset=utf-8
       Date:
-      - Mon, 03 Nov 2014 15:09:15 GMT
+      - Mon, 03 Nov 2014 15:44:31 GMT
       Cteonnt-Length:
       - '6964'
       X-Frame-Options:
@@ -191,5 +191,5 @@ http_interactions:
         eXBlPSJ0ZXh0L2phdmFzY3JpcHQiIHNyYz0iaW5jL2Zvb3Rlci5qcyI+IDwv
         c2NyaXB0PgoJCTwvZGl2PgoJPC9ib2R5Pgo8L2h0bWw+Cg==
     http_version: 
-  recorded_at: Mon, 03 Nov 2014 15:09:36 GMT
+  recorded_at: Mon, 03 Nov 2014 15:44:51 GMT
 recorded_with: VCR 2.9.3

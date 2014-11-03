@@ -4,7 +4,7 @@ RSpec.describe NLBService, :type => :model do
   describe '#import_book' do
     subject(:book) { NLBService.new.import_book(brn) }
 
-    context 'book with section', :vcr do 
+    context 'when book has section', :vcr do 
       let(:brn) { 13746636 }
 
       it 'builds book' do
@@ -20,7 +20,7 @@ RSpec.describe NLBService, :type => :model do
       end
     end
 
-    context 'book with no author', :vcr do
+    context 'when book has no author', :vcr do
       let(:brn) { 13684071 }
 
       it 'builds book' do
@@ -36,7 +36,7 @@ RSpec.describe NLBService, :type => :model do
       end
     end
 
-    context 'book with no pages', :vcr do
+    context 'when book has no pages', :vcr do
       let(:brn) { 14253930 }
 
       it 'builds book' do
@@ -52,7 +52,7 @@ RSpec.describe NLBService, :type => :model do
       end
     end
 
-    context 'book with no section', :vcr do
+    context 'when book has no section', :vcr do
       let(:brn) { 13839470 }
 
       it 'builds book' do
@@ -68,7 +68,7 @@ RSpec.describe NLBService, :type => :model do
       end
     end
 
-    context 'fiction book', :vcr do
+    context 'when book is fiction', :vcr do
       let(:brn) { 200422270 }
 
       it 'builds book' do
@@ -84,7 +84,7 @@ RSpec.describe NLBService, :type => :model do
       end
     end
 
-    context 'book with no libraries', :vcr do
+    context 'when book is not available from all libraries', :vcr do
       let(:brn) { 12980235 }
 
       it 'builds book' do
@@ -100,7 +100,7 @@ RSpec.describe NLBService, :type => :model do
       end
     end
 
-    context 'book not found', :vcr do
+    context 'when book not found', :vcr do
       let(:brn) { 1 }
 
       it 'does not build book' do
@@ -108,9 +108,20 @@ RSpec.describe NLBService, :type => :model do
       end
     end    
 
-    context 'book with no valid libraries to borrow from' do
+    context 'when book has no available libraries', :vcr do
       let(:brn) { 9535970 }
-      pending
+
+      it 'builds book' do
+        expect(book).to_not be_nil
+        expect(book.brn).to eq(brn)
+        expect(book.title).to eq('Dark eagles : a history of top secrets U.S. \'Black\' aircraft programs')
+        expect(book.author).to eq('Peebles, Curtis.')
+        expect(book.pages).to eq(368)
+        expect(book.height).to eq(23)
+        expect(book.call_no).to eq('623.746 PEE')
+        expect(book.section).to eq(nil)
+        expect(book.library_statuses).to be_empty
+      end
     end
   end
 end
