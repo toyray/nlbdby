@@ -23,11 +23,13 @@ http_interactions:
       Content-Type:
       - text/html; charset=utf-8
       Date:
-      - Sat, 25 Oct 2014 16:14:52 GMT
+      - Mon, 03 Nov 2014 14:33:01 GMT
       Cteonnt-Length:
       - '6527'
+      X-Frame-Options:
+      - SAMEORIGIN
       Set-Cookie:
-      - NSC_BTQNjdsptjufOfx-80=ffffffffaf16179245525d5f4f58455e445a4a423660;path=/;httponly
+      - NSC_BTQNjdsptjufOfx-80=ffffffffaf16179345525d5f4f58455e445a4a423660;path=/;httponly
       Content-Length:
       - '2008'
     body:
@@ -180,5 +182,5 @@ http_interactions:
         b290ZXIuanMiPiA8L3NjcmlwdD4KCQk8L2Rpdj4KCTwvYm9keT4KPC9odG1s
         Pgo=
     http_version: 
-  recorded_at: Sat, 25 Oct 2014 16:15:11 GMT
+  recorded_at: Mon, 03 Nov 2014 14:33:21 GMT
 recorded_with: VCR 2.9.3

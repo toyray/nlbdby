@@ -17,7 +17,7 @@ class NLBService
     book.title = info[0].at_css('font').content.split('/').first.strip
 
     details = info[1].at_css('table').css('tr')
-    book.author = details[1].css('td')[1].content
+    book.author = details[1].css('td')[1].content.gsub("\u00A0", "")
 
     physical_info = details[5].css('td')[1].content
     book.pages = physical_info[/(\d+) (p\.|pages)/] || 0
@@ -44,7 +44,7 @@ class NLBService
 
       if book.call_no.nil?
         call_info = library_info[3].content
-        book.call_no = call_info[/(\d+\.\d+ [A-Z]{3})/]
+        book.call_no = call_info[/((?:\d+\.\d+\s)*[A-Z]{3})/]
         book.section = call_info[/\[([A-Z]+)\]/, 1]
       end
     end 
