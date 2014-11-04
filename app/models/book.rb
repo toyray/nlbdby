@@ -8,4 +8,8 @@ class Book < ActiveRecord::Base
 
   attr_accessor :library_statuses,
                 :valid_book
+
+  def unavailable?
+    library_statuses.nil? || library_statuses.empty?
+  end
 end
