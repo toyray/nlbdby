@@ -35,6 +35,7 @@ gem 'spring',        group: :development
 
 gem 'haml-rails'
 gem 'nokogiri'
+gem 'simple_form'
 
 group :development, :test do
   gem 'rspec-rails', '~> 3.0.0'
