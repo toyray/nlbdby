@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141025125734) do
+ActiveRecord::Schema.define(version: 20141109124254) do
 
   create_table "book_user_meta", force: true do |t|
     t.integer  "book_id"
@@ -35,11 +35,15 @@ ActiveRecord::Schema.define(version: 20141025125734) do
     t.datetime "updated_at"
   end
 
+  add_index "books", ["brn"], name: "index_books_on_brn", unique: true, using: :btree
+
   create_table "libraries", force: true do |t|
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "libraries", ["name"], name: "index_libraries_on_name", unique: true, using: :btree
 
   create_table "library_books", force: true do |t|
     t.integer  "library_id"
