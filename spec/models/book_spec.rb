@@ -14,15 +14,32 @@ RSpec.describe Book, :type => :model do
     subject { book.unavailable? }
 
     context 'when library statuses is empty' do
-      let(:book) { create(:book, :without_library_statuses) }
+      let(:book) { build(:book, :without_library_statuses) }
 
       it { is_expected.to be true }
     end
 
     context 'when library statuses is not empty' do
-      let(:book) { create(:book, :with_library_statuses) }
+      let(:book) { build(:book, :with_library_statuses) }
 
       it { is_expected.to be false }      
+    end
+  end
+
+  context 'after_create callbacks' do
+    describe '#create_book_meta' do
+      let(:book) { build(:book) }
+
+      it 'creates BookUserMeta object' do
+        expect {
+          book.save
+        }.to change(BookUserMeta, :count).by(1)
+      end
+
+      it 'assigns BookUserMeta object to this book' do
+        book.save
+        expect(BookUserMeta.last.book_id).to eq(book.id)
+      end
     end
   end
 end
