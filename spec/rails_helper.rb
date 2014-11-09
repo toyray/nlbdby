@@ -52,4 +52,8 @@ RSpec.configure do |config|
   end
 
   config.include FactoryGirl::Syntax::Methods
+
+  config.expect_with :rspec do |expectations|
+    expectations.syntax = :expect
+  end  
 end

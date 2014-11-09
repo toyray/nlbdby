@@ -2,14 +2,14 @@ require 'rails_helper'
 
 RSpec.describe Book, :type => :model do  
   context 'validations' do
-    it { expect(subject).to validate_presence_of(:brn) }
-    it { expect(subject).to validate_presence_of(:title) }
-    it { expect(subject).to validate_presence_of(:author) }
-    it { expect(subject).to validate_presence_of(:pages) }
-    it { expect(subject).to validate_presence_of(:height) }
-    it { expect(subject).to validate_presence_of(:call_no) }
+    it { is_expected.to validate_presence_of(:brn) }
+    it { is_expected.to validate_presence_of(:title) }
+    it { is_expected.to validate_presence_of(:author) }
+    it { is_expected.to validate_presence_of(:pages) }
+    it { is_expected.to validate_presence_of(:height) }
+    it { is_expected.to validate_presence_of(:call_no) }
 
-    it { expect(subject).to validate_uniqueness_of(:brn) }
+    it { is_expected.to validate_uniqueness_of(:brn) }
   end
 
   describe '#unavailable?' do
