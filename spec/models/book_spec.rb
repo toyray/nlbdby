@@ -66,5 +66,15 @@ RSpec.describe Book, :type => :model do
         end
       end
     end
+
+    describe '#create_library_books' do
+      let(:book) { build(:book, :with_library_statuses, library_count: 3) }
+
+      it 'creates library books' do
+        expect {
+          book.save
+        }.to change(LibraryBook, :count).by(3)
+      end
+    end
   end
 end

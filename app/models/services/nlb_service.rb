@@ -38,7 +38,7 @@ class NLBService
       library_name = library_info[1].content
       lending_type = library_info[2].content
       if Library.available?(library_name) && (lending_type == 'Adult Lending' || lending_type == 'Lending Reference')
-        book.library_statuses = { 
+        book.library_statuses << { 
           library: library_name,
           available: library_info[4].content == 'Not On Loan'
         }

@@ -12,7 +12,8 @@ class Book < ActiveRecord::Base
                 :valid_book
 
   after_create  :create_book_user_meta,
-                :create_new_library
+                :create_new_library,
+                :create_library_books
 
   def unavailable?
     library_statuses.nil? || library_statuses.empty?
@@ -26,5 +27,14 @@ class Book < ActiveRecord::Base
 
   def create_new_library
     library_statuses.each { |ls| Library.find_or_create_by(name: ls[:library]) } unless library_statuses.nil?
+  end
+
+  def create_library_books
+    unless library_statuses.nil?
+      library_statuses.each do |ls| 
+        library = Library.where(name: ls[:library]).first
+        LibraryBook.create(library: library, book: self)
+      end
+    end
   end
 end
