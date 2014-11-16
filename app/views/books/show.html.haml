@@ -1,0 +1,14 @@
+= @book.title
+= @book.author
+= @book.pages
+= @book.height
+= @book.call_no
+= @book.section
+= @book.brn
+
+= @book.meta.rating
+= @book.meta.borrowed
+
+- @book.library_books.each do |lb|
+  = lb.library_name
+  = lb.available
