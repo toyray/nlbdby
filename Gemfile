@@ -40,11 +40,14 @@ gem 'simple_form'
 group :development, :test do
   gem 'rspec-rails', '~> 3.0.0'
   gem 'factory_girl_rails'
+  gem 'dotenv-rails'
 end
 
 group :development do
   gem 'pry-rails'
   gem 'rubocop', require: false
+  gem 'better_errors'
+  gem 'binding_of_caller'
 end
 
 group :test do

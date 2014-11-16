@@ -17,3 +17,6 @@
 
 # Ignore deployment folders
 /public
+
+# Ignore env files
+.env*
