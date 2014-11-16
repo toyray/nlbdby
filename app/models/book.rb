@@ -1,4 +1,7 @@
 class Book < ActiveRecord::Base
+  has_one :meta, class_name: BookUserMeta
+  has_many :library_books
+
   validates_presence_of :brn,
                         :title,
                         :author,
@@ -33,7 +36,7 @@ class Book < ActiveRecord::Base
     unless library_statuses.nil?
       library_statuses.each do |ls| 
         library = Library.where(name: ls[:library]).first
-        LibraryBook.create(library: library, book: self)
+        LibraryBook.create(library: library, book: self, available: ls[:available])
       end
     end
   end

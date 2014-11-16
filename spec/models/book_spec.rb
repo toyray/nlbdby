@@ -1,6 +1,11 @@
 require 'rails_helper'
 
-RSpec.describe Book, :type => :model do  
+RSpec.describe Book, :type => :model do
+  context 'associations' do
+    it { is_expected.to have_many(:library_books) }
+    it { is_expected.to have_one(:meta).class_name('BookUserMeta') }
+  end
+
   context 'validations' do
     it { is_expected.to validate_presence_of(:brn) }
     it { is_expected.to validate_presence_of(:title) }
@@ -62,7 +67,7 @@ RSpec.describe Book, :type => :model do
         book.save
         expect(Library.count).to eq(3)
         book.library_statuses.each do |s|
-          expect(Library.exists?(name: s[:library])).to be true
+          expect(Library.exists?(name: s[:library])).to be(true)
         end
       end
     end
@@ -74,6 +79,17 @@ RSpec.describe Book, :type => :model do
         expect {
           book.save
         }.to change(LibraryBook, :count).by(3)
+      end
+
+      context 'when creating library books' do
+        let(:book) { build(:book, :with_library_statuses) }
+        let(:status) { book.library_statuses.first}
+        
+        it 'creates library books with the correct library name and availability' do
+          book.save
+          expect(LibraryBook.last.library_name).to eq(status[:library])
+          expect(LibraryBook.last.available).to eq(status[:available])
+        end
       end
     end
   end
