@@ -48,6 +48,9 @@ group :development do
   gem 'rubocop', require: false
   gem 'better_errors'
   gem 'binding_of_caller'
+  gem 'guard'
+  gem 'guard-bundler', require: false
+  gem 'guard-rspec', require: false
 end
 
 group :test do
