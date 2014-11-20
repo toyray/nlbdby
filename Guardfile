@@ -28,6 +28,7 @@ guard :rspec, cmd: 'bundle exec rspec' do
   watch('config/routes.rb')                           { "spec/routing" }
   watch('app/controllers/application_controller.rb')  { "spec/controllers" }
   watch('spec/rails_helper.rb')                       { "spec" }
+  watch(%r{^spec/factories/(.+)\.rb$})                { |m| "spec/models/#{m[1]}_spec.rb" }
 
   # Capybara features specs
   watch(%r{^app/views/(.+)/.*\.(erb|haml|slim)$})     { |m| "spec/features/#{m[1]}_spec.rb" }
