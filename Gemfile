@@ -54,6 +54,7 @@ group :development do
   gem 'guard-bundler', require: false
   gem 'guard-rspec', require: false
   gem 'spring-commands-rspec', require: false
+  gem 'thin', require: false
 end
 
 group :test do
