@@ -123,5 +123,22 @@ RSpec.describe NLBService, :type => :model do
         expect(book.library_statuses).to be_empty
       end
     end
+
+    context 'when book is in Singapore collection', :vcr do
+      let(:brn) { 13073681 }
+
+      it 'builds book' do
+        expect(book).to_not be_nil
+        expect(book.brn).to eq(brn)
+        expect(book.title).to eq('Building Singapore\'s longest road tunnel : the KPE story')
+        expect(book.author).to eq('Cheong, Colin.')
+        expect(book.pages).to eq(159)
+        expect(book.height).to eq(31)
+        expect(book.call_no).to eq('624.193095957 CHE')
+        expect(book.section).to eq(nil)
+        expect(book.library_statuses).to_not be_empty
+        expect(book.library_statuses[0][:singapore]).to be(true)
+      end
+    end
   end
 end

@@ -37,16 +37,18 @@ class NLBService
 
       library_name = library_info[1].content
       lending_type = library_info[2].content
-      if Library.available?(library_name) && (lending_type == 'Adult Lending' || lending_type == 'Lending Reference')
+      call_info = library_info[3].content
+      availability = library_info[4].content
+      if Library.available?(library_name) && (lending_type.start_with?('Adult Lending') || lending_type == 'Lending Reference')
         book.library_statuses << { 
           library: library_name,
-          available: library_info[4].content == 'Not On Loan'
+          available: availability == 'Not On Loan',
+          singapore: /SING/.match(call_info).present?
         }
       end
 
       if book.call_no.nil?
-        call_info = library_info[3].content
-        book.call_no = call_info[/((?:\d+\.\d+\s)*[A-Z]{3})/]
+        book.call_no = call_info[/(?:SING )?((?:\d+\.\d+\s)*[A-Z]{3})/, 1]
         book.section = call_info[/\[([A-Z]+)\]/, 1]
       end
     end 

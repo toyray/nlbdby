@@ -36,7 +36,7 @@ class Book < ActiveRecord::Base
     unless library_statuses.nil?
       library_statuses.each do |ls| 
         library = Library.where(name: ls[:library]).first
-        LibraryBook.create(library: library, book: self, available: ls[:available])
+        LibraryBook.create(library: library, book: self, available: ls[:available], singapore: ls[:singapore])
       end
     end
   end

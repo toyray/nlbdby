@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141109124254) do
+ActiveRecord::Schema.define(version: 20141123141607) do
 
   create_table "book_user_meta", force: true do |t|
     t.integer  "book_id"
@@ -51,6 +51,7 @@ ActiveRecord::Schema.define(version: 20141109124254) do
     t.boolean  "available",  default: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "singapore",  default: false
   end
 
   add_index "library_books", ["book_id"], name: "index_library_books_on_book_id", using: :btree

@@ -89,6 +89,7 @@ RSpec.describe Book, :type => :model do
           book.save
           expect(LibraryBook.last.library_name).to eq(status[:library])
           expect(LibraryBook.last.available).to eq(status[:available])
+          expect(LibraryBook.last.singapore).to eq(status[:singapore])
         end
       end
     end
