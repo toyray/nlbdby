@@ -37,7 +37,6 @@ gem 'haml-rails'
 gem 'nokogiri'
 gem 'simple_form'
 gem 'bootstrap-sass', '~> 3.3.1'
-gem 'autoprefixer-rails'
 
 group :development, :test do
   gem 'rspec-rails', '~> 3.0.0'
@@ -46,15 +45,16 @@ group :development, :test do
 end
 
 group :development do
-  gem 'pry-rails'
+  gem 'pry-rails', require: false
   gem 'rubocop', require: false
   gem 'better_errors'
   gem 'binding_of_caller'
-  gem 'guard'
+  gem 'guard', require: false
   gem 'guard-bundler', require: false
   gem 'guard-rspec', require: false
   gem 'spring-commands-rspec', require: false
   gem 'thin', require: false
+  gem 'autoprefixer-rails', require: false
 end
 
 group :test do
@@ -62,5 +62,5 @@ group :test do
   gem 'database_cleaner'
   gem 'vcr'
   gem 'webmock'
-  gem "nyan-cat-formatter"
+  gem 'nyan-cat-formatter', require: false
 end
