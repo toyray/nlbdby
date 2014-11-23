@@ -1,14 +1,24 @@
 require 'rails_helper'
 
 RSpec.describe BooksController, :type => :controller do
-  describe "GET new" do
+  describe 'GET index' do
+    let!(:books) { create_list(:book, 2) }
+
+    it 'renders template' do
+      get :index
+      expect(assigns(:books)).to match_array(books)
+      expect(response).to render_template(:index)
+    end
+  end
+
+  describe 'GET new' do
     it 'renders template' do
       get :new
       expect(response).to render_template(:new)
     end
   end
 
-  describe "POST create" do
+  describe 'POST create' do
     let(:params) { { brn: 1 } }
 
     before { allow_any_instance_of(NLBService).to receive(:import_book).and_return(book) }

@@ -1,0 +1,18 @@
+.container
+  .row
+    .col-xs-12
+      %table.table.table-striped
+        %tr
+          %th Call No
+          %th Title
+          %th Pages
+          %th Height
+          %th
+        - @books.each do |b|
+          %tr
+            %td= b.call_no
+            %td= b.title
+            %td= b.pages
+            %td= b.height
+            %td
+              = link_to 'View', b
