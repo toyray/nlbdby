@@ -62,6 +62,17 @@ RSpec.describe BooksController, :type => :controller do
           expect(flash[:error]).to_not be_nil
         end
       end
+
+      context 'when book already exists' do
+        let!(:existing_book) { create(:book) }
+        let(:book) { nil }
+        let(:params) { { brn: existing_book.brn } }
+        
+        it 'renders view with error' do
+          expect(response).to render_template(:new)
+          expect(flash[:error]).to_not be_nil
+        end
+      end      
     end 
   end
 end
