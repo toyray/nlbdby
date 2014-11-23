@@ -140,5 +140,22 @@ RSpec.describe NLBService, :type => :model do
         expect(book.library_statuses[0][:singapore]).to be(true)
       end
     end
+
+    context 'when book is lending reference', :vcr do
+      let(:brn) { 9955110 }
+
+      it 'builds book' do
+        expect(book).to_not be_nil
+        expect(book.brn).to eq(brn)
+        expect(book.title).to eq('The one best way : Frederick Winslow Taylor and the enigma of efficiency')
+        expect(book.author).to eq('Kanigel, Robert.')
+        expect(book.pages).to eq(675)
+        expect(book.height).to eq(24)
+        expect(book.call_no).to eq('658.5 KAN')
+        expect(book.section).to eq(nil)
+        expect(book.library_statuses).to_not be_empty
+        expect(book.library_statuses[0][:reference]).to be(true)
+      end
+    end    
   end
 end

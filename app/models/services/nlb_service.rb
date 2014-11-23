@@ -43,7 +43,8 @@ class NLBService
         book.library_statuses << { 
           library: library_name,
           available: availability == 'Not On Loan',
-          singapore: /SING/.match(call_info).present?
+          singapore: /SING/.match(call_info).present?,
+          reference: lending_type == 'Lending Reference'
         }
       end
 

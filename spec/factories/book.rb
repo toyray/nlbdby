@@ -14,6 +14,7 @@ FactoryGirl.define do
     sequence(:library) { |n| "Good Library #{n}" }
     available true
     singapore true
+    reference true
 
     initialize_with { attributes }
   end  

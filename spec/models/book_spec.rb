@@ -90,6 +90,7 @@ RSpec.describe Book, :type => :model do
           expect(LibraryBook.last.library_name).to eq(status[:library])
           expect(LibraryBook.last.available).to eq(status[:available])
           expect(LibraryBook.last.singapore).to eq(status[:singapore])
+          expect(LibraryBook.last.reference).to eq(status[:reference])
         end
       end
     end
