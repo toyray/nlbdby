@@ -45,7 +45,7 @@ group :development, :test do
 end
 
 group :development do
-  gem 'pry-rails', require: false
+  gem 'pry-rails'
   gem 'rubocop', require: false
   gem 'better_errors'
   gem 'binding_of_caller'
