@@ -1,14 +1,30 @@
-= @book.title
-= @book.author
-= @book.pages
-= @book.height
-= @book.call_no
-= @book.section
-= @book.brn
+.container
+  .row
+    .col-xs-8
+      %section
+        .h4
+          Book Data
+        %table.table.table-striped
+          =attr_row(@book, :title)
+          =attr_row(@book, :author)
+          =attr_row(@book, :call_no)
+          =attr_row(@book, :pages)
+          =attr_row(@book, :height)
+          =attr_row(@book, :section)
+          =attr_row(@book, :brn)
+      
+      %section
+        %h4
+          User Data
+        %table.table.table-striped
+          =attr_row(@book.meta, :rating)
+          =attr_row(@book.meta, :borrowed)
 
-= @book.meta.rating
-= @book.meta.borrowed
-
-- @book.library_books.each do |lb|
-  = lb.library_name
-  = lb.available
+      %section
+        %h4
+          Availability
+        %table.table.table-striped
+          - @book.library_books.each do |lb|
+            %tr
+              %td.col-xs-4= lb.library_name
+              %td.col-xs-8= lb.available
