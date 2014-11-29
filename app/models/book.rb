@@ -22,6 +22,23 @@ class Book < ActiveRecord::Base
     library_statuses.nil? || library_statuses.empty?
   end
 
+  def self.import(brn)
+    if Book.where(brn: brn).exists?
+      [nil, 'A book with this BRN has already been imported.']
+    else
+      book = NLBService.new.import_book(brn)
+      if book.nil?
+        [nil, 'No book with this BRN found.']
+      elsif book.unavailable?
+        [nil, 'Book is not available for borrowing in any library.']
+      elsif book.save
+        [book, nil]
+      else
+        [nil, 'Book could not be saved.']
+      end
+    end
+  end
+
   private
 
   def create_book_user_meta

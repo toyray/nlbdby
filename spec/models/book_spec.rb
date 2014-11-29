@@ -95,4 +95,40 @@ RSpec.describe Book, :type => :model do
       end
     end
   end
+
+  describe '.import' do
+    let(:brn) { 1 }
+
+    before { allow_any_instance_of(NLBService).to receive(:import_book).and_return(book) }
+    
+    context 'when book is valid' do
+      let(:book) { build(:book, :with_library_statuses, brn: 1) }
+
+      it { expect{Book.import(brn)}.to change(Book, :count).by(1) }
+      it { expect(Book.import(brn)).to eq [book, nil] }
+    end
+
+    context 'when book already exists with brn' do
+      let!(:existing_book) { create(:book) }
+      let(:book) { nil }
+      let(:brn) { existing_book.brn }
+
+      it { expect{Book.import(brn)}.to_not change(Book, :count) }
+      it { expect(Book.import(brn)).to eq [nil, 'A book with this BRN has already been imported.'] }
+    end
+
+    context 'when brn is invalid' do
+      let(:book) { nil }
+
+      it { expect{Book.import(brn)}.to_not change(Book, :count) }
+      it { expect(Book.import(brn)).to eq [nil, 'No book with this BRN found.'] }
+    end
+
+    context 'when book has no available libraries' do
+      let(:book) { build(:book, :without_library_statuses) }
+
+      it { expect{Book.import(brn)}.to_not change(Book, :count) }
+      it { expect(Book.import(brn)).to eq [nil, 'Book is not available for borrowing in any library.'] }
+    end
+  end
 end
