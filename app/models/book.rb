@@ -39,6 +39,25 @@ class Book < ActiveRecord::Base
     end
   end
 
+  def self.import_from_yaml(books_yaml)
+    begin
+      books = Psych.load(books_yaml)
+    rescue Psych::SyntaxError
+      books = {}
+    end
+    
+    errors = {}
+    books.each do |brn, meta|
+      book, error_message = Book.import(brn)
+      if book && meta
+        book.meta.update(meta)
+      elsif error_message
+        errors[brn] = error_message
+      end
+    end
+    errors
+  end
+
   private
 
   def create_book_user_meta

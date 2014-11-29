@@ -131,4 +131,79 @@ RSpec.describe Book, :type => :model do
       it { expect(Book.import(brn)).to eq [nil, 'Book is not available for borrowing in any library.'] }
     end
   end
+
+  describe '.import_from_yaml' do
+    context 'when user metadata does not exist' do
+      let(:books_yaml) { 
+        <<-BOOKS_YAML.strip_heredoc
+        ---
+        1:
+        2:
+        BOOKS_YAML
+      }
+      let(:book1) { create(:book, :with_library_statuses, brn: 1) }
+      let(:book2) { create(:book, :with_library_statuses, brn: 2) }
+
+      it 'creates Book and BookUserMeta objects with default values' do
+        expect(Book).to receive(:import).with(1).and_return([book1, nil])
+        expect(Book).to receive(:import).with(2).and_return([book2, nil])
+        errors = Book.import_from_yaml(books_yaml)
+        expect(errors).to be_empty
+      end
+    end
+
+    context 'when user metadata exists' do
+      let(:books_yaml) { 
+        <<-BOOKS_YAML.strip_heredoc
+        ---
+        1:
+          rating: 4
+          borrowed: true
+        BOOKS_YAML
+      }
+
+      let(:book) { create(:book, :with_library_statuses, brn: 1) }
+      let(:meta) { book.meta}
+
+      it 'updates BookUserMeta with values from YAML' do
+        expect(Book).to receive(:import).with(1).and_return([book, nil])
+        errors = Book.import_from_yaml(books_yaml)
+        expect(meta.rating).to eq 4
+        expect(meta.borrowed).to be true
+        expect(errors).to be_empty
+      end
+    end
+
+    context 'when yaml is malformed' do
+      let(:books_yaml) { 
+        <<-BOOKS_YAML.strip_heredoc
+        ---
+        1
+          rating: 4
+          borrowed: true
+        BOOKS_YAML
+      }
+
+      it { expect{Book.import_from_yaml(books_yaml)}.to_not change(Book, :count) }
+    end
+
+    context 'when errors are encountered during importing' do
+      let(:books_yaml) { 
+        <<-BOOKS_YAML.strip_heredoc
+        ---
+        1:
+        2:
+        BOOKS_YAML
+      }
+      let(:book) { create(:book, :with_library_statuses, brn: 1) }
+
+      it 'creates Book and BookUserMeta objects with default values' do
+        expect(Book).to receive(:import).with(1).and_return([book, nil])
+        expect(Book).to receive(:import).with(2).and_return([nil, 'error message'])
+        errors = Book.import_from_yaml(books_yaml)
+        expect(errors.keys).to match_array([2])
+        expect(errors[2]).to eq('error message')
+      end      
+    end
+  end
 end
