@@ -48,8 +48,8 @@ class NLBService
         }
       end
 
-      if book.call_no.nil?
-        book.call_no = call_info[/(?:SING )?((?:\d+\.\d+\s)*[A-Z]{3})/, 1]
+      if book.call_no.nil? && !lending_type.start_with?('Accompanying')
+        book.call_no = call_info[/(?:(?:SING|LR)\s)?((?:\d+[\.\d]*\s)?(?:[A-Z]{2,3}))/, 1]
         book.section = call_info[/\[([A-Z]+)\]/, 1]
       end
     end 

@@ -156,6 +156,54 @@ RSpec.describe NLBService, :type => :model do
         expect(book.library_statuses).to_not be_empty
         expect(book.library_statuses[0][:reference]).to be(true)
       end
-    end    
+    end
+
+    context 'when book has a whole number call no', :vcr do
+      let(:brn) { 12522454 }
+
+      it 'builds book' do
+        expect(book).to_not be_nil
+        expect(book.brn).to eq(brn)
+        expect(book.title).to eq('Freakonomics : a rogue economist explores the hidden side of everything')
+        expect(book.author).to eq('Levitt, Steven D.')
+        expect(book.pages).to eq(242)
+        expect(book.height).to eq(24)
+        expect(book.call_no).to eq('330 LEV')
+        expect(book.section).to eq('BIZ')
+        expect(book.library_statuses).to_not be_empty
+      end
+    end
+
+    context 'when initials of author is less than 3 characters', :vcr do
+      let(:brn) { 200738648 }
+
+      it 'builds book' do
+        expect(book).to_not be_nil
+        expect(book.brn).to eq(brn)
+        expect(book.title).to eq('Backbone.js patterns and best practices : a one-stop guide to best practices and design patterns when building applications using Backbone.js')
+        expect(book.author).to eq('De, Swarnendu,')
+        expect(book.pages).to eq(153)
+        expect(book.height).to eq(24)
+        expect(book.call_no).to eq('005.2762 DE')
+        expect(book.section).to eq('COM')
+        expect(book.library_statuses).to_not be_empty
+      end
+    end
+
+    context 'when book has accompanying item of a different call no', :vcr do
+      let(:brn) { 11936475 }
+
+      it 'builds book' do
+        expect(book).to_not be_nil
+        expect(book.brn).to eq(brn)
+        expect(book.title).to eq('Code reading : the open source perspective')
+        expect(book.author).to eq('Spinellis, Diomidis.')
+        expect(book.pages).to eq(495)
+        expect(book.height).to eq(24)
+        expect(book.call_no).to eq('005.1 SPI')
+        expect(book.section).to eq('COM')
+        expect(book.library_statuses).to_not be_empty
+      end
+    end          
   end
 end
