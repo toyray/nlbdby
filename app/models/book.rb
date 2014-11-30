@@ -2,14 +2,12 @@ class Book < ActiveRecord::Base
   has_one :meta, class_name: BookUserMeta
   has_many :library_books
 
-  validates_presence_of :brn,
-                        :title,
-                        :author,
-                        :pages,
-                        :height,
-                        :call_no
-
-  validates_uniqueness_of :brn
+  validates :brn, presence: true, uniqueness: true                      
+  validates :author, length: { minimum: 0 }, allow_nil: false
+  validates :title, presence: true
+  validates :pages, presence: true
+  validates :height, presence: true
+  validates :call_no, presence: true
 
   attr_accessor :library_statuses,
                 :valid_book
@@ -31,10 +29,9 @@ class Book < ActiveRecord::Base
         [nil, 'No book with this BRN found.']
       elsif book.unavailable?
         [nil, 'Book is not available for borrowing in any library.']
-      elsif book.save
-        [book, nil]
       else
-        [nil, 'Book could not be saved.']
+        book.save!
+        [book, nil]
       end
     end
   end

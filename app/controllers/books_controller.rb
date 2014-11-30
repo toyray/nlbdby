@@ -27,7 +27,6 @@ class BooksController < ApplicationController
     yaml = file.read
     file.close
     errors = Book.import_from_yaml(yaml)
-    p errors
     redirect_to books_path
   end
 end

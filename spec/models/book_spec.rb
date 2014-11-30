@@ -9,11 +9,12 @@ RSpec.describe Book, :type => :model do
   context 'validations' do
     it { is_expected.to validate_presence_of(:brn) }
     it { is_expected.to validate_presence_of(:title) }
-    it { is_expected.to validate_presence_of(:author) }
     it { is_expected.to validate_presence_of(:pages) }
     it { is_expected.to validate_presence_of(:height) }
     it { is_expected.to validate_presence_of(:call_no) }
 
+    it { is_expected.to_not allow_value(nil).for(:author) }
+    it { is_expected.to ensure_length_of(:author).is_at_least(0) }
     it { is_expected.to validate_uniqueness_of(:brn) }
   end
 
