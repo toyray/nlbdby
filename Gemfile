@@ -29,6 +29,7 @@ gem 'haml-rails'
 gem 'nokogiri'
 gem 'simple_form'
 gem 'bootstrap-sass', '~> 3.3.1'
+gem 'delayed_job_active_record'
 
 group :development, :test do
   gem 'rspec-rails', '~> 3.0.0'

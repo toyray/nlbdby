@@ -26,7 +26,7 @@ class BooksController < ApplicationController
     file = params[:book][:file]
     yaml = file.read
     file.close
-    errors = Book.import_from_yaml(yaml)
+    errors = Book.delay.import_from_yaml(yaml)
     redirect_to books_path
   end
 end

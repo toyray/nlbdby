@@ -54,8 +54,9 @@ RSpec.describe BooksController, :type => :controller do
 
   describe 'POST import' do
     let(:file) { fixture_file_upload('files/import.yaml', 'application/x-yaml') }
-
+    
     it 'redirects to index' do
+      expect(Book).to receive(:delay).and_return(Book)
       expect(Book).to receive(:import_from_yaml).and_return({})
       post :import, book: { file: file }
       expect(response).to redirect_to(action: :index)
