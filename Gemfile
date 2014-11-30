@@ -30,6 +30,7 @@ gem 'nokogiri'
 gem 'simple_form'
 gem 'bootstrap-sass', '~> 3.3.1'
 gem 'delayed_job_active_record'
+gem 'will_paginate', '~> 3.0.6'
 
 group :development, :test do
   gem 'rspec-rails', '~> 3.0.0'
