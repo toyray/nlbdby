@@ -21,4 +21,13 @@ class BooksController < ApplicationController
       render :new
     end
   end
+
+  def import
+    file = params[:book][:file]
+    yaml = file.read
+    file.close
+    errors = Book.import_from_yaml(yaml)
+    p errors
+    redirect_to books_path
+  end
 end

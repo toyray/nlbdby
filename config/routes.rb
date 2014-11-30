@@ -7,7 +7,11 @@ Rails.application.routes.draw do
 
   root 'home#index'
 
-  resources :books
+  resources :books do
+    collection do
+      post 'import'
+    end
+  end
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

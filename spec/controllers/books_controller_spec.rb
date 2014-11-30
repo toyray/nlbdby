@@ -31,9 +31,7 @@ RSpec.describe BooksController, :type => :controller do
       let(:book) { build(:book, :with_library_statuses) }
 
       it 'saves book object' do
-        expect {
-          do_request
-        }.to change(Book, :count).by(1)
+        expect{do_request}.to change(Book, :count).by(1)
       end
 
       it 'redirects to show' do
@@ -43,36 +41,24 @@ RSpec.describe BooksController, :type => :controller do
     end
 
     context 'when params are invalid' do
+      let(:book) { nil }
+
       before { do_request }
 
-      context 'when brn is invalid' do
-        let(:book) { nil }
-
-        it 'renders view with error' do
-          expect(response).to render_template(:new)
-          expect(flash[:error]).to_not be_nil
-        end
+      it 'renders view with error' do
+        expect(response).to render_template(:new)
+        expect(flash[:error]).to_not be_nil
       end
-
-      context 'when book has no available libraries' do
-        let(:book) { build(:book, :without_library_statuses) }
-
-        it 'renders view with error' do
-          expect(response).to render_template(:new)
-          expect(flash[:error]).to_not be_nil
-        end
-      end
-
-      context 'when book already exists' do
-        let!(:existing_book) { create(:book) }
-        let(:book) { nil }
-        let(:params) { { brn: existing_book.brn } }
-        
-        it 'renders view with error' do
-          expect(response).to render_template(:new)
-          expect(flash[:error]).to_not be_nil
-        end
-      end      
     end 
+  end
+
+  describe 'POST import' do
+    let(:file) { fixture_file_upload('files/import.yaml', 'application/x-yaml') }
+
+    it 'redirects to index' do
+      expect(Book).to receive(:import_from_yaml).and_return({})
+      post :import, book: { file: file }
+      expect(response).to redirect_to(action: :index)
+    end
   end
 end

@@ -1,5 +1,10 @@
 .container
   .row
+    = simple_form_for(:book, url: import_books_url, method: :post) do |f|
+      = f.input :file, as: :file
+      = f.submit 'Import from file ...'
+    %hr
+  .row
     .col-xs-12
       %table.table.table-striped
         %tr
