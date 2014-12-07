@@ -24,7 +24,12 @@
         %h4
           Availability
         %table.table.table-striped
-          - @book.library_books.each do |lb|
+          %thead
             %tr
-              %td.col-xs-4= lb.library_name
-              %td.col-xs-8= lb.available
+              %th Library
+              %th Reference
+          %tbody
+            - @book.library_books.each do |lb|
+              %tr{ class: (lb.available ? 'success' : '') }
+                %td.col-xs-7= lb.library_name
+                %td.col-xs-1= (lb.reference ? 'Reference' : '')
