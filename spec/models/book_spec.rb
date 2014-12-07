@@ -209,18 +209,27 @@ RSpec.describe Book, :type => :model do
   end
 
   describe '.export_to_yaml' do
-    context 'when books have no metadata' do
-      let(:books_yaml) { 
-        <<-BOOKS_YAML.strip_heredoc
-        ---
-        1: 
-        2: 
-        BOOKS_YAML
-      }    
-      let!(:book_a) { create(:book, :with_library_statuses, brn: 2) }
-      let!(:book_b) { create(:book, :with_library_statuses, brn: 1) }
+    let(:books_yaml) { 
+      <<-BOOKS_YAML.strip_heredoc
+      ---
+      1:
+        rating: 2
+        borrowed: true
+      2:
+        rating: 4
+        borrowed: false
+      BOOKS_YAML
+    }    
+    let!(:book_a) { create(:book, :with_library_statuses, brn: 2) }
+    let!(:book_b) { create(:book, :with_library_statuses, brn: 1) }
 
-      it { expect(Book.export_to_yaml).to eq(books_yaml) }
+    before do
+      book_a.meta.rating = 4
+      book_a.meta.save
+      book_b.meta.borrowed = true
+      book_b.meta.save
     end
+
+    it { expect(Book.export_to_yaml).to eq(books_yaml) }
   end
 end

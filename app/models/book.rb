@@ -56,8 +56,12 @@ class Book < ActiveRecord::Base
   end
 
   def self.export_to_yaml
-    books = Book.all.order(:brn).pluck(:brn)
-    books_hash = books.reduce({}) { |hash,  b| hash[b.to_i] = nil; hash }
+    books = Book.includes(:meta).order(:brn)
+    books_hash = books.reduce({}) do |hash,  book|
+      meta = book.meta.attributes.except!('id', 'book_id', 'updated_at', 'created_at')
+      hash[book.brn.to_i] = meta
+      hash
+    end
     Psych.dump(books_hash)
   end
 
