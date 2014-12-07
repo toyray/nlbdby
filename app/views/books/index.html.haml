@@ -3,6 +3,7 @@
     = simple_form_for(:book, url: import_books_url, method: :post) do |f|
       = f.input :file, as: :file
       = f.submit 'Import from file ...'
+    = link_to 'Export', export_books_path, method: :post
     %hr
   .row
     .col-xs-12

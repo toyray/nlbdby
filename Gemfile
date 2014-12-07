@@ -59,4 +59,5 @@ group :test do
   gem 'vcr'
   gem 'webmock'
   gem 'nyan-cat-formatter', require: false
+  gem 'timecop'
 end

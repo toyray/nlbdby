@@ -29,4 +29,9 @@ class BooksController < ApplicationController
     errors = Book.delay.import_from_yaml(yaml)
     redirect_to books_path
   end
+
+  def export
+    filename = "books#{Time.now.strftime('%Y%m%d')}.yaml" 
+    send_data(Book.export_to_yaml, filename: filename, type: 'application/yaml')
+  end
 end

@@ -62,4 +62,15 @@ RSpec.describe BooksController, :type => :controller do
       expect(response).to redirect_to(action: :index)
     end
   end
+
+  describe 'POST export' do
+    before { Timecop.freeze(Time.local(2014, 12, 31, 12, 0, 0)) }
+    after { Timecop.return }
+
+    it 'redirects to YAML file' do
+      expect(controller).to receive(:send_data).with(anything, hash_including(filename: 'books20141231.yaml', type: 'application/yaml'))
+      allow(controller).to receive(:render).and_return(:nil)
+      post :export
+    end
+  end
 end

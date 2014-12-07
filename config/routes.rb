@@ -10,6 +10,7 @@ Rails.application.routes.draw do
   resources :books do
     collection do
       post 'import'
+      post 'export'
     end
   end
 
