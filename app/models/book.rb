@@ -55,6 +55,12 @@ class Book < ActiveRecord::Base
     errors
   end
 
+  def self.export_to_yaml
+    books = Book.all.order(:brn).pluck(:brn)
+    books_hash = books.reduce({}) { |hash,  b| hash[b.to_i] = nil; hash }
+    Psych.dump(books_hash)
+  end
+
   private
 
   def create_book_user_meta
