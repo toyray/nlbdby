@@ -13,13 +13,15 @@
           %th Title
           %th Pages
           %th Height
+          %th Solo
           %th
         - @books.each do |b|
-          %tr
+          %tr{ class: (b.available_count.zero? ? 'danger' : '') }
             %td= b.call_no
             %td= b.title
             %td= b.pages
             %td= b.height
+            %td= b.library_count == 1 ? 'YES' : 'NO'
             %td
               = link_to 'View', b
 
