@@ -32,6 +32,7 @@ gem 'bootstrap-sass', '~> 3.3.1'
 gem 'delayed_job_active_record'
 gem 'will_paginate', '~> 3.0.6'
 gem 'counter_culture', '~> 0.1.23'
+gem 'ransack', github: 'activerecord-hackery/ransack'
 
 group :development, :test do
   gem 'rspec-rails', '~> 3.0.0'

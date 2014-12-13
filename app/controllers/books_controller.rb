@@ -1,6 +1,7 @@
 class BooksController < ApplicationController
   def index
-    @books = Book.all.paginate(:page => params[:page], :per_page => 15).order(:call_no)
+    @q = Book.search(params[:q])
+    @books = @q.result.paginate(:page => params[:page], :per_page => 15).order(:call_no)
   end
 
   def show

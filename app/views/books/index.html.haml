@@ -6,6 +6,10 @@
     = link_to 'Export', export_books_path, method: :post
     %hr
   .row
+    = search_form_for(@q) do |f|
+      = f.input :pages_lteq, collection: [['Short (<=150)', 150], ['Medium (<= 250)', 250]], label: 'Length', required: false
+      = f.submit 'Search'
+  .row
     .col-xs-12
       %table.table.table-striped
         %tr

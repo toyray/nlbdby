@@ -6,6 +6,7 @@ RSpec.describe BooksController, :type => :controller do
 
     it 'renders template' do
       get :index
+      expect(assigns(:q)).to be_present
       expect(assigns(:books)).to match_array(books)
       expect(response).to render_template(:index)
     end
