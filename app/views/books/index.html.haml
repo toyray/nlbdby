@@ -24,6 +24,7 @@
           %th Pages
           %th Height
           %th Solo
+          %th Available
           %th
         - @books.each do |b|
           %tr{ class: (b.available_count.zero? ? 'danger' : '') }
@@ -32,6 +33,7 @@
             %td= b.pages
             %td= b.height
             %td= b.library_count == 1 ? 'YES' : 'NO'
+            %td= ((params[:q].fetch(:library_books_library_id_eq, nil).present? ? b.library_books.where(library_id: params[:q][:library_books_library_id_eq]).first.available : b.available_count > 0) ? 'YES' : 'NO')
             %td
               = link_to 'View', b
 
