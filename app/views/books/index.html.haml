@@ -10,6 +10,7 @@
       = f.input :meta_rating_eq, collection: [['Super Bad', 0], ['Bad', 1], ['Average', 2], ['Good', 3], ['Super Good', 4]], label: 'Rating', required: false
       = f.input :pages_lteq, collection: [['Short (<=150)', 150], ['Medium (<= 250)', 250]], label: 'Length', required: false
       = f.input :library_books_library_id_eq, collection: Library.all, value_method: :id,  label: 'Library', required: false
+      = f.input :library_books_available_eq, collection: [['YES', true], ['NO', false]], label: 'Available', required: false
       = f.submit 'Search'
   .row
     .col-xs-12
