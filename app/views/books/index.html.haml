@@ -11,7 +11,10 @@
       = f.input :pages_lteq, collection: [['Short (<=150)', 150], ['Medium (<= 250)', 250]], label: 'Length', required: false
       = f.input :library_books_library_id_eq, collection: Library.all, value_method: :id,  label: 'Library', required: false
       = f.input :library_books_available_eq, collection: [['YES', true], ['NO', false]], label: 'Available', required: false
+      = f.input :library_count_eq, collection: [['YES', 1], ['NO', -1]], label: 'Solo', include_blank: true, required: false, selected: params[:q][:library_count_eq]
       = f.submit 'Search'
+      = link_to 'Reset', books_path
+    %hr
   .row
     .col-xs-12
       %table.table.table-striped

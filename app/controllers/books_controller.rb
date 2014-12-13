@@ -1,6 +1,16 @@
 class BooksController < ApplicationController
   def index
-    @q = Book.search(params[:q])
+    
+    params[:q] ||= {}
+    search_params = params[:q].dup
+
+    # Ransack currently doesn't work nicely with scopes using boolean arguments so manually constructing search now
+    if search_params.fetch(:library_count_eq, nil) == "-1"
+      search_params.delete(:library_count_eq)
+      search_params[:library_count_not_eq] = 1
+    end
+
+    @q = Book.search(search_params)
     @books = @q.result.includes(:meta).includes(:library_books).uniq.paginate(:page => params[:page], :per_page => 15).order(:call_no)
   end
 

@@ -25,11 +25,11 @@ FactoryGirl.define do
 
   trait :with_library_statuses do
     transient do
-      library_count 1
+      library_status_count 1
     end
 
     after :build do |object, evaluator|
-      object.library_statuses = FactoryGirl.create_list(:library_status, evaluator.library_count)
+      object.library_statuses = FactoryGirl.create_list(:library_status, evaluator.library_status_count)
     end
   end
 end

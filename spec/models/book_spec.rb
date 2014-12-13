@@ -51,7 +51,7 @@ RSpec.describe Book, :type => :model do
     end
 
     describe '#create_new_libraries' do
-      let(:book) { build(:book, :with_library_statuses, library_count: 3) }
+      let(:book) { build(:book, :with_library_statuses, library_status_count: 3) }
 
       context "when libraries exist with the same name" do
         let(:library_name) { book.library_statuses[1][:library] }
@@ -74,7 +74,7 @@ RSpec.describe Book, :type => :model do
     end
 
     describe '#create_library_books' do
-      let(:book) { build(:book, :with_library_statuses, library_count: 3) }
+      let(:book) { build(:book, :with_library_statuses, library_status_count: 3) }
 
       it 'creates library books' do
         expect {
