@@ -234,4 +234,30 @@ RSpec.describe Book, :type => :model do
 
     it { expect(Book.export_to_yaml).to eq(books_yaml) }
   end
+
+  describe '#status' do
+    subject { build(:book, :with_library_statuses) }
+
+    it 'should be completed initially' do
+      expect(subject.completed?).to be true
+    end
+
+    context 'when status is completed' do
+      it 'should change to queued on queue_update' do
+        expect(subject).to receive(:update_availability).and_return(true)
+        subject.queue_update
+        expect(subject.queued?).to be true
+      end
+    end
+
+    context 'when status is queued' do
+      subject { build(:book, :with_library_statuses, status: :queued) }
+
+      it 'should changed to completed on finish_update' do
+        expect(subject).to receive(:update_timestamps)
+        subject.finish_update
+        expect(subject.completed?).to be true
+      end
+    end
+  end
 end

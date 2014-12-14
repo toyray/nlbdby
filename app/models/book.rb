@@ -12,10 +12,23 @@ class Book < ActiveRecord::Base
   attr_accessor :library_statuses,
                 :valid_book
 
-  after_create  :create_book_user_meta
+  after_create :create_book_user_meta
 
-  after_save  :create_new_library,
-              :update_library_books
+  after_save :create_new_library,
+             :update_library_books
+
+  state_machine :status, :initial => :completed do
+    after_transition :completed => :queued, do: :update_availability
+    before_transition :queued => :completed, do: :update_timestamps
+
+    event :queue_update do
+      transition :completed => :queued
+    end
+
+    event :finish_update do
+      transition :queued => :completed
+    end
+  end
               
   def unavailable?
     library_statuses.nil? || library_statuses.empty?
@@ -31,6 +44,7 @@ class Book < ActiveRecord::Base
       elsif book.unavailable?
         [nil, 'Book is not available for borrowing in any library.']
       else
+        book.update_timestamps
         book.save!
         [book, nil]
       end
@@ -64,6 +78,15 @@ class Book < ActiveRecord::Base
       hash
     end
     Psych.dump(books_hash)
+  end
+
+  def update_timestamps
+    self.last_updated_at = Time.now
+  end  
+
+  def update_availability
+    book = NLBService.new.update_book(self)
+    book.finish_update
   end
 
   private
