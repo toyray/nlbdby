@@ -206,4 +206,11 @@ RSpec.describe NLBService, :type => :model do
       end
     end          
   end
+
+  describe '#update_book', :vcr do
+    let(:book) { create(:book, :with_library_statuses, brn: 13746636) }
+    subject(:updated_book) { NLBService.new.update_book(book) }
+
+    it { expect(updated_book.library_statuses).to_not be_empty }
+  end    
 end

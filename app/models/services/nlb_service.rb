@@ -2,7 +2,7 @@ require 'open-uri'
 
 class NLBService
   def import_book(brn)
-    doc = Nokogiri::HTML(open("http://www.nlb.gov.sg/newarrivals/item_holding.aspx?bid=#{brn}"))
+    doc = Nokogiri::HTML(open(library_url(brn)))
 
     book = Book.new
     book.brn = brn.to_i
@@ -14,7 +14,19 @@ class NLBService
     extract_library_details(book, doc.css('table#ItemsTable tr'))
   end
 
+  def update_book(book)
+    doc = Nokogiri::HTML(open(library_url(book.brn)))
+
+    return book if doc.title == 'No item found'
+
+    extract_library_details(book, doc.css('table#ItemsTable tr'))
+  end
+
   private
+
+  def library_url(brn)
+    "http://www.nlb.gov.sg/newarrivals/item_holding.aspx?bid=#{brn}"
+  end
 
   def extract_book_details(book, info)
     book.title = info[0].at_css('font').content.split('/').first.strip
