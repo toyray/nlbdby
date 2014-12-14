@@ -49,7 +49,9 @@ RSpec.describe Book, :type => :model do
         expect(BookUserMeta.last.book_id).to eq(book.id)
       end
     end
+  end
 
+  context 'after_save callbacks' do
     describe '#create_new_libraries' do
       let(:book) { build(:book, :with_library_statuses, library_status_count: 3) }
 
@@ -73,7 +75,7 @@ RSpec.describe Book, :type => :model do
       end
     end
 
-    describe '#create_library_books' do
+    describe '#update_library_books' do
       let(:book) { build(:book, :with_library_statuses, library_status_count: 3) }
 
       it 'creates library books' do

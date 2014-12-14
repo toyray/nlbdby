@@ -12,10 +12,11 @@ class Book < ActiveRecord::Base
   attr_accessor :library_statuses,
                 :valid_book
 
-  after_create  :create_book_user_meta,
-                :create_new_library,
-                :create_library_books
+  after_create  :create_book_user_meta
 
+  after_save  :create_new_library,
+              :update_library_books
+              
   def unavailable?
     library_statuses.nil? || library_statuses.empty?
   end
@@ -75,14 +76,16 @@ class Book < ActiveRecord::Base
     library_statuses.each { |ls| Library.find_or_create_by(name: ls[:library]) } unless library_statuses.nil?
   end
 
-  def create_library_books
+  def update_library_books
     unless library_statuses.nil?
+      library_books = []
       library_statuses.each do |ls| 
         library = Library.where(name: ls[:library]).first
-        lb = { library_id: library.id, book_id: self.id }
-        lb.merge!(ls.except(:library))
-        LibraryBook.create(lb)
+        lb = LibraryBook.find_or_create_by(library_id: library.id, book_id: self.id)
+        lb.update_attributes(ls.except(:library))
+        library_books << lb
       end
+      self.library_books = library_books
     end
   end
 end
