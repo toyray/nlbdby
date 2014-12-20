@@ -12,6 +12,9 @@ Rails.application.routes.draw do
       post 'import'
       post 'export'
     end
+    member do
+      post 'queue_update'
+    end
   end
 
   # Example of regular route:

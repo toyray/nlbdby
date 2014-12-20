@@ -18,7 +18,7 @@ class Book < ActiveRecord::Base
              :update_library_books
 
   state_machine :status, :initial => :completed do
-    after_transition :completed => :queued, do: :update_availability
+    after_transition :completed => :queued, do: :update_availability_async
     before_transition :queued => :completed, do: :update_timestamps
 
     event :queue_update do
@@ -87,6 +87,10 @@ class Book < ActiveRecord::Base
   def update_availability
     NLBService.new.update_book(self)
     self.finish_update
+  end
+
+  def update_availability_async
+    update_availability.delay
   end
 
   private

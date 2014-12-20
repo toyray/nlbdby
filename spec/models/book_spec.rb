@@ -244,7 +244,7 @@ RSpec.describe Book, :type => :model do
 
     context 'when status is completed' do
       it 'should change to queued on queue_update' do
-        expect(subject).to receive(:update_availability).and_return(true)
+        expect(subject).to receive(:update_availability_async).and_return(true)
         subject.queue_update
         expect(subject.queued?).to be true
       end

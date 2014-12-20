@@ -3,7 +3,7 @@
     = simple_form_for(:book, url: import_books_url, method: :post) do |f|
       = f.input :file, as: :file
       = f.submit 'Import from file ...'
-    = link_to 'Export', export_books_path, method: :post
+    = link_to 'Export', export_books_url, method: :post
     %hr
   .row
     = search_form_for(@q) do |f|
@@ -13,7 +13,7 @@
       = f.input :library_books_available_eq, collection: [['YES', true], ['NO', false]], label: 'Available', required: false
       = f.input :library_count_eq, collection: [['YES', 1], ['NO', -1]], label: 'Solo', include_blank: true, required: false, selected: params[:q][:library_count_eq]
       = f.submit 'Search'
-      = link_to 'Reset', books_path
+      = link_to 'Reset', books_url
     %hr
   .row
     .col-xs-12
@@ -28,6 +28,7 @@
           %th{width: 100} Update Status
           %th Last Updated
           %th
+          %th
         - @books.each do |b|
           %tr
             %td= b.call_no
@@ -40,6 +41,8 @@
             %td{ class: (1.day.ago > b.last_updated_at ? 'danger' : '') }= time_ago_in_words(b.last_updated_at) + ' ago'
             %td
               = link_to 'View', b
+            %td
+              = link_to 'Update', queue_update_book_url(b), method: :post
 
       .pagination.pull-right
         = will_paginate @books

@@ -74,4 +74,24 @@ RSpec.describe BooksController, :type => :controller do
       post :export
     end
   end
+
+  describe 'POST queue_update' do
+    let(:book) { create(:book, :with_library_statuses) }
+
+    before do
+      expect_any_instance_of(Book).to receive(:update_availability_async)
+      post :queue_update, id: book.id
+    end
+    
+    it { expect(assigns(:book).queued?).to be true }
+    it { is_expected.to redirect_to(action: :index) }
+  end
+
+  describe 'GET show' do
+    let(:book) { create(:book, :with_library_statuses) }
+
+    before { get :show, id: book.id }
+    
+    it { is_expected.to render_template(:show) }
+  end
 end

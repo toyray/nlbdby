@@ -38,11 +38,17 @@ class BooksController < ApplicationController
     yaml = file.read
     file.close
     errors = Book.delay.import_from_yaml(yaml)
-    redirect_to books_path
+    redirect_to books_url
   end
 
   def export
     filename = "books#{Time.now.strftime('%Y%m%d')}.yaml" 
     send_data(Book.export_to_yaml, filename: filename, type: 'application/yaml')
+  end
+
+  def queue_update
+    @book = Book.find(params[:id])
+    @book.queue_update
+    redirect_to books_url
   end
 end
