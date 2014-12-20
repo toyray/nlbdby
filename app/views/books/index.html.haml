@@ -29,7 +29,7 @@
           %th Last Updated
           %th
         - @books.each do |b|
-          %tr{ class: (b.available_count.zero? ? 'danger' : '') }
+          %tr
             %td= b.call_no
             %td= b.title
             %td= b.pages
@@ -37,7 +37,7 @@
             %td= b.library_count == 1 ? 'YES' : 'NO'
             %td= ((params[:q].fetch(:library_books_library_id_eq, nil).present? ? b.library_books.where(library_id: params[:q][:library_books_library_id_eq]).first.available : b.available_count > 0) ? 'YES' : 'NO')
             %td= b.human_status_name
-            %td= time_ago_in_words(b.last_updated_at) + ' ago'
+            %td{ class: (1.day.ago > b.last_updated_at ? 'danger' : '') }= time_ago_in_words(b.last_updated_at) + ' ago'
             %td
               = link_to 'View', b
 
