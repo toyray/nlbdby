@@ -85,8 +85,8 @@ class Book < ActiveRecord::Base
   end  
 
   def update_availability
-    book = NLBService.new.update_book(self)
-    book.finish_update
+    NLBService.new.update_book(self)
+    self.finish_update
   end
 
   private

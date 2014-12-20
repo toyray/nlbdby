@@ -251,7 +251,7 @@ RSpec.describe Book, :type => :model do
     end
 
     context 'when status is queued' do
-      subject { build(:book, :with_library_statuses, status: :queued) }
+      subject { build(:book, :with_library_statuses, status: 'queued') }
 
       it 'should changed to completed on finish_update' do
         expect(subject).to receive(:update_timestamps)
@@ -259,5 +259,19 @@ RSpec.describe Book, :type => :model do
         expect(subject.completed?).to be true
       end
     end
+  end
+
+  describe '#update_timestamps' do
+    subject { build_stubbed(:book, :with_library_statuses) }
+
+    it { expect{ subject.update_timestamps }.to change{ subject.last_updated_at } }
+  end
+
+  describe '#update_availability' do
+    subject { create(:book, :with_library_statuses, status: 'queued') }
+
+    before { allow_any_instance_of(NLBService).to receive(:update_book) }
+
+    it { expect { subject.update_availability }.to change{ subject.status }.from('queued').to('completed') }
   end
 end
