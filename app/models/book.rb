@@ -108,7 +108,7 @@ class Book < ActiveRecord::Base
       library_books = []
       library_statuses.each do |ls| 
         library = Library.where(name: ls[:library]).first
-        lb = LibraryBook.find_or_create_by(library_id: library.id, book_id: self.id)
+        lb = LibraryBook.find_or_initialize_by(library_id: library.id, book_id: self.id)
         lb.update_attributes(ls.except(:library))
         library_books << lb
       end
