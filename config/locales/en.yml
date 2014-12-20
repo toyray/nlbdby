@@ -20,4 +20,10 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
-  hello: "Hello world"
+  activerecord:
+    state_machines:
+      book:
+        status:
+          states:
+            completed: "Not Queued"
+            queued: "Queued"
