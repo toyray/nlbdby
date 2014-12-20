@@ -90,7 +90,7 @@ class Book < ActiveRecord::Base
   end
 
   def update_availability_async
-    update_availability.delay
+    self.delay.update_availability
   end
 
   private
