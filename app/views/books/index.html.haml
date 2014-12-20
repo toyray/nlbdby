@@ -1,4 +1,4 @@
-.container
+.container-fluid
   .row
     = simple_form_for(:book, url: import_books_url, method: :post) do |f|
       = f.input :file, as: :file
@@ -20,12 +20,12 @@
       %table.table.table-striped
         %tr
           %th Call No
-          %th{width: 300} Title
-          %th{width: 100} Pages
-          %th{width: 100} Height
-          %th{width: 100} Solo
+          %th Title
+          %th{width: 80} Pages
+          %th{width: 80} Height
+          %th{width: 80} Solo
           %th Available
-          %th{width: 100} Update Status
+          %th{width: 120} Update Status
           %th Last Updated
           %th
           %th
