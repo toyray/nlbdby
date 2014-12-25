@@ -58,16 +58,7 @@ class Book < ActiveRecord::Base
       books = {}
     end
     
-    errors = {}
-    books.each do |brn, meta|
-      book, error_message = Book.import(brn)
-      if book && meta
-        book.meta.update(meta)
-      elsif error_message
-        errors[brn] = error_message
-      end
-    end
-    errors
+    books.each { |brn, meta| Book.delay.import_and_save(brn, meta) }
   end
 
   def self.export_to_yaml
@@ -93,8 +84,12 @@ class Book < ActiveRecord::Base
     self.delay.update_availability
   end
 
-  private
+  def self.import_and_save(brn, meta)
+    book, error_message = Book.import(brn)
+    book.meta.update(meta) if book && meta
+  end
 
+  private
   def create_book_user_meta
     BookUserMeta.create(book_id: id)
   end

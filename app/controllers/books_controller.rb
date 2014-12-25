@@ -43,7 +43,7 @@ class BooksController < ApplicationController
     file = params[:book][:file]
     yaml = file.read
     file.close
-    errors = Book.delay.import_from_yaml(yaml)
+    Book.import_from_yaml(yaml)
     redirect_to books_url
   end
 

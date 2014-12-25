@@ -136,6 +136,7 @@ RSpec.describe Book, :type => :model do
   end
 
   describe '.import_from_yaml' do
+    before { allow(Book).to receive(:delay).and_return(Book) }
     context 'when user metadata does not exist' do
       let(:books_yaml) { 
         <<-BOOKS_YAML.strip_heredoc
@@ -144,14 +145,11 @@ RSpec.describe Book, :type => :model do
         2:
         BOOKS_YAML
       }
-      let(:book1) { create(:book, :with_library_statuses, brn: 1) }
-      let(:book2) { create(:book, :with_library_statuses, brn: 2) }
 
-      it 'creates Book and BookUserMeta objects with default values' do
-        expect(Book).to receive(:import).with(1).and_return([book1, nil])
-        expect(Book).to receive(:import).with(2).and_return([book2, nil])
-        errors = Book.import_from_yaml(books_yaml)
-        expect(errors).to be_empty
+      it 'imports books of specified BRNs' do
+        expect(Book).to receive(:import_and_save).with(1, nil)
+        expect(Book).to receive(:import_and_save).with(2, nil)
+        Book.import_from_yaml(books_yaml)
       end
     end
 
@@ -165,15 +163,11 @@ RSpec.describe Book, :type => :model do
         BOOKS_YAML
       }
 
-      let(:book) { create(:book, :with_library_statuses, brn: 1) }
-      let(:meta) { book.meta}
+      let(:meta_hash) { { 'rating' => 4, 'status' => 'borrowed' } }
 
-      it 'updates BookUserMeta with values from YAML' do
-        expect(Book).to receive(:import).with(1).and_return([book, nil])
-        errors = Book.import_from_yaml(books_yaml)
-        expect(meta.rating).to eq 4
-        expect(meta.borrowed?).to be true
-        expect(errors).to be_empty
+      it 'imports books of specified BRNs and meta' do
+        expect(Book).to receive(:import_and_save).with(1, meta_hash) #.and_return([book, nil])
+        Book.import_from_yaml(books_yaml)
       end
     end
 
@@ -186,26 +180,10 @@ RSpec.describe Book, :type => :model do
         BOOKS_YAML
       }
 
-      it { expect{Book.import_from_yaml(books_yaml)}.to_not change(Book, :count) }
-    end
-
-    context 'when errors are encountered during importing' do
-      let(:books_yaml) { 
-        <<-BOOKS_YAML.strip_heredoc
-        ---
-        1:
-        2:
-        BOOKS_YAML
-      }
-      let(:book) { create(:book, :with_library_statuses, brn: 1) }
-
-      it 'creates Book and BookUserMeta objects with default values' do
-        expect(Book).to receive(:import).with(1).and_return([book, nil])
-        expect(Book).to receive(:import).with(2).and_return([nil, 'error message'])
-        errors = Book.import_from_yaml(books_yaml)
-        expect(errors.keys).to match_array([2])
-        expect(errors[2]).to eq('error message')
-      end      
+      it 'does not import any books' do
+        expect(Book).to_not receive(:import_and_save)
+        Book.import_from_yaml(books_yaml)
+      end
     end
   end
 
@@ -271,5 +249,36 @@ RSpec.describe Book, :type => :model do
     before { allow_any_instance_of(NLBService).to receive(:update_book) }
 
     it { expect { subject.update_availability }.to change{ subject.status }.from('queued').to('completed') }
+  end
+
+  describe '.import_and_save' do
+    context 'when no metadata' do
+      let(:brn) { 1 }
+      let(:meta) { nil }
+      let(:book) { create(:book, :with_library_statuses, brn: 1) }
+
+      it 'creates Book and BookUserMeta objects with default values' do
+        expect(Book).to receive(:import).with(brn).and_return([book, nil])
+        Book.import_and_save(brn, meta)
+      end
+    end
+
+    context 'when user metadata exists' do
+      let(:brn) { 1 }
+      let(:meta) { { rating: 4, status: 'borrowed' } }
+      let(:book) { create(:book, :with_library_statuses, brn: 1) }
+      let(:book_meta) { book.meta }
+
+      it 'updates BookUserMeta with values from YAML' do
+        expect(Book).to receive(:import).with(1).and_return([book, nil])
+        Book.import_and_save(brn, meta)
+        expect(book_meta.rating).to eq 4
+        expect(book_meta.borrowed?).to be true
+      end
+    end
+
+    context 'when errors are encountered during importing' do
+      pending 'check that errors are logged'
+    end
   end
 end
