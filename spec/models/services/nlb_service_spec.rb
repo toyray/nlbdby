@@ -174,7 +174,7 @@ RSpec.describe NLBService, :type => :model do
       end
     end
 
-    context 'when initials of author is less than 3 characters', :vcr do
+    context 'when initials of author is two characters', :vcr do
       let(:brn) { 200738648 }
 
       it 'builds book' do
@@ -204,7 +204,23 @@ RSpec.describe NLBService, :type => :model do
         expect(book.section).to eq('COM')
         expect(book.library_statuses).to_not be_empty
       end
-    end          
+    end
+
+    context 'when initials of author is single character', :vcr do
+      let(:brn) { 201073800 }
+
+      it 'builds book' do
+        expect(book).to_not be_nil
+        expect(book.brn).to eq(brn)
+        expect(book.title).to eq("A sniper's conflict : an elite sharpshooter's thrilling account of hunting insurgents in Afghanistan and Iraq")
+        expect(book.author).to eq('B., Monty,')
+        expect(book.pages).to eq(198)
+        expect(book.height).to eq(99)
+        expect(book.call_no).to eq('356.162092 B')
+        expect(book.section).to eq(nil)
+        expect(book.library_statuses).to_not be_empty
+      end      
+    end
   end
 
   describe '#update_book', :vcr do
