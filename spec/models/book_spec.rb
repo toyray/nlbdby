@@ -161,7 +161,7 @@ RSpec.describe Book, :type => :model do
         ---
         1:
           rating: 4
-          borrowed: true
+          status: borrowed
         BOOKS_YAML
       }
 
@@ -172,7 +172,7 @@ RSpec.describe Book, :type => :model do
         expect(Book).to receive(:import).with(1).and_return([book, nil])
         errors = Book.import_from_yaml(books_yaml)
         expect(meta.rating).to eq 4
-        expect(meta.borrowed).to be true
+        expect(meta.borrowed?).to be true
         expect(errors).to be_empty
       end
     end
@@ -183,7 +183,6 @@ RSpec.describe Book, :type => :model do
         ---
         1
           rating: 4
-          borrowed: true
         BOOKS_YAML
       }
 
@@ -216,10 +215,10 @@ RSpec.describe Book, :type => :model do
       ---
       1:
         rating: 2
-        borrowed: true
+        status: borrowed
       2:
         rating: 4
-        borrowed: false
+        status: new
       BOOKS_YAML
     }    
     let!(:book_a) { create(:book, :with_library_statuses, brn: 2) }
@@ -228,8 +227,7 @@ RSpec.describe Book, :type => :model do
     before do
       book_a.meta.rating = 4
       book_a.meta.save
-      book_b.meta.borrowed = true
-      book_b.meta.save
+      book_b.meta.borrow
     end
 
     it { expect(Book.export_to_yaml).to eq(books_yaml) }

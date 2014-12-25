@@ -14,6 +14,8 @@ Rails.application.routes.draw do
     end
     member do
       post 'queue_update'
+      post 'browse'
+      post 'borrow'
     end
   end
 

@@ -11,14 +11,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141214143024) do
+ActiveRecord::Schema.define(version: 20141225070310) do
 
   create_table "book_user_meta", force: true do |t|
     t.integer  "book_id"
     t.integer  "rating",     default: 2
-    t.boolean  "borrowed",   default: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "status",     default: "new"
   end
 
   add_index "book_user_meta", ["book_id"], name: "index_book_user_meta_on_book_id", using: :btree

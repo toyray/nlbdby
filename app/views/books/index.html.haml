@@ -27,8 +27,7 @@
           %th Available
           %th{width: 120} Update Status
           %th Last Updated
-          %th
-          %th
+          %th Actions
         - @books.each do |b|
           %tr
             %td= b.call_no
@@ -41,8 +40,11 @@
             %td{ class: (1.day.ago > b.last_updated_at ? 'danger' : '') }= time_ago_in_words(b.last_updated_at) + ' ago'
             %td
               = link_to 'View', b
-            %td
               = link_to 'Update', queue_update_book_url(b), method: :post
+              - if b.meta.can_browse?
+                = link_to 'Set Browsed', browse_book_url(b), method: :post
+              - if b.meta.can_borrow?
+                = link_to 'Set Borrowed', borrow_book_url(b), method: :post              
 
       .pagination.pull-right
         = will_paginate @books

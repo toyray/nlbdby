@@ -94,4 +94,22 @@ RSpec.describe BooksController, :type => :controller do
     
     it { is_expected.to render_template(:show) }
   end
+
+  describe 'POST borrow' do
+    let(:book) { create(:book, :with_library_statuses) }
+
+    before { post :borrow, id: book.id }
+    
+    it { expect(assigns(:book).meta.borrowed?).to be true }
+    it { is_expected.to redirect_to(action: :index) }
+  end
+
+  describe 'POST browse' do
+    let(:book) { create(:book, :with_library_statuses) }
+
+    before { post :browse, id: book.id }
+    
+    it { expect(assigns(:book).meta.browsed?).to be true }
+    it { is_expected.to redirect_to(action: :index) }
+  end  
 end

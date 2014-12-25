@@ -51,4 +51,16 @@ class BooksController < ApplicationController
     @book.queue_update
     redirect_to books_url
   end
+
+  def borrow
+    @book = Book.find(params[:id])
+    @book.meta.borrow
+    redirect_to books_url
+  end
+
+  def browse
+    @book = Book.find(params[:id])
+    @book.meta.browse
+    redirect_to books_url
+  end  
 end
