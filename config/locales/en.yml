@@ -33,4 +33,7 @@ en:
           already_imported: "A book with this BRN has already been imported."
           invalid_brn: "No book with this BRN found."
           unavailable: "Book is not available for borrowing in any library."
-
+  ransack:
+    attributes:
+      book:
+        call_no: "Call No"

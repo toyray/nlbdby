@@ -20,10 +20,10 @@
     .col-xs-12
       %table.table.table-striped
         %tr
-          %th Call No
-          %th Title
-          %th{width: 80} Pages
-          %th{width: 80} Height
+          %th= sort_link(@q, :call_no)
+          %th= sort_link(@q, :title)
+          %th{width: 80}= sort_link(@q, :pages)
+          %th{width: 80}= sort_link(@q, :height)
           %th{width: 80} Solo
           %th Available
           %th{width: 120} Update Status
