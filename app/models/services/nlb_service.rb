@@ -35,8 +35,8 @@ class NLBService
     book.author = details[1].css('td')[1].content.gsub("\u00A0", "")
 
     physical_info = details[5].css('td')[1].content
-    book.pages = physical_info[/(\d+) (p\.|pages)/] || 0
-    book.height = physical_info[/(\d+)\s*cm\./] || 0
+    book.pages = physical_info[/(\d+) (p\.|pages)/] || 999
+    book.height = physical_info[/(\d+)\s*cm\./] || 99
 
     book
   end

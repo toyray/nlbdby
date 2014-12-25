@@ -44,7 +44,7 @@ RSpec.describe NLBService, :type => :model do
         expect(book.brn).to eq(brn)
         expect(book.title).to eq('Joker')
         expect(book.author).to eq('Azzarello, Brian.')
-        expect(book.pages).to eq(0)
+        expect(book.pages).to eq(999)
         expect(book.height).to eq(27)
         expect(book.call_no).to eq('741.5973 AZZ')
         expect(book.section).to eq('ART')
