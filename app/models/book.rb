@@ -36,13 +36,13 @@ class Book < ActiveRecord::Base
 
   def self.import(brn)
     if Book.where(brn: brn).exists?
-      [nil, 'A book with this BRN has already been imported.']
+      [nil, :already_imported]
     else
       book = NLBService.new.import_book(brn)
       if book.nil?
-        [nil, 'No book with this BRN found.']
+        [nil, :invalid_brn]
       elsif book.unavailable?
-        [nil, 'Book is not available for borrowing in any library.']
+        [nil, :unavailable]
       else
         book.update_timestamps
         book.save!
@@ -85,8 +85,12 @@ class Book < ActiveRecord::Base
   end
 
   def self.import_and_save(brn, meta)
-    book, error_message = Book.import(brn)
-    book.meta.update(meta) if book && meta
+    book, error = Book.import(brn)
+    if book && meta
+      book.meta.update(meta)
+    elsif error && error != :already_imported
+      ImportLogger.error(brn, error)
+    end
   end
 
   private

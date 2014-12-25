@@ -33,7 +33,7 @@ class BooksController < ApplicationController
     if @book
       redirect_to book_path(@book) and return
     else
-      flash[:error] = error
+      flash[:error] = t("activerecord.errors.models.book.#{error}")
       @book = Book.new
       render :new
     end

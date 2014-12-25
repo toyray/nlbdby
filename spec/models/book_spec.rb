@@ -117,21 +117,21 @@ RSpec.describe Book, :type => :model do
       let(:brn) { existing_book.brn }
 
       it { expect{Book.import(brn)}.to_not change(Book, :count) }
-      it { expect(Book.import(brn)).to eq [nil, 'A book with this BRN has already been imported.'] }
+      it { expect(Book.import(brn)).to eq [nil, :already_imported] }
     end
 
     context 'when brn is invalid' do
       let(:book) { nil }
 
       it { expect{Book.import(brn)}.to_not change(Book, :count) }
-      it { expect(Book.import(brn)).to eq [nil, 'No book with this BRN found.'] }
+      it { expect(Book.import(brn)).to eq [nil, :invalid_brn] }
     end
 
     context 'when book has no available libraries' do
       let(:book) { build(:book, :without_library_statuses) }
 
       it { expect{Book.import(brn)}.to_not change(Book, :count) }
-      it { expect(Book.import(brn)).to eq [nil, 'Book is not available for borrowing in any library.'] }
+      it { expect(Book.import(brn)).to eq [nil, :unavailable] }
     end
   end
 
@@ -259,6 +259,7 @@ RSpec.describe Book, :type => :model do
 
       it 'creates Book and BookUserMeta objects with default values' do
         expect(Book).to receive(:import).with(brn).and_return([book, nil])
+        expect(ImportLogger).to_not receive(:error)
         Book.import_and_save(brn, meta)
       end
     end
@@ -270,7 +271,8 @@ RSpec.describe Book, :type => :model do
       let(:book_meta) { book.meta }
 
       it 'updates BookUserMeta with values from YAML' do
-        expect(Book).to receive(:import).with(1).and_return([book, nil])
+        expect(Book).to receive(:import).with(brn).and_return([book, nil])
+        expect(ImportLogger).to_not receive(:error)
         Book.import_and_save(brn, meta)
         expect(book_meta.rating).to eq 4
         expect(book_meta.borrowed?).to be true
@@ -278,7 +280,14 @@ RSpec.describe Book, :type => :model do
     end
 
     context 'when errors are encountered during importing' do
-      pending 'check that errors are logged'
+      let(:brn) { 1 }
+      let(:error) { :unavailable }
+
+      it 'log errors' do
+        expect(Book).to receive(:import).with(brn).and_return([nil, error])
+        expect(ImportLogger).to receive(:error).with(brn, error)
+        Book.import_and_save(brn, nil)
+      end
     end
   end
 end
