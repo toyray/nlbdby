@@ -10,6 +10,12 @@ class BooksController < ApplicationController
       search_params[:library_count_not_eq] = 1
     end
 
+    # Search for all books that have not been borrowed if no status is selected
+    if search_params.fetch(:meta_status_eq, "").blank?
+      search_params.delete(:meta_status_eq)
+      search_params[:meta_status_not_eq] = :borrowed
+    end
+
     @q = Book.search(search_params)
     @books = @q.result.includes(:meta).includes(:library_books).uniq.paginate(:page => params[:page], :per_page => 15).order(:call_no)
   end

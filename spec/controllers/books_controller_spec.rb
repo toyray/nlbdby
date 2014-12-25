@@ -2,14 +2,42 @@ require 'rails_helper'
 
 RSpec.describe BooksController, :type => :controller do
   describe 'GET index' do
-    let!(:books) { create_list(:book, 2) }
+    let(:params) { nil }
 
-    it 'renders template' do
-      get :index
-      expect(assigns(:q)).to be_present
-      expect(assigns(:books)).to match_array(books)
-      expect(response).to render_template(:index)
+    before { get :index, params }    
+    
+    context 'when no search params are specified' do
+      let!(:books) { create_list(:book, 2) }
+      
+      it 'renders template' do
+        expect(assigns(:q)).to be_present
+        expect(assigns(:books)).to match_array(books)
+        expect(response).to render_template(:index)
+      end
     end
+
+    context 'when meta_status_eq is blank' do
+      let!(:new_books) { create_list(:book, 2) }
+      let!(:borrowed_books) { create_list(:book, 2, :borrowed) }
+
+      it 'displays only books that are not borrowed' do
+        expect(assigns(:q)).to be_present
+        expect(assigns(:books)).to match_array(new_books)
+        expect(response).to render_template(:index)
+      end
+    end
+
+    context 'when meta_status_eq is not blank' do
+      let!(:new_books) { create_list(:book, 2) }
+      let!(:borrowed_books) { create_list(:book, 2, :borrowed) }
+      let(:params) { { q: { meta_status_eq: 'borrowed' } } }
+
+      it 'displays only books of that status' do
+        expect(assigns(:q)).to be_present
+        expect(assigns(:books)).to match_array(borrowed_books)
+        expect(response).to render_template(:index)
+      end
+    end    
   end
 
   describe 'GET new' do

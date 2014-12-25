@@ -32,4 +32,10 @@ FactoryGirl.define do
       object.library_statuses = FactoryGirl.create_list(:library_status, evaluator.library_status_count)
     end
   end
+
+  trait :borrowed do
+    after :create do |object, evaluator|
+      object.meta.borrow
+    end
+  end
 end
