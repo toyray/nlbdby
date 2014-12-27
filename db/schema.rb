@@ -11,11 +11,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141225070310) do
+ActiveRecord::Schema.define(version: 20141227151625) do
 
   create_table "book_user_meta", force: true do |t|
     t.integer  "book_id"
-    t.integer  "rating",     default: 2
+    t.integer  "rating",     default: 3
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "status",     default: "new"

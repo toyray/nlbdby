@@ -16,6 +16,7 @@ Rails.application.routes.draw do
       post 'queue_update'
       post 'browse'
       post 'borrow'
+      post 'rate'
     end
   end
 

@@ -7,7 +7,7 @@
     %hr
   .row
     = search_form_for(@q) do |f|
-      = f.input :meta_rating_eq, collection: [['Super Bad', 0], ['Bad', 1], ['Average', 2], ['Good', 3], ['Super Good', 4]], label: 'Rating', required: false
+      = f.input :meta_rating_eq, collection: [['Super Bad', 1], ['Bad', 2], ['Average', 3], ['Good', 4], ['Super Good', 5]], label: 'Rating', required: false
       = f.input :pages_lteq, collection: [['Less than 150 pages', 150], ['Less than 200 pages', 200], ['Less than 250 pages', 250]], label: 'Length', required: false
       = f.input :library_books_library_id_eq, collection: Library.all.order(:name), value_method: :id,  label: 'Library', required: false
       = f.input :library_books_available_eq, collection: [['YES', true], ['NO', false]], label: 'Available', required: false
@@ -22,6 +22,7 @@
         %tr
           %th= sort_link(@q, :call_no)
           %th= sort_link(@q, :title)
+          %th Rating
           %th{width: 80}= sort_link(@q, :pages)
           %th{width: 80}= sort_link(@q, :height)
           %th{width: 80} Solo
@@ -33,6 +34,7 @@
           %tr
             %td= b.call_no
             %td= b.title
+            %td= responsive_rater_tag(value: b.meta.rating, min: 0, max: 5, id: b.id)
             %td= b.pages
             %td= b.height
             %td= b.library_count == 1 ? 'YES' : 'NO'

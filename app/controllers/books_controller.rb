@@ -68,5 +68,14 @@ class BooksController < ApplicationController
     @book = Book.find(params[:id])
     @book.meta.browse
     redirect_to books_url
-  end  
+  end
+
+  def rate
+    @book = Book.find(params[:id])
+    @book.meta.rating = params[:rating]
+    @book.meta.save
+    respond_to do |format|
+      format.json {  render nothing: true, status: :ok }
+    end
+  end
 end

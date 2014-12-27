@@ -166,7 +166,7 @@ RSpec.describe Book, :type => :model do
       let(:meta_hash) { { 'rating' => 4, 'status' => 'borrowed' } }
 
       it 'imports books of specified BRNs and meta' do
-        expect(Book).to receive(:import_and_save).with(1, meta_hash) #.and_return([book, nil])
+        expect(Book).to receive(:import_and_save).with(1, meta_hash)
         Book.import_from_yaml(books_yaml)
       end
     end
@@ -192,7 +192,7 @@ RSpec.describe Book, :type => :model do
       <<-BOOKS_YAML.strip_heredoc
       ---
       1:
-        rating: 2
+        rating: 3
         status: borrowed
       2:
         rating: 4

@@ -34,6 +34,8 @@ gem 'will_paginate', '~> 3.0.6'
 gem 'counter_culture', '~> 0.1.23'
 gem 'ransack', github: 'activerecord-hackery/ransack'
 gem 'state_machine'
+gem 'rails_responsive_rater'
+gem 'paloma'
 
 group :development, :test do
   gem 'rspec-rails', '~> 3.0.0'

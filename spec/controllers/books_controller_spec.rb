@@ -96,8 +96,7 @@ RSpec.describe BooksController, :type => :controller do
     after { Timecop.return }
 
     it 'redirects to YAML file' do
-      expect(controller).to receive(:send_data).with(anything, hash_including(filename: 'books20141231.yaml', type: 'application/yaml'))
-      allow(controller).to receive(:render).and_return(:nil)
+      expect(controller).to receive(:send_data).with(anything, hash_including(filename: 'books20141231.yaml', type: 'application/yaml')) { controller.render nothing: true }
       post :export
     end
   end
@@ -138,5 +137,15 @@ RSpec.describe BooksController, :type => :controller do
     
     it { expect(assigns(:book).meta.browsed?).to be true }
     it { is_expected.to redirect_to(action: :index) }
-  end  
+  end
+
+  describe 'POST rate' do
+    let(:book) { create(:book, :with_library_statuses) }
+    let(:rating) { 4 }
+
+    before { post :rate, id: book.id, rating: rating, format: :json }
+    
+    it { expect(assigns(:book).meta.rating).to eq rating }
+    it { is_expected.to respond_with(:ok) }
+  end    
 end
