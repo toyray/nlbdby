@@ -34,7 +34,7 @@ FactoryGirl.define do
   end
 
   trait :borrowed do
-    after :create do |object, evaluator|
+    after :create do |object, _|
       object.meta.borrow
     end
   end
