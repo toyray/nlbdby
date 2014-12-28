@@ -1,3 +1,12 @@
-= simple_form_for @book do |f|
-  = f.input :brn
-  = f.button :submit, 'Import!'
+.container-fluid
+  .row
+    = simple_form_for(@book, url: books_url, method: :post) do |f|
+      = f.input :brn
+      = f.button :submit, 'Import!'
+    %hr
+  .row
+    = simple_form_for(:book, url: import_books_url, method: :post) do |f|
+      = f.input :file, as: :file
+      = f.submit 'Import from file ...'
+    = link_to 'Export', export_books_url, method: :post
+    %hr  
