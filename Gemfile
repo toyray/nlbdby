@@ -36,6 +36,7 @@ gem 'ransack', github: 'activerecord-hackery/ransack'
 gem 'state_machine'
 gem 'rails_responsive_rater'
 gem 'paloma'
+gem 'font-awesome-sass', '~> 4.2.0'
 
 group :development, :test do
   gem 'rspec-rails', '~> 3.0.0'
