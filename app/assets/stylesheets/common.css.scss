@@ -34,3 +34,15 @@
 .pagination a:hover, .pagination a:focus {
   text-decoration: underline;
 }
+
+.rating {
+  font-size: 16px;
+}
+
+.rating.hover {
+  color: gold;
+}
+
+.rating.rated {
+  color: gold;
+}
