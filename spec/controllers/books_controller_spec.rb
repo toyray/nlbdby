@@ -76,7 +76,7 @@ RSpec.describe BooksController, :type => :controller do
 
       it 'renders view with error' do
         expect(response).to render_template(:new)
-        expect(flash[:error]).to_not be_nil
+        expect(flash[:alert]).to_not be_nil
       end
     end 
   end
