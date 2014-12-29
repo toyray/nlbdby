@@ -246,5 +246,6 @@ RSpec.describe NLBService, :type => :model do
     it { expect(service.send(:parse_call_no, 'English 005.2762 DE -[COM]')).to eq('005.2762 DE') }
     it { expect(service.send(:parse_call_no, 'English 356.162092 B')).to eq('356.162092 B') }
     it { expect(service.send(:parse_call_no, 'English q940.27 ROT')).to eq('940.27 ROT') }
+    it { expect(service.send(:parse_call_no, 'English RSEA 959.5104 JAC')).to eq('959.5104 JAC') }
   end
 end
