@@ -144,6 +144,7 @@ RSpec.describe Book, :type => :model do
 
   describe '.import_from_yaml' do
     before { allow(Book).to receive(:delay).and_return(Book) }
+
     context 'when user metadata does not exist' do
       let(:books_yaml) { 
         <<-BOOKS_YAML.strip_heredoc
@@ -192,6 +193,23 @@ RSpec.describe Book, :type => :model do
         Book.import_from_yaml(books_yaml)
       end
     end
+
+    context 'when book already exists' do
+      let(:books_yaml) { 
+        <<-BOOKS_YAML.strip_heredoc
+        ---
+        1:
+        2:
+        BOOKS_YAML
+      }
+      let!(:book) { create(:book, :with_library_statuses, brn: 1) }
+
+      it 'imports books of specified BRNs that do not already exist' do
+        expect(Book).to_not receive(:import_and_save).with(1, nil)
+        expect(Book).to receive(:import_and_save).with(2, nil)
+        Book.import_from_yaml(books_yaml)
+      end
+    end    
   end
 
   describe '.export_to_yaml' do

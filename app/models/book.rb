@@ -61,7 +61,11 @@ class Book < ActiveRecord::Base
       books = {}
     end
     
-    books.each { |brn, meta| Book.delay.import_and_save(brn, meta) }
+    books.each do |brn, meta|
+      unless Book.where(brn: brn).exists?
+        Book.delay.import_and_save(brn, meta)
+      end
+    end
   end
 
   def self.export_to_yaml
