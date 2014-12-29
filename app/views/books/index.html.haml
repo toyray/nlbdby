@@ -48,4 +48,4 @@
                   = icon('check', '', class: 'fa-lg')   
 
       .pagination.pull-right
-        = will_paginate @books
+        = will_paginate @books, 'data-no-turbolink' => true
