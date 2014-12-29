@@ -53,7 +53,7 @@ class NLBService
       call_info = library_info[3].content
       
       if !lending_type.start_with?('Accompanying')
-        book.call_no = call_info[/English\s+(?:(?:SING|LR|R)\s)?((?:\d+[\.\d]*\s)?(?:[A-Z]{1,3}))/, 1]
+        book.call_no = parse_call_no(call_info)
         book.section = call_info[/\[([A-Z]+)\]/, 1]
         return book
       end
@@ -82,5 +82,9 @@ class NLBService
       end
     end 
     book
+  end
+
+  def parse_call_no(string)
+    string[/English\s+(?:(?:SING|LR|R)\sq*)?((?:\d+[\.\d]*\s)?(?:[A-Z]{1,3}))/, 1]
   end
 end

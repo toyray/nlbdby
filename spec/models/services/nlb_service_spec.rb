@@ -1,8 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe NLBService, :type => :model do
+  let(:service) { described_class.new }
+
   describe '#import_book' do
-    subject(:book) { NLBService.new.import_book(brn) }
+    subject(:book) { service.import_book(brn) }
 
     context 'when book has section', :vcr do 
       let(:brn) { 13746636 }
@@ -225,8 +227,23 @@ RSpec.describe NLBService, :type => :model do
 
   describe '#update_book', :vcr do
     let(:book) { create(:book, :with_library_statuses, brn: 13746636) }
-    subject(:updated_book) { NLBService.new.update_book(book) }
+    subject(:updated_book) { service.update_book(book) }
 
     it { expect(updated_book.library_statuses).to_not be_empty }
-  end    
+  end
+
+  describe '#parse_call_no' do
+    it { expect(service.send(:parse_call_no, 'English LR q952.02 TUR')).to eq('952.02 TUR') }
+    it { expect(service.send(:parse_call_no, 'English 005.117 RAP -[COM]')).to eq('005.117 RAP') }
+    it { expect(service.send(:parse_call_no, 'English      005.117 RSP -[COM]')).to eq('005.117 RSP') }
+    it { expect(service.send(:parse_call_no, 'English 741.5973 AZZ -[ART]')).to eq('741.5973 AZZ') }
+    it { expect(service.send(:parse_call_no, 'English 391.650953 CUM')).to eq('391.650953 CUM') }
+    it { expect(service.send(:parse_call_no, 'English DEA -[SF]')).to eq('DEA') }
+    it { expect(service.send(:parse_call_no, 'English R 623.746 PEE')).to eq('623.746 PEE') }
+    it { expect(service.send(:parse_call_no, 'English SING 624.193095957 CHE')).to eq('624.193095957 CHE') }
+    it { expect(service.send(:parse_call_no, 'English LR 658.5 KAN')).to eq('658.5 KAN') }
+    it { expect(service.send(:parse_call_no, 'English 330 LEV -[BIZ]')).to eq('330 LEV') }
+    it { expect(service.send(:parse_call_no, 'English 005.2762 DE -[COM]')).to eq('005.2762 DE') }
+    it { expect(service.send(:parse_call_no, 'English 356.162092 B')).to eq('356.162092 B') }
+  end
 end
