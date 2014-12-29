@@ -48,6 +48,7 @@ class BooksController < ApplicationController
   end
 
   def export
+    js false
     filename = "books#{Time.now.strftime('%Y%m%d')}.yaml" 
     send_data(Book.export_to_yaml, filename: filename, type: 'application/yaml')
   end
