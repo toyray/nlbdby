@@ -85,6 +85,6 @@ class NLBService
   end
 
   def parse_call_no(string)
-    string[/English\s+(?:(?:SING|LR|R)\sq*)?((?:\d+[\.\d]*\s)?(?:[A-Z]{1,3}))/, 1]
+    string[/English\s+(?:(?:SING|LR|R)\s)?q*((?:\d+[\.\d]*\s)?(?:[A-Z]{1,3}))/, 1]
   end
 end
