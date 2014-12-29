@@ -45,8 +45,11 @@ class Book < ActiveRecord::Base
         [nil, :unavailable]
       else
         book.update_timestamps
-        book.save!
-        [book, nil]
+        if book.save
+          [book, nil]
+        else
+          [nil, :save_failed]
+        end
       end
     end
   end

@@ -133,6 +133,13 @@ RSpec.describe Book, :type => :model do
       it { expect{Book.import(brn)}.to_not change(Book, :count) }
       it { expect(Book.import(brn)).to eq [nil, :unavailable] }
     end
+
+    context 'when book fails validation' do
+      let(:book) { build(:book, :with_library_statuses, call_no: nil) }
+
+      it { expect{Book.import(brn)}.to_not change(Book, :count) }
+      it { expect(Book.import(brn)).to eq [nil, :save_failed] }
+    end    
   end
 
   describe '.import_from_yaml' do
