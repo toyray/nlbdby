@@ -1,0 +1,21 @@
+%tr{ id: "book-#{b.id}" }
+  %td= b.call_no
+  %td= b.title
+  %td= responsive_rater_tag(value: b.meta.rating, min: 0, max: 5, id: b.id)
+  %td= b.pages
+  %td= b.height
+  %td= b.library_count == 1 ? 'YES' : 'NO'
+  %td= ((params[:q].fetch(:library_books_library_id_eq, nil).present? ? b.library_books.where(library_id: params[:q][:library_books_library_id_eq]).first.available : b.available_count > 0) ? 'YES' : 'NO')
+  %td= b.human_status_name
+  %td{ class: (1.day.ago > b.last_updated_at ? 'danger' : '') }= time_ago_in_words(b.last_updated_at) + ' ago'
+  %td
+    = link_to book_url(b), rel: 'tooltip', title: 'View Book Details' do
+      = icon('eye', '', class: 'fa-lg')
+    = link_to queue_update_book_url(b), method: :post, rel: 'tooltip', title: 'Queue For Update' do
+      = icon('refresh', '', class: 'fa-lg')
+    - if b.meta.can_browse?
+      = link_to browse_book_url(b), method: :post, rel: 'tooltip', title: 'Mark Browsed' do
+        = icon('book', '', class: 'fa-lg')
+    - if b.meta.can_borrow?
+      = link_to borrow_book_url(b), method: :post, rel: 'tooltip', title: 'Mark Borrowed' do
+        = icon('check', '', class: 'fa-lg')   
