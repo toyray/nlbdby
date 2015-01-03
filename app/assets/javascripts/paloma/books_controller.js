@@ -1,7 +1,7 @@
 var BooksController = Paloma.controller('Books');
 
 BooksController.prototype.index = function() {
-  $(".responsive-rater").on("rated", function(e){
+  $("tbody").on("rated", ".responsive-rater", function(e){
     var id = $(this).data("rater-id"); 
     var rating = $(this).data("rater-value");
 
