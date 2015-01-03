@@ -1,0 +1,3 @@
+var row = $("tr#book-<%= @book.id %>");
+row.html("<%= escape_javascript(render partial: 'row', locals: {b: @book}) %>");
+row.find("div.responsive-rater").responsiveRater();

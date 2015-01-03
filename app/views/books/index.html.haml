@@ -25,6 +25,7 @@
           %th Last Updated
           %th{width: 100} Actions
         - @books.each do |b|
-          = render partial: 'row', locals: { b: b }
+          %tr{ id: "book-#{b.id}" }
+            = render partial: 'row', locals: { b: b }
       .pagination.pull-right
         = will_paginate @books

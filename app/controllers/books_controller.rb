@@ -56,7 +56,10 @@ class BooksController < ApplicationController
   def queue_update
     @book = Book.find(params[:id])
     @book.queue_update
-    redirect_to books_url
+    respond_to do |format|
+      format.js { js false }
+      format.html { redirect_to books_url }
+    end
   end
 
   def borrow
