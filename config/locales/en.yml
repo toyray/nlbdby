@@ -34,6 +34,12 @@ en:
           invalid_brn: "No book with this BRN found."
           unavailable: "Book is not available for borrowing in any library."
           save_failed: "Book could not be saved."
+    models:
+      book:
+        zero: Books
+        one: Book
+        few: Books
+        other: Books          
   ransack:
     attributes:
       book:
