@@ -103,14 +103,21 @@ RSpec.describe BooksController, :type => :controller do
 
   describe 'POST queue_update' do
     let(:book) { create(:book, :with_library_statuses) }
-
+    let(:format) { :html }
+    
     before do
       expect_any_instance_of(Book).to receive(:update_availability_async)
-      post :queue_update, id: book.id
+      post :queue_update, id: book.id, format: format
     end
     
     it { expect(assigns(:book).queued?).to be true }
     it { is_expected.to redirect_to(action: :index) }
+
+    context 'when format is js' do
+      let(:format) { :js }
+
+      it { is_expected.to render_template(partial: '_row.js.erb') }
+    end
   end
 
   describe 'GET show' do

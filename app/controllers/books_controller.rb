@@ -57,7 +57,7 @@ class BooksController < ApplicationController
     @book = Book.find(params[:id])
     @book.queue_update
     respond_to do |format|
-      format.js { js false }
+      format.js { render_row }
       format.html { redirect_to books_url }
     end
   end
@@ -79,7 +79,13 @@ class BooksController < ApplicationController
     @book.meta.rating = params[:rating]
     @book.meta.save
     respond_to do |format|
-      format.json {  render nothing: true, status: :ok }
+      format.json { render nothing: true, status: :ok }
     end
+  end
+
+  private
+  def render_row
+    js false
+    render partial: 'row.js.erb'
   end
 end
