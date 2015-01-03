@@ -16,6 +16,8 @@ class BooksController < ApplicationController
       search_params[:meta_status_not_eq] = :borrowed
     end
 
+    session[:search_library_id] =  search_params.fetch(:library_books_library_id_eq, nil)
+
     @q = Book.search(search_params)
     @books = @q.result.includes(:meta).includes(:library_books).uniq.paginate(:page => params[:page], :per_page => 15).order(:call_no)
   end
