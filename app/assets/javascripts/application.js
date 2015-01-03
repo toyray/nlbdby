@@ -11,6 +11,7 @@
 // about supported directives.
 //
 //= require jquery
+//= require jquery.turbolinks
 //= require jquery.responsive-rater
 //= require jquery_ujs
 //= require paloma

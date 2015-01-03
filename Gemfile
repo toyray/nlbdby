@@ -37,6 +37,7 @@ gem 'state_machine'
 gem 'rails_responsive_rater'
 gem 'paloma'
 gem 'font-awesome-sass', '~> 4.2.0'
+gem 'jquery-turbolinks'
 
 group :development, :test do
   gem 'rspec-rails', '~> 3.0.0'
