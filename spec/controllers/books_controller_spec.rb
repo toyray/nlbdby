@@ -116,7 +116,7 @@ RSpec.describe BooksController, :type => :controller do
     context 'when format is js' do
       let(:format) { :js }
 
-      it { is_expected.to render_template(partial: '_row.js.erb') }
+      it { is_expected.to render_template(partial: '_render_row') }
     end
   end
 
@@ -130,20 +130,34 @@ RSpec.describe BooksController, :type => :controller do
 
   describe 'POST borrow' do
     let(:book) { create(:book, :with_library_statuses) }
+    let(:format) { :html }
 
-    before { post :borrow, id: book.id }
+    before { post :borrow, id: book.id, format: format }
     
     it { expect(assigns(:book).meta.borrowed?).to be true }
     it { is_expected.to redirect_to(action: :index) }
+
+    context 'when format is js' do
+      let(:format) { :js }
+
+      it { is_expected.to render_template(partial: '_render_row') }
+    end    
   end
 
   describe 'POST browse' do
     let(:book) { create(:book, :with_library_statuses) }
+    let(:format) { :html }
 
-    before { post :browse, id: book.id }
+    before { post :browse, id: book.id, format: format }
     
     it { expect(assigns(:book).meta.browsed?).to be true }
     it { is_expected.to redirect_to(action: :index) }
+
+    context 'when format is js' do
+      let(:format) { :js }
+
+      it { is_expected.to render_template(partial: '_render_row') }
+    end    
   end
 
   describe 'POST rate' do

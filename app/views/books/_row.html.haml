@@ -13,8 +13,8 @@
   = link_to queue_update_book_url(b), remote: true, method: :post, rel: 'tooltip', title: 'Queue For Update' do
     = icon('refresh', '', class: 'fa-lg')
   - if b.meta.can_browse?
-    = link_to browse_book_url(b), method: :post, rel: 'tooltip', title: 'Mark Browsed' do
+    = link_to browse_book_url(b), remote: true, method: :post, rel: 'tooltip', title: 'Mark Browsed' do
       = icon('book', '', class: 'fa-lg')
   - if b.meta.can_borrow?
-    = link_to borrow_book_url(b), method: :post, rel: 'tooltip', title: 'Mark Borrowed' do
+    = link_to borrow_book_url(b), remote: true, method: :post, rel: 'tooltip', title: 'Mark Borrowed' do
       = icon('check', '', class: 'fa-lg')   

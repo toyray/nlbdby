@@ -65,13 +65,19 @@ class BooksController < ApplicationController
   def borrow
     @book = Book.find(params[:id])
     @book.meta.borrow
-    redirect_to books_url
+    respond_to do |format|
+      format.js { render_row }
+      format.html { redirect_to books_url }
+    end
   end
 
   def browse
     @book = Book.find(params[:id])
     @book.meta.browse
-    redirect_to books_url
+    respond_to do |format|
+      format.js { render_row }
+      format.html { redirect_to books_url }
+    end
   end
 
   def rate
@@ -86,6 +92,6 @@ class BooksController < ApplicationController
   private
   def render_row
     js false
-    render partial: 'row.js.erb'
+    render partial: 'render_row'
   end
 end
