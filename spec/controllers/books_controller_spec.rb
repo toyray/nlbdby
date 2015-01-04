@@ -176,5 +176,21 @@ RSpec.describe BooksController, :type => :controller do
     
     it { expect(assigns(:book).meta.rating).to eq rating }
     it { is_expected.to respond_with(:ok) }
-  end    
+  end
+
+  describe 'DELETE destroy' do
+    let(:book) { create(:book, :with_library_statuses) }
+    let(:format) { :html }
+
+    before { delete :destroy, id: book.id, format: format }
+    
+    it { expect(Book.exists?(book.id)).to be false }
+    it { is_expected.to redirect_to(action: :index) }
+
+    context 'when format is js' do
+      let(:format) { :js }
+
+      it { is_expected.to render_template(:destroy) }
+    end    
+  end  
 end

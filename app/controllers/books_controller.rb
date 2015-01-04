@@ -91,6 +91,15 @@ class BooksController < ApplicationController
     end
   end
 
+  def destroy
+    @book = Book.find(params[:id])
+    @book.destroy
+    respond_to do |format|
+      format.js { js false }
+      format.html { redirect_to books_url }
+    end
+  end
+
   private
   def render_row
     js false

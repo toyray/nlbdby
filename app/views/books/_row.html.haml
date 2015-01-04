@@ -18,3 +18,5 @@
   - if b.meta.can_borrow?
     = link_to borrow_book_url(b), remote: true, method: :post, rel: 'tooltip', title: 'Mark Borrowed' do
       = icon('check', '', class: 'fa-lg')   
+  = link_to book_url(b), remote: true, method: :delete, rel: 'tooltip', title: 'Delete', data: { confirm: "Delete #{b.title}?" } do
+    = icon('remove', '', class: 'fa-lg')
