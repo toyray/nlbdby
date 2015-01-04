@@ -1,5 +1,5 @@
 %td= b.call_no
-%td= b.title
+%td= link_to b.title, book_url(b)
 %td= responsive_rater_tag(value: b.meta.rating, min: 0, max: 5, id: b.id)
 %td= b.pages
 %td= b.height
@@ -8,8 +8,6 @@
 %td= b.human_status_name
 %td{ class: (1.day.ago > b.last_updated_at ? 'danger' : '') }= time_ago_in_words(b.last_updated_at) + ' ago'
 %td
-  = link_to book_url(b), rel: 'tooltip', title: 'View Book Details' do
-    = icon('eye', '', class: 'fa-lg')
   = link_to queue_update_book_url(b), remote: true, method: :post, rel: 'tooltip', title: 'Queue For Update' do
     = icon('refresh', '', class: 'fa-lg')
   - if b.meta.can_browse?
