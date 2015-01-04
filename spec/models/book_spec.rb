@@ -2,8 +2,8 @@ require 'rails_helper'
 
 RSpec.describe Book, :type => :model do
   context 'associations' do
-    it { is_expected.to have_many(:library_books) }
-    it { is_expected.to have_one(:meta).class_name('BookUserMeta') }
+    it { is_expected.to have_many(:library_books).dependent(:destroy) }
+    it { is_expected.to have_one(:meta).class_name('BookUserMeta').dependent(:destroy) }
   end
 
   context 'validations' do

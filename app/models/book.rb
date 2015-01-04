@@ -1,6 +1,6 @@
 class Book < ActiveRecord::Base
-  has_one :meta, class_name: BookUserMeta
-  has_many :library_books
+  has_one :meta, class_name: BookUserMeta, dependent: :destroy
+  has_many :library_books, dependent: :destroy
 
   validates :brn, presence: true, uniqueness: true                      
   validates :author, length: { minimum: 0 }, allow_nil: false
