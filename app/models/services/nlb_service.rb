@@ -49,10 +49,11 @@ class NLBService
     info.each do |i|
       library_info = i.css('td')
 
+      library_name = library_info[1].content
       lending_type = library_info[2].content
       call_info = library_info[3].content
       
-      if !lending_type.start_with?('Accompanying')
+      if Library.available?(library_name) && !lending_type.start_with?('Accompanying')
         book.call_no = parse_call_no(call_info)
         book.section = call_info[/\[([A-Z]+)\]/, 1]
         return book
