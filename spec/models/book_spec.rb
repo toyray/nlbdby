@@ -231,6 +231,8 @@ RSpec.describe Book, :type => :model do
       book_a.meta.rating = 4
       book_a.meta.save
       book_b.meta.borrow
+      book_b.meta.rating = 3
+      book_b.meta.save
     end
 
     it { expect(Book.export_to_yaml).to eq(books_yaml) }

@@ -20,6 +20,7 @@ RSpec.describe BookUserMeta, :type => :model do
 
       it 'should change to borrowed on borrow' do
         subject.borrow
+        expect(subject.rating).to eq(0)
         expect(subject.borrowed?).to be true
       end
     end
@@ -29,8 +30,9 @@ RSpec.describe BookUserMeta, :type => :model do
 
       it 'should change to borrowed on borrow' do
         subject.borrow
+        expect(subject.rating).to eq(0)
         expect(subject.borrowed?).to be true
       end
     end
-  end  
+  end
 end
