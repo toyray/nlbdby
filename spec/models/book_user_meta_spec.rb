@@ -33,6 +33,20 @@ RSpec.describe BookUserMeta, :type => :model do
         expect(subject.rating).to eq(0)
         expect(subject.borrowed?).to be true
       end
+
+      it 'should change to new on revert_to_new' do
+        subject.revert
+        expect(subject.new?).to be true
+      end      
     end
+
+    context 'when status is borrowed' do
+      subject { build(:book_user_meta, status: 'borrowed') }
+
+      it 'should change to new on revert_to_new' do
+        subject.revert
+        expect(subject.new?).to be true
+      end      
+    end    
   end
 end
