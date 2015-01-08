@@ -58,28 +58,19 @@ class BooksController < ApplicationController
   def queue_update
     @book = Book.find(params[:id])
     @book.queue_update
-    respond_to do |format|
-      format.js { render_row }
-      format.html { redirect_to books_url }
-    end
+    render_row_or_redirect_index
   end
 
   def borrow
     @book = Book.find(params[:id])
     @book.meta.borrow
-    respond_to do |format|
-      format.js { render_row }
-      format.html { redirect_to books_url }
-    end
+    render_row_or_redirect_index
   end
 
   def browse
     @book = Book.find(params[:id])
     @book.meta.browse
-    respond_to do |format|
-      format.js { render_row }
-      format.html { redirect_to books_url }
-    end
+    render_row_or_redirect_index
   end
 
   def rate
@@ -103,13 +94,17 @@ class BooksController < ApplicationController
   def revert_to_new
     @book = Book.find(params[:id])
     @book.meta.revert
-    respond_to do |format|
-      format.js { render_row }
-      format.html { redirect_to books_url }
-    end
+    render_row_or_redirect_index
   end  
 
   private
+  def render_row_or_redirect_index
+    respond_to do |format|
+      format.js { render_row }
+      format.html { redirect_to books_url }
+    end    
+  end
+
   def render_row
     js false
     render partial: 'render_row'
