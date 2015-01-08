@@ -100,6 +100,15 @@ class BooksController < ApplicationController
     end
   end
 
+  def revert_to_new
+    @book = Book.find(params[:id])
+    @book.meta.revert
+    respond_to do |format|
+      format.js { render_row }
+      format.html { redirect_to books_url }
+    end
+  end  
+
   private
   def render_row
     js false

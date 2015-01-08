@@ -17,6 +17,7 @@ Rails.application.routes.draw do
       post 'browse'
       post 'borrow'
       post 'rate'
+      post 'revert_to_new'
     end
   end
 

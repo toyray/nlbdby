@@ -15,6 +15,9 @@
       = icon('book', '', class: 'fa-lg')
   - if b.meta.can_borrow?
     = link_to borrow_book_url(b), remote: true, method: :post, rel: 'tooltip', title: 'Mark Borrowed' do
-      = icon('check', '', class: 'fa-lg')   
+      = icon('check', '', class: 'fa-lg') 
+  - if b.meta.can_revert?
+    = link_to revert_to_new_book_url(b), remote: true, method: :post, rel: 'tooltip', title: 'Revert to New' do
+      = icon('file-o', '', class: 'fa-lg')         
   = link_to book_url(b), remote: true, method: :delete, rel: 'tooltip', title: 'Delete', data: { confirm: "Delete #{b.title}?" } do
     = icon('remove', '', class: 'fa-lg')

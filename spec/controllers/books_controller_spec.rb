@@ -192,5 +192,24 @@ RSpec.describe BooksController, :type => :controller do
 
       it { is_expected.to render_template(:destroy) }
     end    
+  end
+
+  describe 'POST revert_to_new' do
+    let(:book) { create(:book, :with_library_statuses) }
+    let(:format) { :html }
+
+    before do
+      book.meta.browse
+      post :revert_to_new, id: book.id, format: format
+    end
+    
+    it { expect(assigns(:book).meta.new?).to be true }
+    it { is_expected.to redirect_to(action: :index) }
+
+    context 'when format is js' do
+      let(:format) { :js }
+
+      it { is_expected.to render_template(partial: '_render_row') }
+    end    
   end  
 end
