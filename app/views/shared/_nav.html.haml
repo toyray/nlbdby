@@ -3,4 +3,6 @@
     %li
       = link_to 'Home', books_url
     %li
-      = link_to 'Import/Export', new_book_url
+      = link_to 'Import', new_book_url
+    %li
+      = link_to 'Export All', export_books_url, method: :post
