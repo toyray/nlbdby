@@ -39,3 +39,10 @@
               %tr{ class: (lb.available ? 'success' : '') }
                 %td.col-xs-7= lb.library_name
                 %td.col-xs-1= (lb.reference ? 'Reference' : '')
+
+      %section
+        .pull-right
+          - if @book.meta.can_browse?
+            = link_to 'Mark Browsed', browse_book_url(@book), method: :post, class: 'btn btn-default'
+          - if @book.meta.can_borrow?
+            = link_to 'Mark Borrowed', borrow_book_url(@book), method: :post, class: 'btn btn-default'
