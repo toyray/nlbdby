@@ -6,7 +6,7 @@ RSpec.describe BookUserMeta, :type => :model do
   end
 
   describe '#status' do
-    subject { build(:book_user_meta) }
+    subject { build(:book_user_meta, starred: true) }
 
     it 'should be new initially' do
       expect(subject.new?).to be true
@@ -21,16 +21,18 @@ RSpec.describe BookUserMeta, :type => :model do
       it 'should change to borrowed on borrow' do
         subject.borrow
         expect(subject.rating).to eq(0)
+        expect(subject.starred?).to be false
         expect(subject.borrowed?).to be true
       end
     end
 
     context 'when status is browsed' do
-      subject { build(:book_user_meta, status: 'browsed') }
+      subject { build(:book_user_meta, status: 'browsed', starred: true) }
 
       it 'should change to borrowed on borrow' do
         subject.borrow
         expect(subject.rating).to eq(0)
+        expect(subject.starred?).to be false
         expect(subject.borrowed?).to be true
       end
 
