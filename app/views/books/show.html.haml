@@ -24,6 +24,7 @@
             %td.col-xs-8
               = responsive_rater_tag(value: @book.meta.rating, min: 0, max: 5, id: @book.id)
           =attr_row(@book.meta, :borrowed)
+          =attr_row(@book.meta, :starred)
 
       %section
         %h4

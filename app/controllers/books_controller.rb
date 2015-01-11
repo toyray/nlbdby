@@ -95,6 +95,12 @@ class BooksController < ApplicationController
     @book = Book.find(params[:id])
     @book.meta.revert
     render_row_or_redirect_index
+  end
+
+  def toggle_starred
+    @book = Book.find(params[:id])
+    @book.meta.toggle!(:starred)
+    render_row_or_redirect_index
   end  
 
   private

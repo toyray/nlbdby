@@ -15,6 +15,7 @@
     .col-xs-12
       %table.table.table-striped
         %tr
+          %th{ width: 35 }
           %th{ width: 140 }= sort_link(@q, :call_no)
           %th{ width: 620 }= sort_link(@q, :title)
           %th Rating

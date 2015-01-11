@@ -1,3 +1,11 @@
+%td
+  - unless b.meta.borrowed?
+    - if b.meta.starred?
+      = link_to toggle_starred_book_url(b), remote: true, method: :post, rel: 'tooltip', title: 'Unstar' do
+        = icon('star', '', class: 'fa-lg')
+    - else
+      = link_to toggle_starred_book_url(b), remote: true, method: :post, rel: 'tooltip', title: 'Star' do
+        = icon('star-o', '', class: 'fa-lg')
 %td= b.call_no
 %td= link_to b.title, book_url(b)
 %td= responsive_rater_tag(value: b.meta.rating, min: 0, max: 5, id: b.id)

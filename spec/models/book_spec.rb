@@ -168,10 +168,11 @@ RSpec.describe Book, :type => :model do
         1:
           rating: 4
           status: borrowed
+          starred: true
         BOOKS_YAML
       }
 
-      let(:meta_hash) { { 'rating' => 4, 'status' => 'borrowed' } }
+      let(:meta_hash) { { 'rating' => 4, 'status' => 'borrowed', 'starred' => true } }
 
       it 'imports books of specified BRNs and meta' do
         expect(Book).to receive(:import_and_save).with(1, meta_hash)
@@ -219,9 +220,11 @@ RSpec.describe Book, :type => :model do
       1:
         rating: 3
         status: borrowed
+        starred: false
       2:
         rating: 4
         status: new
+        starred: true
       BOOKS_YAML
     }    
     let!(:book_a) { create(:book, :with_library_statuses, brn: 2) }
@@ -229,6 +232,7 @@ RSpec.describe Book, :type => :model do
 
     before do
       book_a.meta.rating = 4
+      book_a.meta.starred = true
       book_a.meta.save
       book_b.meta.borrow
       book_b.meta.rating = 3

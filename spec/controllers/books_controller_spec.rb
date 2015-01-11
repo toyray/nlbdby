@@ -211,5 +211,21 @@ RSpec.describe BooksController, :type => :controller do
 
       it { is_expected.to render_template(partial: '_render_row') }
     end    
+  end
+
+  describe 'POST toggle_starred' do
+    let(:book) { create(:book, :with_library_statuses) }
+    let(:format) { :html }
+
+    before { post :toggle_starred, id: book.id, format: format }
+    
+    it { expect(assigns(:book).reload.meta.starred?).to be true }
+    it { is_expected.to redirect_to(action: :index) }
+
+    context 'when format is js' do
+      let(:format) { :js }
+
+      it { is_expected.to render_template(partial: '_render_row') }
+    end    
   end  
 end

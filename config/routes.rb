@@ -18,6 +18,7 @@ Rails.application.routes.draw do
       post 'borrow'
       post 'rate'
       post 'revert_to_new'
+      post 'toggle_starred'
     end
   end
 
