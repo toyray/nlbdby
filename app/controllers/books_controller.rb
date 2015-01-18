@@ -1,6 +1,6 @@
 class BooksController < ApplicationController
   def index
-    
+    # FIXME: Extract search into its own method
     params[:q] ||= {}
     search_params = params[:q].dup
 
@@ -14,6 +14,15 @@ class BooksController < ApplicationController
     if search_params.fetch(:meta_status_eq, "").blank?
       search_params.delete(:meta_status_eq)
       search_params[:meta_status_not_eq] = :borrowed
+    end
+
+    # Search for regional books
+    if search_params.fetch(:regional_only, nil).present?
+      if search_params.delete(:regional_only) == 1
+        search_params[:non_regional_library_count_eq] = 0
+      else
+        search_params[:non_regional_library_count_not_eq] = 0
+      end
     end
 
     session[:search_library_id] =  search_params.fetch(:library_books_library_id_eq, nil)

@@ -6,6 +6,7 @@
       = f.input :pages_lteq, collection: [['Less than 150 pages', 150], ['Less than 200 pages', 200], ['Less than 250 pages', 250], ['Less than 300 pages', 300]], label: 'Length', required: false
       = f.input :library_books_library_id_eq, collection: Library.all.order(:name), value_method: :id,  label: 'Library', required: false
       = f.input :library_books_available_eq, collection: [['YES', true], ['NO', false]], label: 'Available', required: false
+      = f.input :regional_only, collection: [['YES', 1], ['NO', -1]], label: 'Regional Only', include_blank: true, required: false, selected: params[:q][:regional_only]
       = f.input :library_count_eq, collection: [['YES', 1], ['NO', -1]], label: 'Solo', include_blank: true, required: false, selected: params[:q][:library_count_eq]
       = f.input :meta_status_eq, collection: [['New', 'new'], ['Borrowed', 'borrowed']], label: 'Status', include_blank: true, required: false
       = f.input :meta_starred_eq, collection: [['YES', true], ['NO', false]], label: 'Starred', include_blank: true, required: false
