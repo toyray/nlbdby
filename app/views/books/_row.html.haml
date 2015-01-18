@@ -21,7 +21,7 @@
     = icon('refresh', '', class: 'fa-lg')
   - if b.meta.can_browse?
     = link_to browse_book_url(b), remote: true, method: :post, rel: 'tooltip', title: 'Mark Browsed' do
-      = icon('book', '', class: 'fa-lg')
+      = icon('file-text', '', class: 'fa-lg')
   - if b.meta.can_revert?
     = link_to revert_to_new_book_url(b), remote: true, method: :post, rel: 'tooltip', title: 'Revert to New' do
       = icon('file-o', '', class: 'fa-lg')         
