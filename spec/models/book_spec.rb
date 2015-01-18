@@ -218,14 +218,14 @@ RSpec.describe Book, :type => :model do
     let(:books_yaml) { 
       <<-BOOKS_YAML.strip_heredoc
       ---
-      1:
-        rating: 3
-        status: borrowed
-        starred: false
       2:
         rating: 4
         status: new
         starred: true
+      1:
+        rating: 3
+        status: borrowed
+        starred: false
       BOOKS_YAML
     }    
     let!(:book_a) { create(:book, :with_library_statuses, brn: 2) }
