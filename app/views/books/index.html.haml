@@ -20,7 +20,7 @@
           %th{ width: 35 }
           %th{ width: 140 }= sort_link(@q, :call_no)
           %th= sort_link(@q, :title)
-          %th{ width: 100 } Rating
+          %th{ width: 100 }= sort_link(@q, :meta_rating)
           %th{ width: 80 }= sort_link(@q, :pages)
           %th{ width: 80 }= sort_link(@q, :height)
           %th{ width: 80 } Solo
