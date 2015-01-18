@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150111124409) do
+ActiveRecord::Schema.define(version: 20150118111351) do
 
   create_table "book_user_meta", force: true do |t|
     t.integer  "book_id"
@@ -34,10 +34,11 @@ ActiveRecord::Schema.define(version: 20150111124409) do
     t.string   "section"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "library_count",   default: 0,           null: false
-    t.integer  "available_count", default: 0,           null: false
-    t.string   "status",          default: "completed"
+    t.integer  "library_count",              default: 0,           null: false
+    t.integer  "available_count",            default: 0,           null: false
+    t.string   "status",                     default: "completed"
     t.datetime "last_updated_at"
+    t.integer  "non_regional_library_count", default: 0,           null: false
   end
 
   add_index "books", ["brn"], name: "index_books_on_brn", unique: true, using: :btree
@@ -62,6 +63,7 @@ ActiveRecord::Schema.define(version: 20150111124409) do
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "regional",   default: false, null: false
   end
 
   add_index "libraries", ["name"], name: "index_libraries_on_name", unique: true, using: :btree

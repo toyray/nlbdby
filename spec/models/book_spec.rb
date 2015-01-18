@@ -3,6 +3,7 @@ require 'rails_helper'
 RSpec.describe Book, :type => :model do
   context 'associations' do
     it { is_expected.to have_many(:library_books).dependent(:destroy) }
+    it { is_expected.to have_many(:libraries).through(:library_books) }
     it { is_expected.to have_one(:meta).class_name('BookUserMeta').dependent(:destroy) }
   end
 
@@ -70,7 +71,7 @@ RSpec.describe Book, :type => :model do
         book.save
         expect(Library.count).to eq(3)
         book.library_statuses.each do |s|
-          expect(Library.exists?(name: s[:library])).to be(true)
+          expect(Library.exists?(name: s[:library], regional: false)).to be(true)
         end
       end
     end

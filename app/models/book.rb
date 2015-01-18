@@ -1,6 +1,7 @@
 class Book < ActiveRecord::Base
   has_one :meta, class_name: BookUserMeta, dependent: :destroy
   has_many :library_books, dependent: :destroy
+  has_many :libraries, through: :library_books
 
   validates :brn, presence: true, uniqueness: true                      
   validates :author, length: { minimum: 0 }, allow_nil: false
@@ -106,7 +107,7 @@ class Book < ActiveRecord::Base
   end
 
   def create_new_library
-    library_statuses.each { |ls| Library.find_or_create_by(name: ls[:library]) } unless library_statuses.nil?
+    library_statuses.each { |ls| Library.find_or_create_by(name: ls[:library], regional: ls[:regional]) } unless library_statuses.nil?
   end
 
   def update_library_books
@@ -115,7 +116,7 @@ class Book < ActiveRecord::Base
       library_statuses.each do |ls| 
         library = Library.where(name: ls[:library]).first
         lb = LibraryBook.find_or_initialize_by(library_id: library.id, book_id: self.id)
-        lb.update_attributes(ls.except(:library))
+        lb.update_attributes(ls.except(:library, :regional))
         library_books << lb
       end
       self.library_books = library_books

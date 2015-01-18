@@ -76,6 +76,7 @@ class NLBService
       if Library.available?(library_name) && (lending_type.start_with?('Adult Lending') || lending_type == 'Lending Reference')
         book.library_statuses << { 
           library: library_name,
+          regional: Library.regional?(library_name),
           available: availability == 'Not On Loan',
           singapore: /SING/.match(call_info).present?,
           reference: lending_type == 'Lending Reference'

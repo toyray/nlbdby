@@ -13,6 +13,7 @@ FactoryGirl.define do
 
     sequence(:library) { |n| "Good Library #{n}" }
     available true
+    regional false
     singapore true
     reference true
 
@@ -26,10 +27,11 @@ FactoryGirl.define do
   trait :with_library_statuses do
     transient do
       library_status_count 1
+      regional false
     end
 
     after :build do |object, evaluator|
-      object.library_statuses = FactoryGirl.create_list(:library_status, evaluator.library_status_count)
+      object.library_statuses = FactoryGirl.create_list(:library_status, evaluator.library_status_count, regional: evaluator.regional)
     end
   end
 
