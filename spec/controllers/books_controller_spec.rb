@@ -219,18 +219,55 @@ RSpec.describe BooksController, :type => :controller do
       let(:params) { { library_count_eq: '-1' } }
 
       it { is_expected.to include(library_count_not_eq: 1) }
+      it { is_expected.to_not include(:library_count_eq) }
     end      
 
     context 'when searching for regional only books' do
       let(:params) { { regional_only: '1' } }      
 
       it { is_expected.to include(non_regional_library_count_eq: 0) }
+      it { is_expected.to_not include(:regional_only) }
     end
 
     context 'when searching for non-regional only books' do
       let(:params) { { regional_only: '-1' } }      
 
       it { is_expected.to include(non_regional_library_count_not_eq: 0) }
+      it { is_expected.to_not include(:regional_only) }
+    end
+
+    context 'when library is selected' do
+      let(:library_params) { { library_books_library_id_eq: '1' } }
+
+      context 'when searching for available books' do
+        let(:params) { library_params.merge({ available: '1' }) }
+
+        it { is_expected.to include(library_books_available_eq: true) } 
+        it { is_expected.to_not include(:available) } 
+      end
+
+      context 'when searching for unavailable books' do
+        let(:params) { library_params.merge({ available: '-1' }) }
+
+        it { is_expected.to include(library_books_available_eq: false) } 
+        it { is_expected.to_not include(:available) }         
+      end
+    end
+
+    context 'when no library is selected' do
+      context 'when searching for available books' do
+        let(:params) { { available: '1' } }
+
+        it { is_expected.to include(available_count_not_eq: 0) } 
+        it { is_expected.to_not include(:available) } 
+      end
+
+      context 'when searching for unavailable books' do
+        let(:params) { { available: '-1' } }
+
+        it { is_expected.to include(available_count_eq: 0) } 
+        it { is_expected.to_not include(:available) }         
+      end
     end
   end
 end

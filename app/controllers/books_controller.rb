@@ -126,6 +126,20 @@ class BooksController < ApplicationController
       end
     end
 
+    # Search for available books
+    if search_params.fetch(:available, nil).present?
+      available = search_params.delete(:available) == "1"
+
+      if search_params.fetch(:library_books_library_id_eq, nil).present?
+        search_params[:library_books_available_eq] = available
+      else
+        if available
+          search_params[:available_count_not_eq] = 0
+        else
+          search_params[:available_count_eq] = 0
+        end
+      end
+    end
     search_params
   end
 end
