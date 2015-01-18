@@ -18,29 +18,6 @@ RSpec.describe BooksController, :type => :controller do
       it { is_expected.to_not set_session(:search_library_id) }
     end
 
-    context 'when meta_status_eq is blank' do
-      let!(:new_books) { create_list(:book, 2) }
-      let!(:borrowed_books) { create_list(:book, 2, :borrowed) }
-
-      it 'displays only books that are not borrowed' do
-        expect(assigns(:q)).to be_present
-        expect(assigns(:books)).to match_array(new_books)
-        expect(response).to render_template(:index)
-      end
-    end
-
-    context 'when meta_status_eq is not blank' do
-      let!(:new_books) { create_list(:book, 2) }
-      let!(:borrowed_books) { create_list(:book, 2, :borrowed) }
-      let(:params) { { q: { meta_status_eq: 'borrowed' } } }
-
-      it 'displays only books of that status' do
-        expect(assigns(:q)).to be_present
-        expect(assigns(:books)).to match_array(borrowed_books)
-        expect(response).to render_template(:index)
-      end
-    end
-
     context 'when library_books_library_id_eq is not blank' do
       let(:params) { { q: { library_books_library_id_eq: '1' } } }
 
@@ -228,4 +205,32 @@ RSpec.describe BooksController, :type => :controller do
       it { is_expected.to render_template(partial: '_render_row') }
     end    
   end  
+
+  describe '#search_params' do
+    subject { controller.send(:build_search_params, params) }
+
+    context 'when no search params are specified' do
+      let(:params) { {} }
+
+      it { is_expected.to include(meta_status_not_eq: :borrowed) }
+    end
+
+    context 'when searching for non solo books' do
+      let(:params) { { library_count_eq: '-1' } }
+
+      it { is_expected.to include(library_count_not_eq: 1) }
+    end      
+
+    context 'when searching for regional only books' do
+      let(:params) { { regional_only: '1' } }      
+
+      it { is_expected.to include(non_regional_library_count_eq: 0) }
+    end
+
+    context 'when searching for non-regional only books' do
+      let(:params) { { regional_only: '-1' } }      
+
+      it { is_expected.to include(non_regional_library_count_not_eq: 0) }
+    end
+  end
 end

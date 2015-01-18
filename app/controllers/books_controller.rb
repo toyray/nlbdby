@@ -1,30 +1,7 @@
 class BooksController < ApplicationController
   def index
-    # FIXME: Extract search into its own method
     params[:q] ||= {}
-    search_params = params[:q].dup
-
-    # Ransack currently doesn't work nicely with scopes using boolean arguments so manually constructing search now
-    if search_params.fetch(:library_count_eq, nil) == "-1"
-      search_params.delete(:library_count_eq)
-      search_params[:library_count_not_eq] = 1
-    end
-
-    # Search for all books that have not been borrowed if no status is selected
-    if search_params.fetch(:meta_status_eq, "").blank?
-      search_params.delete(:meta_status_eq)
-      search_params[:meta_status_not_eq] = :borrowed
-    end
-
-    # Search for regional books
-    if search_params.fetch(:regional_only, nil).present?
-      if search_params.delete(:regional_only) == 1
-        search_params[:non_regional_library_count_eq] = 0
-      else
-        search_params[:non_regional_library_count_not_eq] = 0
-      end
-    end
-
+    search_params = build_search_params(params[:q])
     session[:search_library_id] =  search_params.fetch(:library_books_library_id_eq, nil)
 
     @q = Book.search(search_params)
@@ -123,5 +100,32 @@ class BooksController < ApplicationController
   def render_row
     js false
     render partial: 'render_row'
+  end
+
+  def build_search_params(params)
+    search_params = params.dup
+    
+    # Ransack currently doesn't work nicely with scopes using boolean arguments so manually constructing search now
+    if search_params.fetch(:library_count_eq, nil) == "-1"
+      search_params.delete(:library_count_eq)
+      search_params[:library_count_not_eq] = 1
+    end
+
+    # Search for all books that have not been borrowed if no status is selected
+    if search_params.fetch(:meta_status_eq, "").blank?
+      search_params.delete(:meta_status_eq)
+      search_params[:meta_status_not_eq] = :borrowed
+    end
+
+    # Search for regional books
+    if search_params.fetch(:regional_only, nil).present?
+      if search_params.delete(:regional_only) == "1"
+        search_params[:non_regional_library_count_eq] = 0
+      else
+        search_params[:non_regional_library_count_not_eq] = 0
+      end
+    end
+
+    search_params
   end
 end
