@@ -218,7 +218,7 @@ RSpec.describe NLBService, :type => :model do
         expect(book.title).to eq("A sniper's conflict : an elite sharpshooter's thrilling account of hunting insurgents in Afghanistan and Iraq")
         expect(book.author).to eq('B., Monty,')
         expect(book.pages).to eq(198)
-        expect(book.height).to eq(99)
+        expect(book.height).to eq(24)
         expect(book.call_no).to eq('356.162092 B')
         expect(book.section).to eq(nil)
         expect(book.library_statuses).to_not be_empty
@@ -248,5 +248,12 @@ RSpec.describe NLBService, :type => :model do
     it { expect(service.send(:parse_call_no, 'English 356.162092 B')).to eq('356.162092 B') }
     it { expect(service.send(:parse_call_no, 'English q940.27 ROT')).to eq('940.27 ROT') }
     it { expect(service.send(:parse_call_no, 'English RSEA 959.5104 JAC')).to eq('959.5104 JAC') }
+  end
+
+  describe "#parse_height" do
+    it { expect(service.send(:parse_height, '409 pages ;20 cm.')).to eq(20) }
+    it { expect(service.send(:parse_height, '159 p. :ill. (chiefly col.), col. maps ; 27 x 31 cm.')).to eq(31) }
+    it { expect(service.send(:parse_height, 'xxviii, 495 p. ;24 cm. +1 CD-ROM (4 3/4 in.)')).to eq(24) }
+    it { expect(service.send(:parse_height, 'xx, 198 pages :color illustrations ;24 cm')).to eq(24) }
   end
 end

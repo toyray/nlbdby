@@ -36,7 +36,7 @@ class NLBService
 
     physical_info = details[5].css('td')[1].content
     book.pages = physical_info[/(\d+) (p\.|pages)/] || 999
-    book.height = physical_info[/(\d+)\s*cm\./] || 99
+    book.height = parse_height(physical_info)
 
     book
   end
@@ -84,6 +84,11 @@ class NLBService
       end
     end 
     book
+  end
+
+  def parse_height(string)
+    height = string[/(\d+)\s*cm\.*/, 1] || 99
+    height.to_i
   end
 
   def parse_call_no(string)
