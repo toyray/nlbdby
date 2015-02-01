@@ -21,6 +21,8 @@ class BookUserMeta < ActiveRecord::Base
     end    
   end
 
+  scope :unread, -> { where(status: [:new, :browsed]) }
+
   private
 
   def reset_rating_and_starred
