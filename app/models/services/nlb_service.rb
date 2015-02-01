@@ -47,13 +47,8 @@ class NLBService
     info.shift
 
     info.each do |i|
-      library_info = i.css('td')
-
-      library_name = library_info[1].content
-      lending_type = library_info[2].content
-      call_info = library_info[3].content
-      
-      if Library.available?(library_name) && !lending_type.start_with?('Accompanying')
+      library_name, lending_type, call_info, _ = parse_library_info(i.css('td'))
+      if Library.available?(library_name) && lendable?(lending_type)
         book.call_no = parse_call_no(call_info)
         book.section = call_info[/\[([A-Z]+)\]/, 1]
         return book
@@ -67,23 +62,32 @@ class NLBService
 
     book.library_statuses ||= []
     info.each do |i|
-      library_info = i.css('td')
-
-      library_name = library_info[1].content
-      lending_type = library_info[2].content
-      call_info = library_info[3].content
-      availability = library_info[4].content
-      if Library.available?(library_name) && (lending_type.start_with?('Adult Lending') || lending_type == 'Lending Reference')
+      library_name, lending_type, call_info, availability = parse_library_info(i.css('td'))
+    
+      if Library.available?(library_name) && lendable?(lending_type)
         book.library_statuses << { 
           library: library_name,
           regional: Library.regional?(library_name),
-          available: availability == 'Not On Loan',
+          available: availability,
           singapore: /SING/.match(call_info).present?,
           reference: lending_type == 'Lending Reference'
         }
       end
     end 
     book
+  end
+
+  # TODO Move this to LibraryStatus class in the future 
+  def lendable?(lending_type)
+    lending_type.include?('Adult Lending') || lending_type == 'Lending Reference'
+  end
+
+  def parse_library_info(string)
+    library_name = string[1].content
+    lending_type = string[2].content
+    call_info = string[3].content
+    availability = string[4].content == 'Not On Loan'
+    return library_name, lending_type, call_info, availability
   end
 
   def parse_height(string)

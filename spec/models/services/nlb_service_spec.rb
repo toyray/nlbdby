@@ -256,4 +256,15 @@ RSpec.describe NLBService, :type => :model do
     it { expect(service.send(:parse_height, 'xxviii, 495 p. ;24 cm. +1 CD-ROM (4 3/4 in.)')).to eq(24) }
     it { expect(service.send(:parse_height, 'xx, 198 pages :color illustrations ;24 cm')).to eq(24) }
   end
+
+  describe "lendable?" do
+    it { expect(service.send(:lendable?, 'Young Adult Lending')).to be true }
+    it { expect(service.send(:lendable?, 'Adult Lending')).to be true }
+    it { expect(service.send(:lendable?, 'Adult Lending Singapore Collection')).to be true }    
+    it { expect(service.send(:lendable?, 'Lending Reference')).to be true }
+    it { expect(service.send(:lendable?, 'Accompanying Item')).to be false }
+    it { expect(service.send(:lendable?, 'Reference Southeast Asia')).to be false }
+    it { expect(service.send(:lendable?, 'Reference Singapore')).to be false }
+    it { expect(service.send(:lendable?, 'Reference')).to be  false }
+  end
 end
