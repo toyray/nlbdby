@@ -8,7 +8,7 @@
       = f.input :available, collection: [['YES', 1], ['NO', -1]], label: 'Available', include_blank: true, required: false, selected: params[:q][:available]
       = f.input :regional_only, collection: [['YES', 1], ['NO', -1]], label: 'Regional Only', include_blank: true, required: false, selected: params[:q][:regional_only]
       = f.input :library_count_eq, collection: [['YES', 1], ['NO', -1]], label: 'Solo', include_blank: true, required: false, selected: params[:q][:library_count_eq]
-      = f.input :meta_status_eq, collection: [['New', 'new'], ['Borrowed', 'borrowed']], label: 'Status', include_blank: true, required: false
+      = f.input :meta_status_eq, collection: [['New', 'new'], ['Borrowed', 'borrowed'], ['Archived', 'archived']], label: 'Status', include_blank: true, required: false
       = f.input :meta_starred_eq, collection: [['YES', true], ['NO', false]], label: 'Starred', include_blank: true, required: false
       = f.submit 'Search'
       = link_to 'Reset', books_url

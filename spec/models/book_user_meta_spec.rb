@@ -48,7 +48,12 @@ RSpec.describe BookUserMeta, :type => :model do
       it 'should change to new on revert_to_new' do
         subject.revert
         expect(subject.new?).to be true
-      end      
-    end    
+      end
+
+      it 'should change to archived on archive' do
+        subject.archive
+        expect(subject.archived?).to be true
+      end       
+    end  
   end
 end

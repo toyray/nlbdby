@@ -19,6 +19,7 @@ Rails.application.routes.draw do
       post 'rate'
       post 'revert_to_new'
       post 'toggle_starred'
+      post 'archive'
     end
   end
 

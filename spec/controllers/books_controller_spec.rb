@@ -212,7 +212,7 @@ RSpec.describe BooksController, :type => :controller do
     context 'when no search params are specified' do
       let(:params) { {} }
 
-      it { is_expected.to include(meta_status_not_eq: :borrowed) }
+      it { is_expected.to include(meta_status_not_in: [:borrowed, :archived]) }
     end
 
     context 'when searching for non solo books' do
@@ -270,4 +270,23 @@ RSpec.describe BooksController, :type => :controller do
       end
     end
   end
+
+  describe 'POST archive' do
+    let(:book) { create(:book, :with_library_statuses) }
+    let(:format) { :html }
+
+    before do
+      book.meta.borrow
+      post :archive, id: book.id, format: format
+    end
+    
+    it { expect(assigns(:book).meta.archived?).to be true }
+    it { is_expected.to redirect_to(action: :index) }
+
+    context 'when format is js' do
+      let(:format) { :js }
+
+      it { is_expected.to render_template(partial: '_render_row') }
+    end    
+  end  
 end

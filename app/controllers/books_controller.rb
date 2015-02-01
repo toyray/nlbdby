@@ -87,7 +87,13 @@ class BooksController < ApplicationController
     @book = Book.find(params[:id])
     @book.meta.toggle!(:starred)
     render_row_or_redirect_index
-  end  
+  end
+
+  def archive
+    @book = Book.find(params[:id])
+    @book.meta.archive
+    render_row_or_redirect_index
+  end
 
   private
   def render_row_or_redirect_index
@@ -111,10 +117,10 @@ class BooksController < ApplicationController
       search_params[:library_count_not_eq] = 1
     end
 
-    # Search for all books that have not been borrowed if no status is selected
+    # Search for all books that have not been borrowed or archived if no status is selected
     if search_params.fetch(:meta_status_eq, "").blank?
       search_params.delete(:meta_status_eq)
-      search_params[:meta_status_not_eq] = :borrowed
+      search_params[:meta_status_not_in] = [:borrowed, :archived]
     end
 
     # Search for regional books

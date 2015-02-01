@@ -15,6 +15,10 @@ class BookUserMeta < ActiveRecord::Base
     event :revert do
       transition [:borrowed, :browsed] => :new
     end
+
+    event :archive do
+      transition :borrowed => :archived
+    end    
   end
 
   private
