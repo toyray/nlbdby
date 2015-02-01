@@ -248,6 +248,7 @@ RSpec.describe NLBService, :type => :model do
     it { expect(service.send(:parse_call_no, 'English 356.162092 B')).to eq('356.162092 B') }
     it { expect(service.send(:parse_call_no, 'English q940.27 ROT')).to eq('940.27 ROT') }
     it { expect(service.send(:parse_call_no, 'English RSEA 959.5104 JAC')).to eq('959.5104 JAC') }
+    it { expect(service.send(:parse_call_no, 'English Y 741.5 SED')).to eq('741.5 SED') }
   end
 
   describe "#parse_height" do
