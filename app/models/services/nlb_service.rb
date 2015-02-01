@@ -65,13 +65,15 @@ class NLBService
       library_name, lending_type, call_info, availability = parse_library_info(i.css('td'))
     
       if Library.available?(library_name) && lendable?(lending_type)
-        book.library_statuses << { 
-          library: library_name,
-          regional: Library.regional?(library_name),
-          available: availability,
-          singapore: /SING/.match(call_info).present?,
-          reference: lending_type == 'Lending Reference'
-        }
+        unless book.library_statuses.any? { |ls| ls[:library] == library_name }
+          book.library_statuses << { 
+            library: library_name,
+            regional: Library.regional?(library_name),
+            available: availability,
+            singapore: /SING/.match(call_info).present?,
+            reference: lending_type == 'Lending Reference'
+          }
+        end
       end
     end 
     book

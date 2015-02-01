@@ -224,6 +224,14 @@ RSpec.describe NLBService, :type => :model do
         expect(book.library_statuses).to_not be_empty
       end      
     end
+
+    context 'when same library has multiple copies of book', :vcr do
+      let(:brn) { 200178985 }
+
+      it 'builds book' do
+         expect(book.library_statuses.size).to eq(1)
+      end
+    end
   end
 
   describe '#update_book', :vcr do
