@@ -8,5 +8,5 @@
       = link_to 'Export All', export_books_url, method: :post
   %p.navbar-text.pull-right
     %span.badge
-      = Book.joins(:meta).merge(BookUserMeta.unread).size
+      = Book.unread.size
     Books
