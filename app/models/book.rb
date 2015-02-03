@@ -32,6 +32,7 @@ class Book < ActiveRecord::Base
   end
 
   scope :unread, -> { joins(:meta).merge(BookUserMeta.unread) }
+  scope :queued, -> { where(status: :queued) }
               
   def unavailable?
     library_statuses.nil? || library_statuses.empty?

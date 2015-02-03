@@ -7,6 +7,10 @@
     %li
       = link_to 'Export All', export_books_url, method: :post
   %p.navbar-text.pull-right
+    Queued
+    %span.badge
+      = Book.queued.size
+    Total
     %span.badge
       = Book.unread.size
-    Books
+    
