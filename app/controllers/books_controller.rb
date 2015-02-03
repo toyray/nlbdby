@@ -95,6 +95,12 @@ class BooksController < ApplicationController
     render_row_or_redirect_index
   end
 
+  def summary
+    respond_to do |format|
+      format.js { js false }
+    end
+  end
+
   private
   def render_row_or_redirect_index
     respond_to do |format|

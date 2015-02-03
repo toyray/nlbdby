@@ -11,6 +11,7 @@ Rails.application.routes.draw do
     collection do
       post 'import'
       post 'export'
+      get 'summary'
     end
     member do
       post 'queue_update'

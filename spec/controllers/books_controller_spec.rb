@@ -26,10 +26,9 @@ RSpec.describe BooksController, :type => :controller do
   end
 
   describe 'GET new' do
-    it 'renders template' do
-      get :new
-      expect(response).to render_template(:new)
-    end
+    before { get :new }
+
+    it { is_expected.to render_template(:new) }
   end
 
   describe 'POST create' do
@@ -287,6 +286,12 @@ RSpec.describe BooksController, :type => :controller do
       let(:format) { :js }
 
       it { is_expected.to render_template(partial: '_render_row') }
-    end    
+    end
+  end
+
+  describe 'summary' do
+    before { xhr :get, :summary }
+    
+    it { is_expected.to render_template(:summary) }
   end  
 end
