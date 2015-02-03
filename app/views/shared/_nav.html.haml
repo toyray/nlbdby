@@ -7,4 +7,8 @@
     %li
       = link_to 'Export All', export_books_url, method: :post
 
-  .js-summary
+  .navbar-right
+    = link_to 'Reload', url_for(params), class: "btn btn-default navbar-btn" 
+    %p.navbar-text#js-summary
+      = render 'shared/nav_book_summary'
+  
