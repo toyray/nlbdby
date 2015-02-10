@@ -1,6 +1,34 @@
 require 'rails_helper'
 
 RSpec.describe BooksController, :type => :controller do
+  shared_examples_for 'render row or redirect' do
+    context 'when format is html' do
+      let(:format) { :html }
+      
+      it { is_expected.to redirect_to(action: :index) }
+    end
+
+    context 'when format is js' do
+      let(:format) { :js }
+
+      it { is_expected.to render_template(partial: '_render_row') }
+    end      
+  end
+
+  shared_examples_for 'remove row or redirect' do
+    context 'when format is html' do
+      let(:format) { :html }
+      
+      it { is_expected.to redirect_to(action: :index) }
+    end
+
+    context 'when format is js' do
+      let(:format) { :js }
+
+      it { is_expected.to render_template(:remove) }
+    end      
+  end
+
   describe 'GET index' do
     let(:params) { nil }
 
@@ -95,13 +123,7 @@ RSpec.describe BooksController, :type => :controller do
     end
     
     it { expect(assigns(:book).queued?).to be true }
-    it { is_expected.to redirect_to(action: :index) }
-
-    context 'when format is js' do
-      let(:format) { :js }
-
-      it { is_expected.to render_template(partial: '_render_row') }
-    end
+    it_behaves_like 'render row or redirect'
   end
 
   describe 'GET show' do
@@ -119,13 +141,7 @@ RSpec.describe BooksController, :type => :controller do
     before { post :borrow, id: book.id, format: format }
     
     it { expect(assigns(:book).meta.borrowed?).to be true }
-    it { is_expected.to redirect_to(action: :index) }
-
-    context 'when format is js' do
-      let(:format) { :js }
-
-      it { is_expected.to render_template(partial: '_render_row') }
-    end    
+    it_behaves_like 'render row or redirect'
   end
 
   describe 'POST browse' do
@@ -135,13 +151,7 @@ RSpec.describe BooksController, :type => :controller do
     before { post :browse, id: book.id, format: format }
     
     it { expect(assigns(:book).meta.browsed?).to be true }
-    it { is_expected.to redirect_to(action: :index) }
-
-    context 'when format is js' do
-      let(:format) { :js }
-
-      it { is_expected.to render_template(partial: '_render_row') }
-    end    
+    it_behaves_like 'render row or redirect'
   end
 
   describe 'POST rate' do
@@ -161,13 +171,7 @@ RSpec.describe BooksController, :type => :controller do
     before { delete :destroy, id: book.id, format: format }
     
     it { expect(Book.exists?(book.id)).to be false }
-    it { is_expected.to redirect_to(action: :index) }
-
-    context 'when format is js' do
-      let(:format) { :js }
-
-      it { is_expected.to render_template(:remove) }
-    end
+    it_behaves_like 'remove row or redirect'
   end
 
   describe 'POST revert_to_new' do
@@ -180,13 +184,7 @@ RSpec.describe BooksController, :type => :controller do
     end
     
     it { expect(assigns(:book).meta.new?).to be true }
-    it { is_expected.to redirect_to(action: :index) }
-
-    context 'when format is js' do
-      let(:format) { :js }
-
-      it { is_expected.to render_template(partial: '_render_row') }
-    end    
+    it_behaves_like 'render row or redirect'
   end
 
   describe 'POST toggle_starred' do
@@ -196,13 +194,7 @@ RSpec.describe BooksController, :type => :controller do
     before { post :toggle_starred, id: book.id, format: format }
     
     it { expect(assigns(:book).reload.meta.starred?).to be true }
-    it { is_expected.to redirect_to(action: :index) }
-
-    context 'when format is js' do
-      let(:format) { :js }
-
-      it { is_expected.to render_template(partial: '_render_row') }
-    end    
+    it_behaves_like 'render row or redirect'
   end  
 
   describe '#search_params' do
@@ -280,13 +272,7 @@ RSpec.describe BooksController, :type => :controller do
     end
     
     it { expect(assigns(:book).meta.archived?).to be true }
-    it { is_expected.to redirect_to(action: :index) }
-
-    context 'when format is js' do
-      let(:format) { :js }
-
-      it { is_expected.to render_template(:remove) }
-    end    
+    it_behaves_like 'remove row or redirect'
   end
 
   describe 'summary' do
