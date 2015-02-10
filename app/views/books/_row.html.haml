@@ -1,4 +1,4 @@
-%td
+%td.text-center
   - unless b.meta.borrowed? || b.meta.archived?
     - if b.meta.starred?
       = link_to toggle_starred_book_url(b), remote: true, method: :post, rel: 'tooltip', title: 'Unstar' do
