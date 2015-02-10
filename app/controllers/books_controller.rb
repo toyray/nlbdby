@@ -71,10 +71,7 @@ class BooksController < ApplicationController
   def destroy
     @book = Book.find(params[:id])
     @book.destroy
-    respond_to do |format|
-      format.js { js false }
-      format.html { redirect_to books_url }
-    end
+    remove_row_or_redirect_index
   end
 
   def revert_to_new
@@ -92,7 +89,7 @@ class BooksController < ApplicationController
   def archive
     @book = Book.find(params[:id])
     @book.meta.archive
-    render_row_or_redirect_index
+    remove_row_or_redirect_index
   end
 
   def summary
@@ -153,5 +150,17 @@ class BooksController < ApplicationController
       end
     end
     search_params
+  end
+
+  def remove_row_or_redirect_index
+    respond_to do |format|
+      format.js { remove_row }
+      format.html { redirect_to books_url }
+    end    
+  end  
+
+  def remove_row
+    js false
+    render :remove    
   end
 end

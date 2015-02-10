@@ -166,8 +166,8 @@ RSpec.describe BooksController, :type => :controller do
     context 'when format is js' do
       let(:format) { :js }
 
-      it { is_expected.to render_template(:destroy) }
-    end    
+      it { is_expected.to render_template(:remove) }
+    end
   end
 
   describe 'POST revert_to_new' do
@@ -285,8 +285,8 @@ RSpec.describe BooksController, :type => :controller do
     context 'when format is js' do
       let(:format) { :js }
 
-      it { is_expected.to render_template(partial: '_render_row') }
-    end
+      it { is_expected.to render_template(:remove) }
+    end    
   end
 
   describe 'summary' do
