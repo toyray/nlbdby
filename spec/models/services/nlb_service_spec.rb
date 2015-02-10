@@ -259,14 +259,14 @@ RSpec.describe NLBService, :type => :model do
     it { expect(service.send(:parse_call_no, 'English Y 741.5 SED')).to eq('741.5 SED') }
   end
 
-  describe "#parse_height" do
+  describe '#parse_height' do
     it { expect(service.send(:parse_height, '409 pages ;20 cm.')).to eq(20) }
     it { expect(service.send(:parse_height, '159 p. :ill. (chiefly col.), col. maps ; 27 x 31 cm.')).to eq(31) }
     it { expect(service.send(:parse_height, 'xxviii, 495 p. ;24 cm. +1 CD-ROM (4 3/4 in.)')).to eq(24) }
     it { expect(service.send(:parse_height, 'xx, 198 pages :color illustrations ;24 cm')).to eq(24) }
   end
 
-  describe "lendable?" do
+  describe 'lendable?' do
     it { expect(service.send(:lendable?, 'Young Adult Lending')).to be true }
     it { expect(service.send(:lendable?, 'Adult Lending')).to be true }
     it { expect(service.send(:lendable?, 'Adult Lending Singapore Collection')).to be true }    
@@ -275,5 +275,26 @@ RSpec.describe NLBService, :type => :model do
     it { expect(service.send(:lendable?, 'Reference Southeast Asia')).to be false }
     it { expect(service.send(:lendable?, 'Reference Singapore')).to be false }
     it { expect(service.send(:lendable?, 'Reference')).to be  false }
+  end
+
+  describe 'extract_library_details' do
+    context 'when three books exist in same library with different availablity statuses' do
+      let(:library_status_a) { ['Library 1', 'Adult Lending', '123.45 ABC', false] }
+      let(:library_status_b) { ['Library 1', 'Adult Lending', '123.45 ABC', true] }
+      let(:library_status_c) { ['Library 1', 'Adult Lending', '123.45 ABC', false] }
+      let(:book) { build(:book) }
+      let(:info) { (1..4).to_a } # This is hacky, find a way to separate nokogiri parsing from functional logic
+      
+      before do
+        allow(service).to receive(:extract_library_info).and_return('')
+        allow(service).to receive(:parse_library_info).and_return(library_status_a, library_status_b, library_status_c)
+      end
+
+      it 'expects to create only one library_status in book with available = true' do
+        service.send(:extract_library_details, book, info)
+        expect(book.library_statuses.count).to eq(1)
+        expect(book.library_statuses[0][:available]).to be true
+      end
+    end
   end
 end

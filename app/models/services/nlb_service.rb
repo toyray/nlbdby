@@ -62,10 +62,15 @@ class NLBService
 
     book.library_statuses ||= []
     info.each do |i|
-      library_name, lending_type, call_info, availability = parse_library_info(i.css('td'))
+      library_name, lending_type, call_info, availability = parse_library_info(extract_library_info(i))
     
       if Library.available?(library_name) && lendable?(lending_type)
-        unless book.library_statuses.any? { |ls| ls[:library] == library_name }
+        same_index = book.library_statuses.find_index { |ls| ls[:library] == library_name }
+        if same_index.present? 
+          if availability && !book.library_statuses[same_index][:available]
+            book.library_statuses[same_index][:available] = availability
+          end
+        else
           book.library_statuses << { 
             library: library_name,
             regional: Library.regional?(library_name),
@@ -77,6 +82,10 @@ class NLBService
       end
     end 
     book
+  end
+
+  def extract_library_info(i)
+    i.css('td')
   end
 
   # TODO Move this to LibraryStatus class in the future 
