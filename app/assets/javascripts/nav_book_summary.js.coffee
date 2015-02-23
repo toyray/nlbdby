@@ -1,4 +1,4 @@
 $ ->
   setInterval ->
-    $.get "books/summary"
+    $.get "/books/summary"
   , 3000
