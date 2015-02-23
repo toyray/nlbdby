@@ -30,7 +30,7 @@
           %th{ width: 100 } Actions
         - @books.each do |b|
           %tr{ id: "book-#{b.id}" }
-            = render partial: 'row', locals: { b: b }
+            = render partial: 'row', locals: { b: b.decorate }
       = page_entries_info @books
       .pagination.pull-right
         = will_paginate @books

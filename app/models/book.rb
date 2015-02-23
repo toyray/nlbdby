@@ -104,6 +104,14 @@ class Book < ActiveRecord::Base
     end
   end
 
+  def available?(library_id)
+    if library_id.present?
+      library_books.where(library_id: library_id).first.available
+    else
+      available_count > 0
+    end
+  end  
+
   private
   def create_book_user_meta
     BookUserMeta.create(book_id: id)
