@@ -106,7 +106,7 @@ class Book < ActiveRecord::Base
 
   def available?(library_id)
     if library_id.present?
-      library_books.where(library_id: library_id).first.available
+      library_books.where(library_id: library_id).first.try(:available) || false
     else
       available_count > 0
     end
