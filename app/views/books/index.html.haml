@@ -2,7 +2,7 @@
   = search_form_for(@q) do |f|
     = f.input :title_cont, label: 'Title', required: false
     = f.input :meta_rating_eq, collection: [['Unrated', 0], ['★', 1], ['★★', 2], ['★★★', 3], ['★★★★', 4], ['★★★★★', 5]], label: 'Rating', required: false
-    = f.input :pages_lteq, collection: [['Less than 150 pages', 150], ['Less than 200 pages', 200], ['Less than 250 pages', 250], ['Less than 300 pages', 300]], label: 'Length', required: false
+    = f.input :pages_lteq, collection: [['< 150 pages', 150], ['< 200 pages', 200], ['< 250 pages', 250], ['< 300 pages', 300], ['< 400 pages', 400], ['< 500 pages', 500]], label: 'Length', required: false
     = f.input :library_books_library_id_eq, collection: Library.all.order(:name), value_method: :id,  label: 'Library', required: false
     = f.input :available, collection: [['YES', 1], ['NO', -1]], label: 'Available', include_blank: true, required: false, selected: params[:q][:available]
     = f.input :regional_only, collection: [['YES', 1], ['NO', -1]], label: 'Regional Only', include_blank: true, required: false, selected: params[:q][:regional_only]
