@@ -7,7 +7,9 @@
       = link_to toggle_starred_book_url(b), remote: true, method: :post, rel: 'tooltip', title: 'Star' do
         = icon('star-o', '', class: 'fa-lg')
 %td= b.call_no
-%td= link_to truncate(b.title, length: 70, separator: ' '), book_url(b)
+%td
+  = b.reference_status(session[:search_library_id])
+  = link_to truncate(b.title, length: 70, separator: ' '), book_url(b)
 %td= responsive_rater_tag(value: b.meta.rating, min: 0, max: 5, id: b.id)
 %td= b.pages
 %td= b.height
