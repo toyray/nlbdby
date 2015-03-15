@@ -394,13 +394,13 @@ describe '#reference?' do
     context 'when library is not specified' do
       let(:subject) { book.reference? }
 
-      context 'when book is a reference book in any library' do
+      context 'when book is a reference book in all libraries' do
+        before { book.library_books = [ref_library_book] }
+
         it { is_expected.to be true }
       end
 
-      context 'when book is not a reference book in all libraries' do
-        before { book.library_books = [non_ref_library_book] }
-
+      context 'when book is not a reference book in any library' do
         it { is_expected.to be false }
       end
     end

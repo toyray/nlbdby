@@ -26,7 +26,7 @@ RSpec.describe BookDecorator, :type => :decorator do
     end
 
     context 'when book is not a reference book' do
-      before { allow(object).to receive(:referncee?).and_return(false) }
+      before { allow(object).to receive(:reference?).and_return(false) }
 
       it { expect(subject.reference_status(nil)).to be_nil }
     end

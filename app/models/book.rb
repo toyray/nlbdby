@@ -105,7 +105,7 @@ class Book < ActiveRecord::Base
   end
 
   def available?(library_id=nil)
-    if library_id.present? && !library_id.zero?
+    if library_id.present?
       library_books.where(library_id: library_id).first.try(:available) || false
     else
       available_count > 0
@@ -113,10 +113,11 @@ class Book < ActiveRecord::Base
   end
 
   def reference?(library_id=nil)
-    if library_id.present? && !library_id.zero?
+    if library_id.present?
       library_books.where(library_id: library_id).first.try(:reference) || false
     else
-      library_books.exists?(reference: true)
+      # Reference should return false when no libraries are specified and at least one library has the book in the non-reference section
+      !library_books.exists?(reference: false)
     end
   end
 
