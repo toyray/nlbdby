@@ -327,16 +327,23 @@ RSpec.describe Book, :type => :model do
     let(:book) { create(:book, :with_library_statuses, library_status_count: 2) }
 
     context 'when library is specified' do
+      let(:library1) { create(:library) }
+      let(:library2) { create(:library) }
+      let(:available_library_book) { create(:library_book, library: library1, book: book) }
+      let(:unavailable_library_book) { create(:library_book, library: library2, book: book, available: false) }
+
       let(:subject) { book.available?(library.id) }
 
+      before { book.library_books = [available_library_book, unavailable_library_book] }
+
       context 'when book is unavailable in library' do
-        let(:library) { create(:library) }
+        let(:library) { unavailable_library_book.library }
 
         it { is_expected.to be false }
       end
 
       context 'when book is available in library' do
-        let(:library) { book.libraries.first }
+        let(:library) { available_library_book.library }
 
         it { is_expected.to be true }
       end
