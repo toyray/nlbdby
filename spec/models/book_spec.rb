@@ -322,4 +322,40 @@ RSpec.describe Book, :type => :model do
       end
     end
   end
+
+  describe '#available?' do
+    let(:book) { create(:book, :with_library_statuses, library_status_count: 2) }
+
+    context 'when library is specified' do
+      let(:subject) { book.available?(library.id) }
+
+      context 'when book is unavailable in library' do
+        let(:library) { create(:library) }
+
+        it { is_expected.to be false }
+      end
+
+      context 'when book is available in library' do
+        let(:library) { book.libraries.first }
+
+        it { is_expected.to be true }
+      end
+    end
+
+    context 'when library is not specified' do
+      let(:subject) { book.available? }
+
+      context 'when book is unavailable in library' do
+        before { allow(book).to receive(:available_count).and_return(0) }
+        
+        it { is_expected.to be false }
+      end
+
+      context 'when book is available in library' do
+        before { allow(book).to receive(:available_count).and_return(2) }
+
+        it { is_expected.to be true }
+      end
+    end
+  end
 end
