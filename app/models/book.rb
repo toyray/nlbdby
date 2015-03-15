@@ -110,7 +110,15 @@ class Book < ActiveRecord::Base
     else
       available_count > 0
     end
-  end  
+  end
+
+  def reference?(library_id=nil)
+    if library_id.present? && !library_id.zero?
+      library_books.where(library_id: library_id).first.try(:reference) || false
+    else
+      library_books.exists?(reference: true)
+    end
+  end
 
   private
   def create_book_user_meta

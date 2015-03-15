@@ -358,4 +358,44 @@ RSpec.describe Book, :type => :model do
       end
     end
   end
+
+describe '#reference?' do
+    let(:book) { create(:book, :without_library_statuses) }
+    let(:library1) { create(:library) }
+    let(:library2) { create(:library) }
+    let(:ref_library_book) { create(:library_book, library: library1, book: book, reference: true) }
+    let(:non_ref_library_book) { create(:library_book, library: library2, book: book) }
+
+    before { book.library_books = [ref_library_book, non_ref_library_book] }
+
+    context 'when library is specified' do
+      let(:subject) { book.reference?(library.id) }
+
+      context 'when book is a reference book in this library' do
+        let(:library) { ref_library_book.library }
+
+        it { is_expected.to be true }
+      end
+
+      context 'when book is not a reference book in library' do
+        let(:library) { non_ref_library_book.library }
+
+        it { is_expected.to be false }
+      end
+    end
+
+    context 'when library is not specified' do
+      let(:subject) { book.reference? }
+
+      context 'when book is a reference book in any library' do
+        it { is_expected.to be true }
+      end
+
+      context 'when book is not a reference book in all libraries' do
+        before { book.library_books = [non_ref_library_book] }
+
+        it { is_expected.to be false }
+      end
+    end
+  end  
 end

@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :library do
-    name "Good Library"
+    sequence(:name) { |n| "Good Library #{n}z" }
     regional false
   end
 end
