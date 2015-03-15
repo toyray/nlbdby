@@ -8,6 +8,7 @@
         = icon('star-o', '', class: 'fa-lg')
 %td= b.call_no
 %td
+  = b.availability_status(session[:search_library_id])
   = b.reference_status(session[:search_library_id])
   = link_to truncate(b.title, length: 70, separator: ' '), book_url(b)
 %td= responsive_rater_tag(value: b.meta.rating, min: 0, max: 5, id: b.id)
@@ -15,7 +16,6 @@
 %td= b.height
 %td= b.library_count == 1 ? 'YES' : 'NO'
 %td= b.non_regional_library_count.zero? ? 'YES' : 'NO'
-%td= b.availability_status(session[:search_library_id])
 %td= b.human_status_name
 %td{ class: (1.day.ago > b.last_updated_at ? 'danger' : '') }= time_ago_in_words(b.last_updated_at) + ' ago'
 %td

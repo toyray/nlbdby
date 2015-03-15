@@ -8,13 +8,13 @@ RSpec.describe BookDecorator, :type => :decorator do
     context 'when book is available' do
       before { allow(object).to receive(:available?).and_return(true) }
 
-      it { expect(subject.availability_status(nil)).to eq('YES') }
+      it { expect(subject.availability_status(nil)).to be_nil }
     end
 
     context 'when book is unavailable' do
       before { allow(object).to receive(:available?).and_return(false) }
 
-      it { expect(subject.availability_status(nil)).to eq('NO') }
+      it { expect(subject.availability_status(nil)).to_not be_nil }
     end
   end
 

@@ -2,7 +2,11 @@ class BookDecorator < Draper::Decorator
   delegate_all
 
   def availability_status(library_id)
-    object.available?(library_id) ? 'YES' : 'NO'
+    unless object.available?(library_id)
+      h.content_tag :span, class: 'label label-danger' do
+        h.icon('frown-o', '', class: 'fa-lg')
+      end
+    end
   end
 
   def reference_status(library_id)
