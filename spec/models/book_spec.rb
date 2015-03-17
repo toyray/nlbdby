@@ -31,7 +31,7 @@ RSpec.describe Book, :type => :model do
     context 'when library statuses is not empty' do
       let(:book) { build(:book, :with_library_statuses) }
 
-      it { is_expected.to be false }      
+      it { is_expected.to be false }
     end
   end
 
@@ -88,7 +88,7 @@ RSpec.describe Book, :type => :model do
       context 'when creating library books' do
         let(:book) { build(:book, :with_library_statuses) }
         let(:status) { book.library_statuses.first}
-        
+
         it 'creates library books with the correct library name and availability' do
           book.save
           expect(LibraryBook.last.library_name).to eq(status[:library])
@@ -104,7 +104,7 @@ RSpec.describe Book, :type => :model do
     let(:brn) { 1 }
 
     before { allow_any_instance_of(NLBService).to receive(:import_book).and_return(book) }
-    
+
     context 'when book is valid' do
       let(:book) { build(:book, :with_library_statuses, brn: 1) }
 
@@ -140,14 +140,14 @@ RSpec.describe Book, :type => :model do
 
       it { expect{Book.import(brn)}.to_not change(Book, :count) }
       it { expect(Book.import(brn)).to eq [nil, :save_failed] }
-    end    
+    end
   end
 
   describe '.import_from_yaml' do
     before { allow(Book).to receive(:delay).and_return(Book) }
 
     context 'when user metadata does not exist' do
-      let(:books_yaml) { 
+      let(:books_yaml) {
         <<-BOOKS_YAML.strip_heredoc
         ---
         1:
@@ -163,7 +163,7 @@ RSpec.describe Book, :type => :model do
     end
 
     context 'when user metadata exists' do
-      let(:books_yaml) { 
+      let(:books_yaml) {
         <<-BOOKS_YAML.strip_heredoc
         ---
         1:
@@ -182,7 +182,7 @@ RSpec.describe Book, :type => :model do
     end
 
     context 'when yaml is malformed' do
-      let(:books_yaml) { 
+      let(:books_yaml) {
         <<-BOOKS_YAML.strip_heredoc
         ---
         1
@@ -197,7 +197,7 @@ RSpec.describe Book, :type => :model do
     end
 
     context 'when book already exists' do
-      let(:books_yaml) { 
+      let(:books_yaml) {
         <<-BOOKS_YAML.strip_heredoc
         ---
         1:
@@ -211,11 +211,11 @@ RSpec.describe Book, :type => :model do
         expect(Book).to receive(:import_and_save).with(2, nil)
         Book.import_from_yaml(books_yaml)
       end
-    end    
+    end
   end
 
   describe '.export_to_yaml' do
-    let(:books_yaml) { 
+    let(:books_yaml) {
       <<-BOOKS_YAML.strip_heredoc
       ---
       2:
@@ -227,7 +227,7 @@ RSpec.describe Book, :type => :model do
         status: borrowed
         starred: false
       BOOKS_YAML
-    }    
+    }
     let!(:book_a) { create(:book, :with_library_statuses, brn: 2) }
     let!(:book_b) { create(:book, :with_library_statuses, brn: 1) }
 
@@ -354,7 +354,7 @@ RSpec.describe Book, :type => :model do
 
       context 'when book is unavailable in library' do
         before { allow(book).to receive(:available_count).and_return(0) }
-        
+
         it { is_expected.to be false }
       end
 
@@ -404,5 +404,5 @@ describe '#reference?' do
         it { is_expected.to be false }
       end
     end
-  end  
+  end
 end

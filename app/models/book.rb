@@ -3,7 +3,7 @@ class Book < ActiveRecord::Base
   has_many :library_books, dependent: :destroy
   has_many :libraries, through: :library_books
 
-  validates :brn, presence: true, uniqueness: true                      
+  validates :brn, presence: true, uniqueness: true
   validates :author, length: { minimum: 0 }, allow_nil: false
   validates :title, presence: true
   validates :pages, presence: true
@@ -33,7 +33,7 @@ class Book < ActiveRecord::Base
 
   scope :unread, -> { joins(:meta).merge(BookUserMeta.unread) }
   scope :queued, -> { where(status: :queued) }
-              
+
   def unavailable?
     library_statuses.nil? || library_statuses.empty?
   end
@@ -64,7 +64,7 @@ class Book < ActiveRecord::Base
     rescue Psych::SyntaxError
       books = {}
     end
-    
+
     books.each do |brn, meta|
       unless Book.where(brn: brn).exists?
         Book.delay.import_and_save(brn, meta)
@@ -84,7 +84,7 @@ class Book < ActiveRecord::Base
 
   def update_timestamps
     self.last_updated_at = Time.now
-  end  
+  end
 
   def update_availability
     NLBService.new.update_book(self)
@@ -133,7 +133,7 @@ class Book < ActiveRecord::Base
   def update_library_books
     unless library_statuses.nil?
       library_books = []
-      library_statuses.each do |ls| 
+      library_statuses.each do |ls|
         library = Library.where(name: ls[:library]).first
         lb = LibraryBook.find_or_initialize_by(library_id: library.id, book_id: self.id)
         lb.update_attributes(ls.except(:library, :regional))
