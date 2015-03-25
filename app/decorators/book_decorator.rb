@@ -16,4 +16,22 @@ class BookDecorator < Draper::Decorator
       end
     end
   end
+
+  def library_count_badge
+    case object.library_count
+    when 0..1
+      badge_class = 'label-danger'
+    when 2..4
+      badge_class = 'label-warning'
+    else
+      badge_class = 'label-success'
+    end
+    h.content_tag :span, class: "label #{badge_class}" do
+      if object.library_count > 9
+        "9+"
+      else
+        "#{object.library_count}"
+      end
+    end
+  end
 end
