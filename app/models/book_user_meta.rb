@@ -22,6 +22,7 @@ class BookUserMeta < ActiveRecord::Base
   end
 
   scope :unread, -> { where(status: [:new, :browsed]) }
+  scope :average_or_better, -> { where(rating: 3..5) }
 
   private
 

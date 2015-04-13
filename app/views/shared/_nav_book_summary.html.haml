@@ -2,6 +2,6 @@ Queued
 - queued_count = Book.queued.size
 %span.badge{ class: queued_count > 0 ? 'alert-danger' : 'alert-success' }
   = queued_count
-Total
-%span.badge.alert-success
-  = Book.unread.size
+To Read
+%span.badge.alert-warning
+  = Book.average_or_better.unread.size
