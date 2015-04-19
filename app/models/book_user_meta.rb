@@ -18,12 +18,15 @@ class BookUserMeta < ActiveRecord::Base
 
     event :archive do
       transition :borrowed => :archived
-    end    
+    end
   end
 
   scope :unread, -> { where(status: [:new, :browsed]) }
   scope :average_or_better, -> { where(rating: 3..5) }
 
+  def read?
+    (borrowed? || archived?)
+  end
   private
 
   def reset_rating_and_starred

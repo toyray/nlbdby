@@ -39,7 +39,7 @@ RSpec.describe BookUserMeta, :type => :model do
       it 'should change to new on revert_to_new' do
         subject.revert
         expect(subject.new?).to be true
-      end      
+      end
     end
 
     context 'when status is borrowed' do
@@ -53,16 +53,29 @@ RSpec.describe BookUserMeta, :type => :model do
       it 'should change to archived on archive' do
         subject.archive
         expect(subject.archived?).to be true
-      end       
+      end
     end
   end
 
   describe '.unread' do
-    let!(:new_book) { create(:book_user_meta, status: :new) }
-    let!(:browsed_book) { create(:book_user_meta, status: :browsed) }
-    let!(:borrowed_book) { create(:book_user_meta, status: :borrowed) }
-    let!(:archived_book) { create(:book_user_meta, status: :archived) }
+    let!(:new_book) { create(:book_user_meta, status: 'new') }
+    let!(:browsed_book) { create(:book_user_meta, status: 'browsed') }
+    let!(:borrowed_book) { create(:book_user_meta, status: 'borrowed') }
+    let!(:archived_book) { create(:book_user_meta, status: 'archived') }
 
     it { expect(BookUserMeta.unread).to contain_exactly(new_book, browsed_book) }
+  end
+
+  describe '#read?' do
+    # TODO: Move these to child factories or traits
+    let!(:new_book) { create(:book_user_meta, status: 'new') }
+    let!(:browsed_book) { create(:book_user_meta, status: 'browsed') }
+    let!(:borrowed_book) { create(:book_user_meta, status: 'borrowed') }
+    let!(:archived_book) { create(:book_user_meta, status: 'archived') }
+
+    it { expect(new_book.read?).to be false }
+    it { expect(browsed_book.read?).to be false }
+    it { expect(borrowed_book.read?).to be true }
+    it { expect(archived_book.read?).to be true }
   end
 end

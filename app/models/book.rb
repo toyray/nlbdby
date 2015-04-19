@@ -35,6 +35,8 @@ class Book < ActiveRecord::Base
   scope :average_or_better, -> { joins(:meta).merge(BookUserMeta.average_or_better) }
   scope :queued, -> { where(status: :queued) }
 
+  delegate :read?, to: :meta
+
   def unavailable?
     library_statuses.nil? || library_statuses.empty?
   end

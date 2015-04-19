@@ -6,15 +6,31 @@ RSpec.describe BookDecorator, :type => :decorator do
 
   describe '#availability_badge' do
     context 'when book is available' do
-      before { allow(object).to receive(:available?).and_return(true) }
+      before do
+        allow(object).to receive(:available?).and_return(true)
+        allow(object).to receive(:read?).and_return(true)
+      end
 
       it { expect(subject.availability_badge(nil)).to be_nil }
     end
 
     context 'when book is unavailable' do
-      before { allow(object).to receive(:available?).and_return(false) }
+      before do
+        allow(object).to receive(:available?).and_return(false)
+        allow(object).to receive(:read?).and_return(read)
+      end
 
-      it { expect(subject.availability_badge(nil)).to_not be_nil }
+      context 'when book is not borrowed or archived' do
+        let(:read) { false }
+
+        it { expect(subject.availability_badge(nil)).to_not be_nil }
+      end
+
+      context 'when book is borrowed or archived' do
+        let(:read) { true }
+
+        it { expect(subject.availability_badge(nil)).to be_nil }
+      end
     end
   end
 
