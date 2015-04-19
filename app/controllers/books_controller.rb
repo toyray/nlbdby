@@ -3,6 +3,7 @@ class BooksController < ApplicationController
     params[:q] ||= {}
     search_params = build_search_params(params[:q])
     session[:search_library_id] =  search_params.fetch(:library_books_library_id_eq, nil)
+    session.delete(:search_library_id) if session[:search_library_id].blank?
 
     @q = Book.search(search_params)
     @books = @q.result.includes(:meta).includes(:library_books).uniq.paginate(:page => params[:page], :per_page => 15).order(:call_no)
@@ -37,7 +38,7 @@ class BooksController < ApplicationController
 
   def export
     js false
-    filename = "books#{Time.now.strftime('%Y%m%d')}.yaml" 
+    filename = "books#{Time.now.strftime('%Y%m%d')}.yaml"
     send_data(Book.export_to_yaml, filename: filename, type: 'application/yaml')
   end
 
@@ -103,7 +104,7 @@ class BooksController < ApplicationController
     respond_to do |format|
       format.js { render_row }
       format.html { redirect_to books_url }
-    end    
+    end
   end
 
   def render_row
@@ -113,7 +114,7 @@ class BooksController < ApplicationController
 
   def build_search_params(params)
     search_params = params.dup
-    
+
     # Ransack currently doesn't work nicely with scopes using boolean arguments so manually constructing search now
     if search_params.fetch(:library_count_eq, nil) == "-1"
       search_params.delete(:library_count_eq)
@@ -156,11 +157,11 @@ class BooksController < ApplicationController
     respond_to do |format|
       format.js { remove_row }
       format.html { redirect_to books_url }
-    end    
-  end  
+    end
+  end
 
   def remove_row
     js false
-    render :remove    
+    render :remove
   end
 end
