@@ -15,7 +15,6 @@
 %td= responsive_rater_tag(value: b.meta.rating, min: 0, max: 5, id: b.id)
 %td= b.pages
 %td= b.height
-%td= b.non_regional_library_count.zero? ? 'YES' : 'NO'
 %td= b.human_status_name
 %td{ class: (1.day.ago > b.last_updated_at ? 'danger' : '') }= time_ago_in_words(b.last_updated_at) + ' ago'
 %td
