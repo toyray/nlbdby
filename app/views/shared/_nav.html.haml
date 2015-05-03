@@ -7,8 +7,9 @@
     %li
       = link_to 'Export All', export_books_url, method: :post
 
-  .navbar-right
-    = link_to 'Reload', url_for(params), class: "btn btn-default navbar-btn" 
-    %p.navbar-text#js-summary
-      = render 'shared/nav_book_summary'
-  
+  - if controller.controller_name == 'books' && controller.action_name == 'index'
+    .navbar-right
+      = link_to 'Reload', url_for(params), class: "btn btn-default navbar-btn"
+      %p.navbar-text#js-summary
+        = render 'shared/nav_book_summary'
+
