@@ -15,19 +15,25 @@ RSpec.describe BookDecorator, :type => :decorator do
     end
 
     context 'when book is unavailable' do
+      let(:read) { false }
+
       before do
         allow(object).to receive(:available?).and_return(false)
         allow(object).to receive(:read?).and_return(read)
       end
 
       context 'when book is not borrowed or archived' do
-        let(:read) { false }
-
         it { expect(subject.availability_badge(nil)).to_not be_nil }
       end
 
       context 'when book is borrowed or archived' do
         let(:read) { true }
+
+        it { expect(subject.availability_badge(nil)).to be_nil }
+      end
+
+      context 'when book is queued' do
+        before { allow(object).to receive(:status).and_return("queued") }
 
         it { expect(subject.availability_badge(nil)).to be_nil }
       end
