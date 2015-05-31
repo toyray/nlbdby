@@ -119,4 +119,25 @@ RSpec.describe BookDecorator, :type => :decorator do
       it { expect(subject.pages_badge).to include('label-danger').and include('V+') }
     end
   end
+
+  describe '#height_badge' do
+    context 'when book height is small' do
+      before { allow(object).to receive(:height).and_return(22) }
+
+      it { expect(subject.height_badge).to include('S') }
+    end
+
+    context 'when book height is medium' do
+      before { allow(object).to receive(:height).and_return(25) }
+
+      it { expect(subject.height_badge).to include('M') }
+    end
+
+    context 'when book height is large' do
+      before { allow(object).to receive(:height).and_return(26) }
+
+      it { expect(subject.height_badge).to include('L') }
+    end
+
+  end
 end

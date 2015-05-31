@@ -58,8 +58,20 @@ class BookDecorator < Draper::Decorator
         text = 'V+'
       end
     end
-    h.content_tag :span, class: "label #{badge_class}", title: object.pages do
+    h.content_tag :span, class: "label #{badge_class}", title: "#{object.pages} pages" do
       text
+    end
+  end
+
+  def height_badge
+    h.content_tag :span, class: 'label label-info', title: "#{object.height} cm" do
+      if object.height <= 22
+        'S'
+      elsif object.height <= 25
+        'M'
+      else
+        'L'
+      end
     end
   end
 end
