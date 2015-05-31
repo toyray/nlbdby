@@ -81,4 +81,42 @@ RSpec.describe BookDecorator, :type => :decorator do
       end
     end
   end
+
+  describe '#pages_badge' do
+    context 'when book is <= 110 pages' do
+      before { allow(object).to receive(:pages).and_return(110) }
+
+      it { expect(subject.pages_badge).to include('label-success').and include('I') }
+    end
+
+    context 'when book is <= 220 pages' do
+      before { allow(object).to receive(:pages).and_return(220) }
+
+      it { expect(subject.pages_badge).to include('label-success').and include('II') }
+    end
+
+    context 'when book is <= 330 pages' do
+      before { allow(object).to receive(:pages).and_return(330) }
+
+      it { expect(subject.pages_badge).to include('label-warning').and include('III') }
+    end
+
+    context 'when book is <= 440 pages' do
+      before { allow(object).to receive(:pages).and_return(440) }
+
+      it { expect(subject.pages_badge).to include('label-warning').and include('IV') }
+    end
+
+    context 'when book is <= 550 pages' do
+      before { allow(object).to receive(:pages).and_return(550) }
+
+      it { expect(subject.pages_badge).to include('label-danger').and include('V') }
+    end
+
+    context 'when book is >= 550 pages' do
+      before { allow(object).to receive(:pages).and_return(551) }
+
+      it { expect(subject.pages_badge).to include('label-danger').and include('V+') }
+    end
+  end
 end

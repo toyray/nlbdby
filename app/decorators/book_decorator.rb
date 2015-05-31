@@ -34,4 +34,29 @@ class BookDecorator < Draper::Decorator
       end
     end
   end
+
+  def pages_badge
+    if object.pages <= 110
+      text = 'I'
+      badge_class = 'label-success'
+    elsif object.pages <= 220
+      text = 'II'
+      badge_class = 'label-success'
+    elsif object.pages <= 330
+      text = 'III'
+      badge_class = 'label-warning'
+    elsif object.pages <= 440
+      text = 'IV'
+      badge_class = 'label-warning'
+    elsif object.pages <= 550
+      text = 'V'
+      badge_class = 'label-danger'
+    else
+      text = 'V+'
+      badge_class = 'label-danger'
+    end
+    h.content_tag :span, class: "label #{badge_class}" do
+      text
+    end
+  end
 end

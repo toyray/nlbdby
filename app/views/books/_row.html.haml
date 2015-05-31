@@ -12,6 +12,7 @@
   = b.reference_badge(session[:search_library_id])
   = link_to truncate(b.title, length: 85, separator: ' '), book_url(b)
   = b.library_count_badge
+  = b.pages_badge
 %td= responsive_rater_tag(value: b.meta.rating, min: 0, max: 5, id: b.id)
 %td= b.pages
 %td= b.height
