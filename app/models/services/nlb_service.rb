@@ -6,7 +6,7 @@ class NLBService
 
     book = Book.new
     book.brn = brn.to_i
-    
+
     return nil if doc.title == 'No item found'
 
     extract_book_details(book, doc.css('table[summary="New Arrival Titles"] tr'))
@@ -35,7 +35,7 @@ class NLBService
     book.author = details[1].css('td')[1].content.gsub("\u00A0", "")
 
     physical_info = details[5].css('td')[1].content
-    book.pages = physical_info[/(\d+) (p\.|pages)/] || 999
+    book.pages = physical_info[/(\d+) (p\.|pages)/] || 0
     book.height = parse_height(physical_info)
 
     book
@@ -53,8 +53,8 @@ class NLBService
         book.section = call_info[/\[([A-Z]+)\]/, 1]
         return book
       end
-    end 
-    book    
+    end
+    book
   end
 
   def extract_library_details(book, info)
@@ -63,15 +63,15 @@ class NLBService
     book.library_statuses ||= []
     info.each do |i|
       library_name, lending_type, call_info, availability = parse_library_info(extract_library_info(i))
-    
+
       if Library.available?(library_name) && lendable?(lending_type)
         same_index = book.library_statuses.find_index { |ls| ls[:library] == library_name }
-        if same_index.present? 
+        if same_index.present?
           if availability && !book.library_statuses[same_index][:available]
             book.library_statuses[same_index][:available] = availability
           end
         else
-          book.library_statuses << { 
+          book.library_statuses << {
             library: library_name,
             regional: Library.regional?(library_name),
             available: availability,
@@ -80,7 +80,7 @@ class NLBService
           }
         end
       end
-    end 
+    end
     book
   end
 
@@ -88,7 +88,7 @@ class NLBService
     i.css('td')
   end
 
-  # TODO Move this to LibraryStatus class in the future 
+  # TODO Move this to LibraryStatus class in the future
   def lendable?(lending_type)
     lending_type.include?('Adult Lending') || lending_type == 'Lending Reference'
   end
@@ -102,7 +102,7 @@ class NLBService
   end
 
   def parse_height(string)
-    height = string[/(\d+)\s*cm\.*/, 1] || 99
+    height = string[/(\d+)\s*cm\.*/, 1] || 0
     height.to_i
   end
 

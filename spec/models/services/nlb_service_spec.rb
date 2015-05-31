@@ -6,7 +6,7 @@ RSpec.describe NLBService, :type => :model do
   describe '#import_book' do
     subject(:book) { service.import_book(brn) }
 
-    context 'when book has section', :vcr do 
+    context 'when book has section', :vcr do
       let(:brn) { 13746636 }
 
       it 'builds book' do
@@ -46,7 +46,7 @@ RSpec.describe NLBService, :type => :model do
         expect(book.brn).to eq(brn)
         expect(book.title).to eq('Joker')
         expect(book.author).to eq('Azzarello, Brian.')
-        expect(book.pages).to eq(999)
+        expect(book.pages).to eq(0)
         expect(book.height).to eq(27)
         expect(book.call_no).to eq('741.5973 AZZ')
         expect(book.section).to eq('ART')
@@ -108,7 +108,7 @@ RSpec.describe NLBService, :type => :model do
       it 'does not build book' do
         expect(book).to be_nil
       end
-    end    
+    end
 
     context 'when book has no available libraries', :vcr do
       let(:brn) { 9535970 }
@@ -222,7 +222,7 @@ RSpec.describe NLBService, :type => :model do
         expect(book.call_no).to eq('356.162092 B')
         expect(book.section).to eq(nil)
         expect(book.library_statuses).to_not be_empty
-      end      
+      end
     end
 
     context 'when same library has multiple copies of book', :vcr do
@@ -269,7 +269,7 @@ RSpec.describe NLBService, :type => :model do
   describe 'lendable?' do
     it { expect(service.send(:lendable?, 'Young Adult Lending')).to be true }
     it { expect(service.send(:lendable?, 'Adult Lending')).to be true }
-    it { expect(service.send(:lendable?, 'Adult Lending Singapore Collection')).to be true }    
+    it { expect(service.send(:lendable?, 'Adult Lending Singapore Collection')).to be true }
     it { expect(service.send(:lendable?, 'Lending Reference')).to be true }
     it { expect(service.send(:lendable?, 'Accompanying Item')).to be false }
     it { expect(service.send(:lendable?, 'Reference Southeast Asia')).to be false }
@@ -284,7 +284,7 @@ RSpec.describe NLBService, :type => :model do
       let(:library_status_c) { ['Library 1', 'Adult Lending', '123.45 ABC', false] }
       let(:book) { build(:book) }
       let(:info) { (1..4).to_a } # This is hacky, find a way to separate nokogiri parsing from functional logic
-      
+
       before do
         allow(service).to receive(:extract_library_info).and_return('')
         allow(service).to receive(:parse_library_info).and_return(library_status_a, library_status_b, library_status_c)
