@@ -21,7 +21,7 @@ class BookDecorator < Draper::Decorator
     case object.library_count
     when 0..1
       badge_class = 'label-danger'
-    when 2..4
+    when 2..5
       badge_class = 'label-warning'
     else
       badge_class = 'label-success'

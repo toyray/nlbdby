@@ -6,7 +6,7 @@
     = f.input :library_books_library_id_eq, collection: Library.all.order(:name), value_method: :id,  label: 'Library', required: false
     = f.input :available, collection: [['YES', 1], ['NO', -1]], label: 'Available', include_blank: true, required: false, selected: params[:q][:available]
     = f.input :regional_only, collection: [['YES', 1], ['NO', -1]], label: 'Regional Only', include_blank: true, required: false, selected: params[:q][:regional_only]
-    = f.input :library_count_eq, collection: [['YES', 1], ['NO', -1]], label: 'Solo', include_blank: true, required: false, selected: params[:q][:library_count_eq]
+    = f.input :library_count, collection: [['Solo (0-1)', -1], ['Rare (2-5)', -2],['Common (6+)', -3] ], label: 'Quantity', include_blank: true, required: false, selected: params[:q][:library_count]
     = f.input :meta_status_eq, collection: [['New', 'new'], ['Borrowed', 'borrowed'], ['Archived', 'archived']], label: 'Status', include_blank: true, required: false
     = f.input :meta_starred_eq, collection: [['YES', true], ['NO', false]], label: 'Starred', include_blank: true, required: false
     = f.submit 'Search'

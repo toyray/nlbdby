@@ -61,17 +61,17 @@ RSpec.describe BookDecorator, :type => :decorator do
       it { expect(subject.library_count_badge).to include('label-danger') }
     end
 
-    context 'when book is available at 2 to 4 libraries' do
+    context 'when book is available at 2 to 5 libraries' do
       before { allow(object).to receive(:library_count).and_return(3) }
 
       it { expect(subject.library_count_badge).to include('label-warning') }
     end
 
-    context 'when book is available at 5 or more libraries' do
+    context 'when book is available at 6 or more libraries' do
       context 'when available at less than 10 libraries'  do
-        before { allow(object).to receive(:library_count).and_return(5) }
+        before { allow(object).to receive(:library_count).and_return(6) }
 
-        it { expect(subject.library_count_badge).to include('label-success').and include('5') }
+        it { expect(subject.library_count_badge).to include('label-success').and include('6') }
       end
 
       context 'when available at 10 or more libraries'  do

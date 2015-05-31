@@ -150,6 +150,18 @@ class BooksController < ApplicationController
         end
       end
     end
+
+    # Search by library_count
+    library_count = search_params.delete(:library_count).to_i
+    case library_count
+    when -1
+      search_params[:library_count_lt] = 2
+    when -2
+      search_params[:library_count_in] = 2..5
+    when -3
+      search_params[:library_count_gt] = 5
+    end
+
     search_params
   end
 

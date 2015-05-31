@@ -266,6 +266,29 @@ RSpec.describe BooksController, :type => :controller do
         it { is_expected.to_not include(:available) }
       end
     end
+
+    context 'when library_count is specified' do
+      context 'when searching for solo books' do
+        let(:params) { { library_count: '-1' } }
+
+        it { is_expected.to include(library_count_lt: 2) }
+        it { is_expected.to_not include(library_count: -1) }
+      end
+
+      context 'when searching for uncommon books' do
+        let(:params) { { library_count: '-2' } }
+
+        it { is_expected.to include(library_count_in: 2..5) }
+        it { is_expected.to_not include(library_count: -1) }
+      end
+
+      context 'when searching for common books' do
+        let(:params) { { library_count: '-3' } }
+
+        it { is_expected.to include(library_count_gt: 5) }
+        it { is_expected.to_not include(library_count: -1) }
+      end
+    end
   end
 
   describe 'POST archive' do
