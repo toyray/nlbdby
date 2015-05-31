@@ -83,6 +83,12 @@ RSpec.describe BookDecorator, :type => :decorator do
   end
 
   describe '#pages_badge' do
+    context 'when book pages is unavailable' do
+      before { allow(object).to receive(:pages).and_return(0) }
+
+      it { expect(subject.pages_badge).to be_nil }
+    end
+
     context 'when book is <= 110 pages' do
       before { allow(object).to receive(:pages).and_return(110) }
 
@@ -121,6 +127,12 @@ RSpec.describe BookDecorator, :type => :decorator do
   end
 
   describe '#height_badge' do
+    context 'when book height is unavailable' do
+      before { allow(object).to receive(:height).and_return(0) }
+
+      it { expect(subject.height_badge).to be_nil }
+    end
+
     context 'when book height is small' do
       before { allow(object).to receive(:height).and_return(22) }
 
@@ -138,6 +150,5 @@ RSpec.describe BookDecorator, :type => :decorator do
 
       it { expect(subject.height_badge).to include('L') }
     end
-
   end
 end

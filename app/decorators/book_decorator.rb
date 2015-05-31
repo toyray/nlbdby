@@ -36,6 +36,7 @@ class BookDecorator < Draper::Decorator
   end
 
   def pages_badge
+    return if object.pages.zero?
     if object.pages <= 220
       badge_class = 'label-success'
       if object.pages <= 110
@@ -64,6 +65,7 @@ class BookDecorator < Draper::Decorator
   end
 
   def height_badge
+    return if object.height.zero?
     h.content_tag :span, class: 'label label-info', title: "#{object.height} cm" do
       if object.height <= 22
         'S'
