@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150118111351) do
+ActiveRecord::Schema.define(version: 20150531052505) do
 
   create_table "book_user_meta", force: true do |t|
     t.integer  "book_id"
