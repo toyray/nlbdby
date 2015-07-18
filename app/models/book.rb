@@ -31,7 +31,7 @@ class Book < ActiveRecord::Base
     end
   end
 
-  scope :unread, -> { joins(:meta).merge(BookUserMeta.unread) }
+  scope :browsed, -> { joins(:meta).merge(BookUserMeta.browsed) }
   scope :average_or_better, -> { joins(:meta).merge(BookUserMeta.average_or_better) }
   scope :queued, -> { where(status: :queued) }
 

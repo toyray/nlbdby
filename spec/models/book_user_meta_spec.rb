@@ -57,13 +57,13 @@ RSpec.describe BookUserMeta, :type => :model do
     end
   end
 
-  describe '.unread' do
+  describe '.browsed' do
     let!(:new_book) { create(:book_user_meta, status: 'new') }
     let!(:browsed_book) { create(:book_user_meta, status: 'browsed') }
     let!(:borrowed_book) { create(:book_user_meta, status: 'borrowed') }
     let!(:archived_book) { create(:book_user_meta, status: 'archived') }
 
-    it { expect(BookUserMeta.unread).to contain_exactly(new_book, browsed_book) }
+    it { expect(BookUserMeta.browsed).to contain_exactly(browsed_book) }
   end
 
   describe '#read?' do
