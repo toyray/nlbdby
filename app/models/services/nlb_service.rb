@@ -64,6 +64,8 @@ class NLBService
     info.each do |i|
       library_name, lending_type, call_info, availability = parse_library_info(extract_library_info(i))
 
+      next if library_name.blank?
+
       if Library.available?(library_name) && lendable?(lending_type)
         same_index = book.library_statuses.find_index { |ls| ls[:library] == library_name }
         if same_index.present?
