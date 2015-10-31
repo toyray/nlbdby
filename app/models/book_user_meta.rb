@@ -22,7 +22,7 @@ class BookUserMeta < ActiveRecord::Base
   end
 
   scope :browsed, -> { where(status: :browsed) }
-  scope :average_or_better, -> { where(rating: 3..5) }
+  scope :good_or_better, -> { where(rating: 4..5) }
 
   def read?
     (borrowed? || archived?)
