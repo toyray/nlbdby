@@ -18,7 +18,7 @@ class NLBService
 
   def update_book(book)
     doc = extract_book(book.brn)
-    return nil unless valid_book_doc?(doc)
+    return book unless valid_book_doc?(doc)
 
     library_details = find_library_details(doc)
 
