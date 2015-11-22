@@ -11,7 +11,7 @@ class Library < ActiveRecord::Base
   end
 
   def self.non_reference?(name)
-    name == 'library@orchard'
+    name == 'library@orchard' || name.downcase.include?('llibrary')
   end
 
   scope :non_regional, -> { where(regional: false) }

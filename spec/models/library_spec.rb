@@ -49,9 +49,8 @@ RSpec.describe Library, :type => :model do
     subject { Library.non_reference?(library) }
 
     context 'when library has no reference books' do
-      let(:library) { 'library@orchard' }
-
-      it { is_expected.to be true }
+      it { expect(Library.non_reference?('library@orchard')).to be true }
+      it { expect(Library.non_reference?('The LLiBrary (Lifelong Learning Institute)')).to be true }
     end
 
     context 'when library has reference and non reference books' do
