@@ -19,19 +19,21 @@
 %td= b.human_status_name
 %td{ class: (1.day.ago > b.last_updated_at ? 'danger' : '') }= time_ago_in_words(b.last_updated_at) + ' ago'
 %td
-  = link_to queue_update_book_url(b), remote: true, method: :post, rel: 'tooltip', title: 'Queue For Update', class: 'js-queue' do
-    = icon('refresh', '', class: 'fa-lg')
-  - if b.meta.can_browse?
-    = link_to browse_book_url(b), remote: true, method: :post, rel: 'tooltip', title: 'Mark Browsed' do
-      = icon('file-text', '', class: 'fa-lg')
-  - if b.meta.can_revert?
-    = link_to revert_to_new_book_url(b), remote: true, method: :post, rel: 'tooltip', title: 'Revert to New' do
-      = icon('file-o', '', class: 'fa-lg')
-  - if b.meta.can_borrow?
-    = link_to borrow_book_url(b), remote: true, method: :post, rel: 'tooltip', title: 'Mark Borrowed' do
-      = icon('check', '', class: 'fa-lg')
-  - if b.meta.can_archive?
-    = link_to archive_book_url(b), remote: true, method: :post, rel: 'tooltip', title: 'Archive' do
-      = icon('archive', '', class: 'fa-lg')
-  = link_to book_url(b), remote: true, method: :delete, rel: 'tooltip', title: 'Delete', data: { confirm: "Delete #{b.title}?" } do
-    = icon('remove', '', class: 'fa-lg')
+  .pull-right
+    - if 1.hour.ago > b.last_updated_at && !b.queued?
+      = link_to queue_update_book_url(b), remote: true, method: :post, rel: 'tooltip', title: 'Queue For Update', class: 'js-queue' do
+        = icon('refresh', '', class: 'fa-lg')
+    - if b.meta.can_browse?
+      = link_to browse_book_url(b), remote: true, method: :post, rel: 'tooltip', title: 'Mark Browsed' do
+        = icon('file-text', '', class: 'fa-lg')
+    - if b.meta.can_revert?
+      = link_to revert_to_new_book_url(b), remote: true, method: :post, rel: 'tooltip', title: 'Revert to New' do
+        = icon('file-o', '', class: 'fa-lg')
+    - if b.meta.can_borrow?
+      = link_to borrow_book_url(b), remote: true, method: :post, rel: 'tooltip', title: 'Mark Borrowed' do
+        = icon('check', '', class: 'fa-lg')
+    - if b.meta.can_archive?
+      = link_to archive_book_url(b), remote: true, method: :post, rel: 'tooltip', title: 'Archive' do
+        = icon('archive', '', class: 'fa-lg')
+    = link_to book_url(b), remote: true, method: :delete, rel: 'tooltip', title: 'Delete', data: { confirm: "Delete #{b.title}?" } do
+      = icon('remove', '', class: 'fa-lg')
