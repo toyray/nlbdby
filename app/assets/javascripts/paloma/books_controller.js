@@ -7,6 +7,10 @@ BooksController.prototype.index = function() {
 
     $.post('/books/' + id + '/rate.json', { rating: rating });
   });
+
+  $("#js-queue-all").on("click", function() {
+    $(".js-queue").click();
+  });
 };
 
 BooksController.prototype.show = function() {
