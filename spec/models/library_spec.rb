@@ -44,4 +44,20 @@ RSpec.describe Library, :type => :model do
       it { is_expected.to be false }
     end
   end
+
+  describe '.non_reference?' do
+    subject { Library.non_reference?(library) }
+
+    context 'when library has no reference books' do
+      let(:library) { 'library@orchard' }
+
+      it { is_expected.to be true }
+    end
+
+    context 'when library has reference and non reference books' do
+      let(:library) { 'Woodlands Regional Library' }
+
+      it { is_expected.to be false }
+    end
+  end
 end

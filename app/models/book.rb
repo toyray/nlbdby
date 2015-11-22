@@ -45,7 +45,7 @@ class Book < ActiveRecord::Base
     if Book.where(brn: brn).exists?
       [nil, :already_imported]
     else
-      book = NLBService.new.import_book(brn)
+      book = NLBServiceV2.new.import_book(brn)
       if book.nil?
         [nil, :invalid_brn]
       elsif book.unavailable?
@@ -90,7 +90,7 @@ class Book < ActiveRecord::Base
   end
 
   def update_availability
-    NLBService.new.update_book(self)
+    NLBServiceV2.new.update_book(self)
     self.finish_update
   end
 
