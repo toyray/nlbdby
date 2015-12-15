@@ -26,7 +26,7 @@ class NLBServiceV2 < NLBService
     authors = extract_field(rows, "Creator")
     if authors
       authors = authors.css('a')
-      book.author = authors.first.content[/[A-Za-z\. ]*, [A-Za-z\. ]*/, 0]
+      book.author = authors.first.content[/[A-Za-z\. ]*, [A-Za-z\. ]*/, 0] || ''
     else
       book.author = ''
     end
