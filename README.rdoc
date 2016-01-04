@@ -1,3 +1,0 @@
-== README
-
-Personal NLB booklist in Rails

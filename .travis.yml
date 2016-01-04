@@ -1,0 +1,13 @@
+sudo: false
+language: ruby
+rvm:
+  - 2.1.8
+cache:
+  bundler: true
+services:
+  - mysql
+before_script:
+  - mysql -e 'create database nlbdby_test'
+addons:
+  code_climate:
+    repo_token: 8383a76888d63af50cc775f9ef7320eef0760c5ff836c063863e11c319d26e6a
