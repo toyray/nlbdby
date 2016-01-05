@@ -2,12 +2,12 @@ source 'https://rubygems.org'
 
 gem 'rails', '4.1.14'
 gem 'mysql2'
-gem 'sass-rails', '~> 4.0.3'
-gem 'uglifier', '>= 1.3.0'
+gem 'sass-rails', '~> 4.0.5'
+gem 'uglifier', '~> 2.7.2'
 # Use CoffeeScript for .js.coffee assets and views
 gem 'coffee-rails', '~> 4.0.0'
 
-gem 'jquery-rails'
+gem 'jquery-rails', '~> 3.1.4'
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
 gem 'turbolinks'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
@@ -26,7 +26,7 @@ gem 'turbolinks'
 # gem 'debugger', group: [:development, :test]
 
 gem 'haml-rails'
-gem 'nokogiri'
+gem 'nokogiri', '~> 1.6.7'
 gem 'simple_form'
 gem 'bootstrap-sass', '~> 3.3.1'
 gem 'delayed_job_active_record'
