@@ -18,7 +18,9 @@ class BooksController < ApplicationController
   end
 
   def create
-    @book, error = Book.import(params[:book][:brn])
+    brn = params[:book][:brn].strip
+
+    @book, error = Book.import(brn)
     if @book
       redirect_to book_path(@book) and return
     else

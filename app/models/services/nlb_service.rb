@@ -27,7 +27,7 @@ class NLBService
 
   private
   def extract_book(brn)
-    Nokogiri::HTML(open(library_url(brn.strip)))
+    Nokogiri::HTML(open(library_url(brn)))
   end
 
   def parse_height(string)
