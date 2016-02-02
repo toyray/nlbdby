@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '4.1.14'
+gem 'rails', '~> 4.1.14'
 gem 'mysql2'
 gem 'sass-rails', '~> 4.0.5'
 gem 'uglifier', '~> 2.7.2'
