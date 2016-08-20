@@ -20,5 +20,6 @@ module Nlbdby
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
     # config.i18n.default_locale = :de
     config.autoload_paths += Dir["#{config.root}/app/models/**/"]
+    config.active_job.queue_adapter = :delayed_job
   end
 end
