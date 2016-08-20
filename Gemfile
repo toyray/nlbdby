@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
-gem 'rails', '~> 4.1.14'
-gem 'mysql2'
+gem 'rails', '~> 4.1.16'
+gem 'mysql2','~> 0.3.18'
 gem 'sass-rails', '~> 4.0.5'
 gem 'uglifier', '~> 2.7.2'
 # Use CoffeeScript for .js.coffee assets and views
