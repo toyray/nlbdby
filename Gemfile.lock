@@ -356,7 +356,6 @@ DEPENDENCIES
   state_machine
   thin
   timecop
-  turbolinks
   uglifier (~> 2.7.2)
   vcr
   webmock

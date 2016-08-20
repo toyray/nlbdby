@@ -6,10 +6,15 @@
         = yield :title
       - else
         Nlbdby - Personal NLB Booklist
-    = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true
-    = javascript_include_tag 'application', 'data-turbolinks-track' => true
-    = csrf_meta_tags
+    = stylesheet_link_tag 'application', media: 'all'
+    = javascript_include_tag 'application'
+    = csrf_meta_tag
 %body{ class: "#{controller.controller_name}-#{controller.action_name}" }
   = render 'shared/nav'
   = render 'shared/flash'
   = yield
+  = insert_paloma_hook
+:javascript
+  $(document).ready(function(){
+    Paloma.start();
+    });

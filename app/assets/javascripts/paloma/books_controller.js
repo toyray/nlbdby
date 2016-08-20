@@ -9,6 +9,7 @@ BooksController.prototype.index = function() {
   });
 
   $("#js-queue-all").on("click", function() {
+    alert("hello");
     $(".js-queue").click();
   });
 };

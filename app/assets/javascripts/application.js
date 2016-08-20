@@ -15,6 +15,5 @@
 //= require jquery.responsive-rater
 //= require jquery_ujs
 //= require paloma
-//= require turbolinks
 //= require bootstrap-sprockets
 //= require_tree .

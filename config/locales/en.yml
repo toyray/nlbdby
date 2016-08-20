@@ -39,7 +39,7 @@ en:
         zero: Books
         one: Book
         few: Books
-        other: Books          
+        other: Books
   ransack:
     attributes:
       book:

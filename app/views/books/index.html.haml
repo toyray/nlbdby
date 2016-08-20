@@ -10,7 +10,7 @@
     = f.input :meta_status_eq, collection: [['New', 'new'], ['Browsed', 'browsed'], ['Borrowed', 'borrowed'], ['Archived', 'archived']], label: 'Status', include_blank: true, required: false
     = f.input :meta_starred_eq, collection: [['YES', true], ['NO', false]], label: 'Starred', include_blank: true, required: false
     = f.submit 'Search', class: 'btn btn-success'
-    = link_to 'Update All', '#', id: 'js-queue-all', class: 'btn btn-warning'
+    = button_tag 'Update All', type: :button, id: 'js-queue-all', class: 'btn btn-warning'
     = link_to 'Reset', books_url, class: 'btn btn-danger'
   %hr
   .row
