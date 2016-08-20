@@ -43,19 +43,19 @@ RSpec.describe BooksController, :type => :controller do
         expect(response).to render_template(:index)
       end
 
-      it { is_expected.to_not set_session(:search_library_id) }
+      it { is_expected.to_not set_session[:search_library_id] }
     end
 
     context 'when library_books_library_id_eq is not blank' do
       let(:params) { { q: { library_books_library_id_eq: '1' } } }
 
-      it { is_expected.to set_session(:search_library_id).to("1") }
+      it { is_expected.to set_session[:search_library_id].to("1") }
     end
 
     context 'when library_books_library_id_eq is blank' do
       let(:params) { { q: { library_books_library_id_eq: '' } } }
 
-      it { is_expected.to_not set_session(:search_library_id) }
+      it { is_expected.to_not set_session[:search_library_id] }
     end
   end
 

@@ -11,7 +11,7 @@ RSpec.describe NLBServiceV1, :type => :model do
 
       it 'builds book' do
         expect(book).to_not be_nil
-        expect(book.brn).to eq(brn)
+        expect(book.brn).to eq(brn.to_s)
         expect(book.title).to eq('Rails test prescriptions : keeping your application healthy')
         expect(book.author).to eq('Rappin, Noel,')
         expect(book.pages).to eq(348)
@@ -27,7 +27,7 @@ RSpec.describe NLBServiceV1, :type => :model do
 
       it 'builds book' do
         expect(book).to_not be_nil
-        expect(book.brn).to eq(brn)
+        expect(book.brn).to eq(brn.to_s)
         expect(book.title).to eq('The RSpec book : behaviour-driven development with RSpec, Cucumber, and Friends')
         expect(book.author).to eq('')
         expect(book.pages).to eq(420)
@@ -43,7 +43,7 @@ RSpec.describe NLBServiceV1, :type => :model do
 
       it 'builds book' do
         expect(book).to_not be_nil
-        expect(book.brn).to eq(brn)
+        expect(book.brn).to eq(brn.to_s)
         expect(book.title).to eq('Joker')
         expect(book.author).to eq('Azzarello, Brian.')
         expect(book.pages).to eq(0)
@@ -59,7 +59,7 @@ RSpec.describe NLBServiceV1, :type => :model do
 
       it 'builds book' do
         expect(book).to_not be_nil
-        expect(book.brn).to eq(brn)
+        expect(book.brn).to eq(brn.to_s)
         expect(book.title).to eq('Sacred tattoos of Thailand : exploring the magic, masters and mystery of sak yan')
         expect(book.author).to eq('Cummings, Joe,')
         expect(book.pages).to eq(197)
@@ -75,7 +75,7 @@ RSpec.describe NLBServiceV1, :type => :model do
 
       it 'builds book' do
         expect(book).to_not be_nil
-        expect(book.brn).to eq(brn)
+        expect(book.brn).to eq(brn.to_s)
         expect(book.title).to eq('Deathwatch: Xenos hunters.')
         expect(book.author).to eq('')
         expect(book.pages).to eq(409)
@@ -91,7 +91,7 @@ RSpec.describe NLBServiceV1, :type => :model do
 
       it 'builds book' do
         expect(book).to_not be_nil
-        expect(book.brn).to eq(brn)
+        expect(book.brn).to eq(brn.to_s)
         expect(book.title).to eq('Implementation patterns')
         expect(book.author).to eq('Beck, Kent.')
         expect(book.pages).to eq(157)
@@ -116,7 +116,7 @@ RSpec.describe NLBServiceV1, :type => :model do
       it 'builds book' do
         skip 'Call no should be nil in this case, this spec should be reviewed and removed if scenario is not required'
         expect(book).to_not be_nil
-        expect(book.brn).to eq(brn)
+        expect(book.brn).to eq(brn.to_s)
         expect(book.title).to eq('Dark eagles : a history of top secrets U.S. \'Black\' aircraft programs')
         expect(book.author).to eq('Peebles, Curtis.')
         expect(book.pages).to eq(368)
@@ -132,7 +132,7 @@ RSpec.describe NLBServiceV1, :type => :model do
 
       it 'builds book' do
         expect(book).to_not be_nil
-        expect(book.brn).to eq(brn)
+        expect(book.brn).to eq(brn.to_s)
         expect(book.title).to eq('Building Singapore\'s longest road tunnel : the KPE story')
         expect(book.author).to eq('Cheong, Colin.')
         expect(book.pages).to eq(159)
@@ -149,7 +149,7 @@ RSpec.describe NLBServiceV1, :type => :model do
 
       it 'builds book' do
         expect(book).to_not be_nil
-        expect(book.brn).to eq(brn)
+        expect(book.brn).to eq(brn.to_s)
         expect(book.title).to eq('The one best way : Frederick Winslow Taylor and the enigma of efficiency')
         expect(book.author).to eq('Kanigel, Robert.')
         expect(book.pages).to eq(675)
@@ -166,7 +166,7 @@ RSpec.describe NLBServiceV1, :type => :model do
 
       it 'builds book' do
         expect(book).to_not be_nil
-        expect(book.brn).to eq(brn)
+        expect(book.brn).to eq(brn.to_s)
         expect(book.title).to eq('Freakonomics : a rogue economist explores the hidden side of everything')
         expect(book.author).to eq('Levitt, Steven D.')
         expect(book.pages).to eq(242)
@@ -182,7 +182,7 @@ RSpec.describe NLBServiceV1, :type => :model do
 
       it 'builds book' do
         expect(book).to_not be_nil
-        expect(book.brn).to eq(brn)
+        expect(book.brn).to eq(brn.to_s)
         expect(book.title).to eq('Backbone.js patterns and best practices : a one-stop guide to best practices and design patterns when building applications using Backbone.js')
         expect(book.author).to eq('De, Swarnendu,')
         expect(book.pages).to eq(153)
@@ -198,7 +198,7 @@ RSpec.describe NLBServiceV1, :type => :model do
 
       it 'builds book' do
         expect(book).to_not be_nil
-        expect(book.brn).to eq(brn)
+        expect(book.brn).to eq(brn.to_s)
         expect(book.title).to eq('Code reading : the open source perspective')
         expect(book.author).to eq('Spinellis, Diomidis.')
         expect(book.pages).to eq(495)
@@ -214,7 +214,7 @@ RSpec.describe NLBServiceV1, :type => :model do
 
       it 'builds book' do
         expect(book).to_not be_nil
-        expect(book.brn).to eq(brn)
+        expect(book.brn).to eq(brn.to_s)
         expect(book.title).to eq("A sniper's conflict : an elite sharpshooter's thrilling account of hunting insurgents in Afghanistan and Iraq")
         expect(book.author).to eq('B., Monty,')
         expect(book.pages).to eq(198)

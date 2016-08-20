@@ -15,7 +15,7 @@ RSpec.describe Book, :type => :model do
     it { is_expected.to validate_presence_of(:call_no) }
 
     it { is_expected.to_not allow_value(nil).for(:author) }
-    it { is_expected.to ensure_length_of(:author).is_at_least(0) }
+    it { is_expected.to validate_length_of(:author).is_at_least(0) }
     it { is_expected.to validate_uniqueness_of(:brn) }
   end
 
