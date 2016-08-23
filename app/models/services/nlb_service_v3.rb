@@ -10,7 +10,7 @@ class NLBServiceV3 < NLBService
   end
 
   def find_book_details(doc)
-    doc.at_css('table table')
+    doc.at_css('table:last')
   end
 
   def find_library_details(doc)
