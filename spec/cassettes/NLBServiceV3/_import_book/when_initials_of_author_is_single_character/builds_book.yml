@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: http://catalogue.nlb.gov.sg/cgi-bin/spydus.exe/ENQ/EXPNOS/BIBENQ?BRN=201073800
+    uri: https://catalogue.nlb.gov.sg/cgi-bin/spydus.exe/ENQ/EXPNOS/BIBENQ?BRN=201073800
     body:
       encoding: US-ASCII
       string: ''
