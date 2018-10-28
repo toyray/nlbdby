@@ -2,7 +2,7 @@
 class NLBServiceV3 < NLBService
   private
   def library_url(brn)
-    "http://catalogue.nlb.gov.sg/cgi-bin/spydus.exe/ENQ/EXPNOS/BIBENQ?BRN=#{brn}"
+    "https://catalogue.nlb.gov.sg/cgi-bin/spydus.exe/ENQ/EXPNOS/BIBENQ?BRN=#{brn}"
   end
 
   def valid_book_doc?(doc)
