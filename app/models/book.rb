@@ -90,7 +90,7 @@ class Book < ActiveRecord::Base
   end
 
   def update_availability
-    NLBServiceV2.new.update_book(self)
+    NLBServiceV3.new.update_book(self)
     self.finish_update
   end
 
